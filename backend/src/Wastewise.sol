@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity >=0.7.0 <0.9.0;
+import {RwasteWise} from "./RwasteWise.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract WasteWise{
-    struct User{
+contract WasteWise {
+    RwasteWise rwasteWise;
+    struct User {
         uint Id;
         address userAddr;
         string name;
@@ -14,10 +17,11 @@ contract WasteWise{
         address referral;
         uint tokenQty;
     }
-    enum Gender{
-        Female, Male
+    enum Gender {
+        Female,
+        Male
     }
-    struct Recycled{
+    struct Recycled {
         uint timeRecycled;
         uint qtyRecycled;
     }
@@ -26,8 +30,18 @@ contract WasteWise{
 
     uint public userId;
 
+    // Custom Errors
     error UserAcctNotCreated();
-    function createUserAcct(string memory _name, string memory _country, Gender _gender, uint _phone,string memory _email) external {
+
+    constructor() {}
+
+    function createUserAcct(
+        string memory _name,
+        string memory _country,
+        Gender _gender,
+        uint _phone,
+        string memory _email
+    ) external {
         userId++;
         User storage user = UserMap[msg.sender];
         user.Id = userId;
@@ -39,7 +53,8 @@ contract WasteWise{
         user.email = _email;
         user.timeJoined = block.timestamp;
     }
-    function  depositPlastic(uint _qtyrecycled) external{
+
+    function depositPlastic(uint _qtyrecycled) external {
         User storage user = UserMap[msg.sender];
         if(user.userAddr != msg.sender){
             revert UserAcctNotCreated();
@@ -47,7 +62,14 @@ contract WasteWise{
         Recycled memory recycled;
         recycled.qtyRecycled = _qtyrecycled;
         recycled.timeRecycled = block.timestamp;  
-        RecycledMap[msg.sender].push(recycled);         
+        RecycledMap[msg.sender].push(recycled);
+
+        // Updates user TokenQty
+        user.TokenQty = user.TokenQty + _qtyrecycled;
+        // create new contract instance
+        rwasteWise = new RwasteWise();
+        // mints receiptTokens of the same amount, `_qtyrecycled` to user upon successful recycling
+        rwasteWise.mintReceipt(msg.sender, _qtyrecycled);
     }
 
     function editUser(User calldata _user) public {
