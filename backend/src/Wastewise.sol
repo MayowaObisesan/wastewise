@@ -92,5 +92,11 @@ contract WasteWise {
 
     }
 
-    
+    function getAllUsers() public view returns (User[] memory){
+        return allUsers;
+    }
+
+    function getUser() public view returns (User){
+        return UserMap[msg.sender];
+    }
 }
