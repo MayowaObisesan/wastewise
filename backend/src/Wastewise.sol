@@ -23,6 +23,7 @@ contract WasteWise{
     }
     mapping(address => Recycled[]) RecycledMap;
     mapping(address => User) UserMap;
+    User[] allUsers;
      uint public userId;
      error UserAcctNotCreated();
         function createUserAcct(string memory _name, string memory _country, Gender _gender, uint _phone,string memory _email) external {
@@ -36,6 +37,7 @@ contract WasteWise{
         user.phone_no = _phone;
         user.email = _email;
         user.timeJoined = block.timestamp;
+        allUsers.push(user);
     }
     function  depositPlastic(uint _qtyrecycled) external{
         User storage user = UserMap[msg.sender];
