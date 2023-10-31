@@ -23,9 +23,11 @@ contract WasteWise{
     }
     mapping(address => Recycled[]) RecycledMap;
     mapping(address => User) UserMap;
-     uint public userId;
-     error UserAcctNotCreated();
-        function createUserAcct(string memory _name, string memory _country, Gender _gender, uint _phone,string memory _email) external {
+
+    uint public userId;
+
+    error UserAcctNotCreated();
+    function createUserAcct(string memory _name, string memory _country, Gender _gender, uint _phone,string memory _email) external {
         userId++;
         User storage user = UserMap[msg.sender];
         user.Id = userId;
@@ -47,4 +49,19 @@ contract WasteWise{
         recycled.timeRecycled = block.timestamp;  
         RecycledMap[msg.sender].push(recycled);         
     }
+
+    function editUser(User calldata _user) public {
+        if(UserMap[_user.userAddr].userAddr != _user.userAddr){
+            revert UserAcctNotCreated();
+        }
+        User storage user = UserMap[_user.userAddr];
+        user.name = _user.name;
+        user.country = _user.country;
+        user.email = _user.email;
+        user.phone_no = _user.phone_no;
+        user.gender = _user.gender;
+
+    }
+
+    
 }
