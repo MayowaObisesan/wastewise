@@ -11,12 +11,11 @@ contract WasteWise {
         string name;
         string country;
         Gender gender;
-        Recycled recycled;
         uint phone_no;
         string email;
         uint timeJoined;
-        string referral;
-        uint TokenQty;
+        address referral;
+        uint tokenQty;
     }
     enum Gender {
         Female,
@@ -26,7 +25,7 @@ contract WasteWise {
         uint timeRecycled;
         uint qtyRecycled;
     }
-    mapping(address => Recycled) RecycledMap;
+    mapping(address => Recycled[]) RecycledMap;
     mapping(address => User) UserMap;
 
     uint public userId;
@@ -57,13 +56,13 @@ contract WasteWise {
 
     function depositPlastic(uint _qtyrecycled) external {
         User storage user = UserMap[msg.sender];
-        Recycled storage recycled = RecycledMap[msg.sender];
-        if (user.userAddr != msg.sender) {
+        if(user.userAddr != msg.sender){
             revert UserAcctNotCreated();
         }
-
+        Recycled memory recycled;
         recycled.qtyRecycled = _qtyrecycled;
-        recycled.timeRecycled = block.timestamp;
+        recycled.timeRecycled = block.timestamp;  
+        RecycledMap[msg.sender].push(recycled);
 
         // Updates user TokenQty
         user.TokenQty = user.TokenQty + _qtyrecycled;
@@ -72,4 +71,19 @@ contract WasteWise {
         // mints receiptTokens of the same amount, `_qtyrecycled` to user upon successful recycling
         rwasteWise.mintReceipt(msg.sender, _qtyrecycled);
     }
+
+    function editUser(User calldata _user) public {
+        if(UserMap[_user.userAddr].userAddr != _user.userAddr){
+            revert UserAcctNotCreated();
+        }
+        User storage user = UserMap[_user.userAddr];
+        user.name = _user.name;
+        user.country = _user.country;
+        user.email = _user.email;
+        user.phone_no = _user.phone_no;
+        user.gender = _user.gender;
+
+    }
+
+    
 }
