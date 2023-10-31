@@ -42,8 +42,6 @@ contract WasteWise{
         Recycled storage recycled = RecycledMap[msg.sender];
         require(user.userAddr == msg.sender, "you do not have an account created");
         recycled.qtyRecycled = _qtyrecycled;
-        recycled.timeRecycled = block.timestamp;
-
-        
+        recycled.timeRecycled = block.timestamp;        
     }
 }
