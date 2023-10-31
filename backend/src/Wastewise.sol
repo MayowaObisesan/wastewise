@@ -47,4 +47,8 @@ contract WasteWise{
         recycled.timeRecycled = block.timestamp;  
         RecycledMap[msg.sender].push(recycled);         
     }
+
+    function getAllUserTransaction() public view returns (Recycled[] memory){
+        return RecycledMap[msg.sender];
+    }
 }
