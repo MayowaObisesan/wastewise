@@ -24,7 +24,8 @@ contract WasteWise{
     mapping(address => Recycled[]) RecycledMap;
     mapping(address => User) UserMap;
      uint public userId;
-    function createUserAcct(string memory _name, string memory _country, Gender _gender, uint _phone,string memory _email) external {
+     error UserAcctNotCreated();
+        function createUserAcct(string memory _name, string memory _country, Gender _gender, uint _phone,string memory _email) external {
         userId++;
         User storage user = UserMap[msg.sender];
         user.Id = userId;
@@ -37,8 +38,12 @@ contract WasteWise{
         user.timeJoined = block.timestamp;
     }
     function  depositPlastic(uint _qtyrecycled) external{
-        require(UserMap[msg.sender].userAddr == msg.sender, "you do not have an account created");
-        Recycled memory recycled;
+        User storage user = UserMap[msg.sender];
+        Recycled storage recycled = RecycledMap[msg.sender];
+        if(user.userAddr != msg.sender){
+            revert UserAcctNotCreated();
+        }
+    
         recycled.qtyRecycled = _qtyrecycled;
         recycled.timeRecycled = block.timestamp;  
         RecycledMap[msg.sender].push(recycled);      
