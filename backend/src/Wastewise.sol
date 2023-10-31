@@ -8,12 +8,11 @@ contract WasteWise{
         string name;
         string country;
         Gender gender;
-        Recycled recycled;
         uint phone_no;
         string email;
         uint timeJoined;
-        string referral;
-        uint TokenQty;
+        address referral;
+        uint tokenQty;
     }
     enum Gender{
         Female, Male
@@ -22,7 +21,7 @@ contract WasteWise{
         uint timeRecycled;
         uint qtyRecycled;
     }
-    mapping(address => Recycled) RecycledMap;
+    mapping(address => Recycled[]) RecycledMap;
     mapping(address => User) UserMap;
      uint public userId;
      error UserAcctNotCreated();
@@ -46,6 +45,7 @@ contract WasteWise{
         }
     
         recycled.qtyRecycled = _qtyrecycled;
-        recycled.timeRecycled = block.timestamp;        
+        recycled.timeRecycled = block.timestamp;  
+        RecycledMap[msg.sender].push(recycled);      
     }
 }
