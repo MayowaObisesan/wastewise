@@ -39,13 +39,12 @@ contract WasteWise{
     }
     function  depositPlastic(uint _qtyrecycled) external{
         User storage user = UserMap[msg.sender];
-        Recycled storage recycled = RecycledMap[msg.sender];
         if(user.userAddr != msg.sender){
             revert UserAcctNotCreated();
         }
-    
+        Recycled memory recycled;
         recycled.qtyRecycled = _qtyrecycled;
         recycled.timeRecycled = block.timestamp;  
-        RecycledMap[msg.sender].push(recycled);      
+        RecycledMap[msg.sender].push(recycled);         
     }
 }
