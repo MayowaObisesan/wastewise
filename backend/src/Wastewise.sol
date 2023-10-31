@@ -8,12 +8,11 @@ contract WasteWise{
         string name;
         string country;
         Gender gender;
-        Recycled recycled;
         uint phone_no;
         string email;
         uint timeJoined;
-        string referral;
-        uint TokenQty;
+        address referral;
+        uint tokenQty;
     }
     enum Gender{
         Female, Male
@@ -22,7 +21,7 @@ contract WasteWise{
         uint timeRecycled;
         uint qtyRecycled;
     }
-    mapping(address => Recycled) RecycledMap;
+    mapping(address => Recycled[]) RecycledMap;
     mapping(address => User) UserMap;
      uint public userId;
     function createUserAcct(string memory _name, string memory _country, Gender _gender, uint _phone,string memory _email) external {
@@ -38,10 +37,10 @@ contract WasteWise{
         user.timeJoined = block.timestamp;
     }
     function  depositPlastic(uint _qtyrecycled) external{
-        User storage user = UserMap[msg.sender];
-        Recycled storage recycled = RecycledMap[msg.sender];
-        require(user.userAddr == msg.sender, "you do not have an account created");
+        require(UserMap[msg.sender].userAddr == msg.sender, "you do not have an account created");
+        Recycled memory recycled;
         recycled.qtyRecycled = _qtyrecycled;
-        recycled.timeRecycled = block.timestamp;        
+        recycled.timeRecycled = block.timestamp;  
+        RecycledMap[msg.sender].push(recycled);      
     }
 }
