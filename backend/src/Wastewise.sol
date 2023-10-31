@@ -28,6 +28,7 @@ contract WasteWise {
     mapping(address => Recycled[]) RecycledMap;
     mapping(address => User) UserMap;
 
+    User[] allUsers;
     uint public userId;
 
     // Custom Errors
@@ -52,6 +53,7 @@ contract WasteWise {
         user.phone_no = _phone;
         user.email = _email;
         user.timeJoined = block.timestamp;
+        allUsers.push(user);
     }
 
     function depositPlastic(uint _qtyrecycled) external {
@@ -70,6 +72,11 @@ contract WasteWise {
         rwasteWise = new RwasteWise();
         // mints receiptTokens of the same amount, `_qtyrecycled` to user upon successful recycling
         rwasteWise.mintReceipt(msg.sender, _qtyrecycled);
+    }
+
+
+    function getAllUserTransaction() public view returns (Recycled[] memory){
+        return RecycledMap[msg.sender];
     }
 
     function editUser(User calldata _user) public {
