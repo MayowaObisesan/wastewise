@@ -32,6 +32,7 @@ contract WasteWise {
 
     // Custom Errors
     error UserAcctNotCreated();
+    error ZeroAmountNotAllow();
 
     constructor() {}
 
@@ -56,16 +57,20 @@ contract WasteWise {
 
     function depositPlastic(uint _qtyrecycled) external {
         User storage user = UserMap[msg.sender];
-        if(user.userAddr != msg.sender){
+        if (user.userAddr != msg.sender) {
             revert UserAcctNotCreated();
         }
+
+        if (_qtyrecycled == 0) revert ZeroAmountNotAllow();
+
         Recycled memory recycled;
         recycled.qtyRecycled = _qtyrecycled;
-        recycled.timeRecycled = block.timestamp;  
+        recycled.timeRecycled = block.timestamp;
         RecycledMap[msg.sender].push(recycled);
 
         // Updates user TokenQty
-        user.TokenQty = user.TokenQty + _qtyrecycled;
+        user.tokenQty = user.tokenQty + _qtyrecycled;
+
         // create new contract instance
         rwasteWise = new RwasteWise();
         // mints receiptTokens of the same amount, `_qtyrecycled` to user upon successful recycling
@@ -73,7 +78,7 @@ contract WasteWise {
     }
 
     function editUser(User calldata _user) public {
-        if(UserMap[_user.userAddr].userAddr != _user.userAddr){
+        if (UserMap[_user.userAddr].userAddr != _user.userAddr) {
             revert UserAcctNotCreated();
         }
         User storage user = UserMap[_user.userAddr];
@@ -82,8 +87,5 @@ contract WasteWise {
         user.email = _user.email;
         user.phone_no = _user.phone_no;
         user.gender = _user.gender;
-
     }
-
-    
 }
