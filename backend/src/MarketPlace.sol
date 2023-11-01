@@ -44,31 +44,22 @@ contract MarketPlace {
         admin = msg.sender; // Set the contract deployer as the admin.
     }
 
-    /// @dev Create a new item listing in the marketplace.
-    /// @param _name The name of the item.
-    /// @param _description Description of the item.
-    /// @param _price Price of the item.
-    /// @param _deadline Deadline for the item listing.
-    /// @param _isActive Flag to indicate if the listing is active.
+    /// @dev Create a new item listing in the marketplace with the provided item information.
+    /// @param _itemInfo The information of the item listing to be created.
     /// @return _listingId The unique identifier assigned to the new listing.
-    function createListing(
-        string calldata _name,
-        string calldata _description,
-        uint256 _price,
-        uint256 _deadline,
-        bool _isActive
-    ) public returns (uint256 _listingId) {
-        if (_price < 0.01 ether) revert MinPriceTooLow(); 
-        if (block.timestamp + _deadline <= block.timestamp) revert DeadlineTooSoon(); 
-        if (_deadline - block.timestamp < 60 minutes) revert MinDurationNotMet(); 
+    
+    function createListing(ItemInfo calldata _itemInfo) public returns (uint256 _listingId) {
+        if (_itemInfo.price < 0.01 ether) revert MinPriceTooLow(); 
+        if (block.timestamp + _itemInfo.deadline <= block.timestamp) revert DeadlineTooSoon(); 
+        if (_itemInfo.deadline - block.timestamp < 60 minutes) revert MinDurationNotMet(); 
         // Append item information to storage.
         ItemInfo storage newItemInfo = itemInfoToId[listingId];
-        newItemInfo.name = _name;
-        newItemInfo.description = _description;
-        newItemInfo.price = _price;
-        newItemInfo.deadline = _deadline;
+        newItemInfo.name = _itemInfo.name;
+        newItemInfo.description = _itemInfo.description;
+        newItemInfo.price = _itemInfo.price;
+        newItemInfo.deadline = _itemInfo.deadline;
         newItemInfo.lister = msg.sender;
-        newItemInfo.isActive = _isActive;
+        newItemInfo.isActive = _itemInfo.isActive;
         _listingId = listingId;
         listingId++;
         return listingId;
