@@ -71,7 +71,9 @@ contract WasteWise {
         Gender gender
     );
 
-    constructor() {}
+    constructor(address tokenAddress) {
+        rwasteWise = RwasteWise(tokenAddress);
+    }
 
     /// @dev Create a new user account.
     /// @param _name The user's name.
@@ -128,8 +130,6 @@ contract WasteWise {
         // Updates user TokenQty
         user.tokenQty = user.tokenQty + _qtyrecycled;
 
-        // Create a new contract instance
-        rwasteWise = new RwasteWise();
         // Mints receiptTokens of the same amount, `_qtyrecycled`, to the user upon successful recycling
         rwasteWise.mintReceipt(msg.sender, _qtyrecycled);
 
