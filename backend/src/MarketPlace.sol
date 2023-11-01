@@ -3,6 +3,7 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {RwasteWise} from "./RwasteWise.sol";
 
 /// @title MarketPlace: A smart contract for managing item listings in a marketplace.
 contract MarketPlace {
@@ -40,8 +41,11 @@ contract MarketPlace {
 
     /* EVENTS */
 
-    constructor() {
-        admin = msg.sender; // Set the contract deployer as the admin.
+    RwasteWise rwasteWise;
+
+    constructor(address tokenAddress) {
+        admin = msg.sender;
+        rwasteWise = RwasteWise(tokenAddress);
     }
 
     /// @dev Create a new item listing in the marketplace with the provided item information.
@@ -53,6 +57,8 @@ contract MarketPlace {
         if (block.timestamp + _itemInfo.deadline <= block.timestamp) revert DeadlineTooSoon(); 
         if (_itemInfo.deadline - block.timestamp < 60 minutes) revert MinDurationNotMet(); 
         // Append item information to storage.
+        // append to Storage
+        listingId++;
         ItemInfo storage newItemInfo = itemInfoToId[listingId];
         newItemInfo.name = _itemInfo.name;
         newItemInfo.description = _itemInfo.description;
@@ -61,12 +67,13 @@ contract MarketPlace {
         newItemInfo.lister = msg.sender;
         newItemInfo.isActive = _itemInfo.isActive;
         _listingId = listingId;
-        listingId++;
         return listingId;
     }
 
     /// @dev Redeem receipt tokens for a transaction.
     function redeemReciptToken() public payable {}
+
+    function buyListing() public {}
 
     /// @dev Update the information of an existing item listing.
     /// @param _name The new name of the item.
@@ -80,7 +87,13 @@ contract MarketPlace {
         uint256 _listingId,
         uint256 _newPrice,
         bool _isActive
-    ) public {}
+    ) public {
+        ItemInfo storage itemInfo = itemInfoToId[_listingId];
+        itemInfo.name = _name;
+        itemInfo.description = _description;
+        itemInfo.price = _newPrice;
+        itemInfo.isActive = _isActive;
+    }
 
     /// @dev Get information about an item listing by its unique identifier.
     /// @param _listingId The unique identifier of the item listing.
