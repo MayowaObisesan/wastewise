@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.13;
 import {RwasteWise} from "./RwasteWise.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
+/// @title WasteWise: A smart contract for managing user recycling information and rewards.
 contract WasteWise {
-    RwasteWise rwasteWise;
+    RwasteWise rwasteWise; // An instance of RwasteWise contract.
+
+    /// @dev Structure to represent a user in the system.
     struct User {
         uint Id;
         address userAddr;
@@ -12,30 +15,43 @@ contract WasteWise {
         string country;
         Gender gender;
         uint phone_no;
-        string email;
+        string email; 
         uint timeJoined;
-        address referral;
-        uint tokenQty;
+        address referral; 
+        uint tokenQty; 
     }
+
     enum Gender {
-        Female,
-        Male
+        Female, Male
     }
+
+    /// @dev Structure to represent a recycling transaction.
     struct Recycled {
-        uint timeRecycled;
-        uint qtyRecycled;
+        uint timeRecycled; // Timestamp when the recycling took place.
+        uint qtyRecycled; 
     }
+
+    /// @dev Mapping to track recycling transactions for each user.
     mapping(address => Recycled[]) RecycledMap;
+
+    /// @dev Mapping to store user data.
     mapping(address => User) UserMap;
 
-    uint public userId;
+    User[] allUsers; // An array to store all user data.
+    uint public userId; // A counter to track the number of users in the system.
 
     // Custom Errors
-    error UserAcctNotCreated();
+    error UserAcctNotCreated(); // Custom error for when a user account is not created.
     error ZeroAmountNotAllow();
 
     constructor() {}
 
+    /// @dev Create a new user account.
+    /// @param _name The user's name.
+    /// @param _country The user's country.
+    /// @param _gender The user's gender (0 for Female, 1 for Male).
+    /// @param _phone The user's phone number.
+    /// @param _email The user's email address.
     function createUserAcct(
         string memory _name,
         string memory _country,
@@ -53,8 +69,11 @@ contract WasteWise {
         user.phone_no = _phone;
         user.email = _email;
         user.timeJoined = block.timestamp;
+        allUsers.push(user);
     }
 
+    /// @dev Record a plastic recycling transaction for the user.
+    /// @param _qtyrecycled The quantity of plastic recycled.
     function depositPlastic(uint _qtyrecycled) external {
         User storage user = UserMap[msg.sender];
         if (user.userAddr != msg.sender) {
@@ -71,12 +90,20 @@ contract WasteWise {
         // Updates user TokenQty
         user.tokenQty = user.tokenQty + _qtyrecycled;
 
-        // create new contract instance
+        // Create a new contract instance
         rwasteWise = new RwasteWise();
-        // mints receiptTokens of the same amount, `_qtyrecycled` to user upon successful recycling
+        // Mints receiptTokens of the same amount, `_qtyrecycled`, to the user upon successful recycling
         rwasteWise.mintReceipt(msg.sender, _qtyrecycled);
     }
 
+    /// @dev Get all recycling transactions for the user.
+    /// @return An array of recycling transactions for the user.
+    function getAllUserTransaction() public view returns (Recycled[] memory) {
+        return RecycledMap[msg.sender];
+    }
+
+    /// @dev Edit user information.
+    /// @param _user The updated user information.
     function editUser(User calldata _user) public {
         if (UserMap[_user.userAddr].userAddr != _user.userAddr) {
             revert UserAcctNotCreated();
@@ -87,5 +114,17 @@ contract WasteWise {
         user.email = _user.email;
         user.phone_no = _user.phone_no;
         user.gender = _user.gender;
+    }
+
+    /// @dev Get all user data.
+    /// @return An array of all users' data.
+    function getAllUsers() public view returns (User[] memory) {
+        return allUsers;
+    }
+
+    /// @dev Get the user's data.
+    /// @return The user's data.
+    function getUser() public view returns (User) {
+        return UserMap[msg.sender];
     }
 }
