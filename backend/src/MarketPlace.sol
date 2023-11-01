@@ -3,6 +3,7 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {RwasteWise} from "./RwasteWise.sol";
 
 contract MarketPlace {
     struct ItemInfo {
@@ -33,8 +34,11 @@ contract MarketPlace {
 
     /* EVENTS */
 
-    constructor() {
+    RwasteWise rwasteWise;
+
+    constructor(address tokenAddress) {
         admin = msg.sender;
+        rwasteWise = RwasteWise(tokenAddress);
     }
 
     function createListing(
@@ -44,7 +48,7 @@ contract MarketPlace {
         uint256 _deadline,
         bool _isActive
     ) public returns (uint256 _listingId) {
-        if (_price < 0.01 ether) revert MinPriceTooLow();
+        if (_price < 0.01e18) revert MinPriceTooLow();
         // check if deadline is lessthan currentTime
         if (block.timestamp + _deadline <= block.timestamp)
             revert DeadlineTooSoon();
@@ -53,6 +57,7 @@ contract MarketPlace {
             revert MinDurationNotMet();
 
         // append to Storage
+        listingId++;
         ItemInfo storage newItemInfo = itemInfoToId[listingId];
 
         newItemInfo.name = _name;
@@ -61,15 +66,15 @@ contract MarketPlace {
         newItemInfo.deadline = _deadline;
         newItemInfo.lister = msg.sender;
         newItemInfo.isActive = _isActive;
-
+        newItemInfo.isActive = listingId;
         _listingId = listingId;
-
-        listingId++;
 
         return listingId;
     }
 
     function redeemReciptToken() public payable {}
+
+    function buyListing() public {}
 
     function updateListing(
         string calldata _name,
@@ -77,7 +82,13 @@ contract MarketPlace {
         uint256 _listingId,
         uint256 _newPrice,
         bool _isActive
-    ) public {}
+    ) public {
+        ItemInfo storage itemInfo = itemInfoToId[_listingId];
+        itemInfo.name = _name;
+        itemInfo.description = _description;
+        itemInfo.price = _newPrice;
+        itemInfo.isActive = _isActive;
+    }
 
     function getItemInfo(
         uint256 _listingId
