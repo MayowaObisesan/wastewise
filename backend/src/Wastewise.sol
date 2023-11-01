@@ -4,7 +4,7 @@ import {RwasteWise} from "./RwasteWise.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract WasteWise {
-    RwasteWise rwasteWise;
+    RwasteWise rwasteWise; // Receipt Token Contract
     struct User {
         uint Id;
         address userAddr;
@@ -34,6 +34,33 @@ contract WasteWise {
     error UserAcctNotCreated();
     error ZeroAmountNotAllow();
 
+    // Events
+    event UserAccountCreated(
+        uint256 userId,
+        string _name,
+        string _country,
+        Gender _gender,
+        uint256 _phone,
+        string _email,
+        address user,
+        uint256 timeJoined
+    );
+
+    event PlasticDeposited(
+        address depositor,
+        uint256 _qtyrecycled,
+        uint timeRecycled,
+        uint256 tokenQty
+    );
+
+    event UserEditted(
+        string name,
+        string country,
+        string email,
+        uint256 phone_no,
+        Gender gender
+    );
+
     constructor() {}
 
     function createUserAcct(
@@ -53,6 +80,17 @@ contract WasteWise {
         user.phone_no = _phone;
         user.email = _email;
         user.timeJoined = block.timestamp;
+
+        emit UserAccountCreated(
+            userId,
+            _name,
+            _country,
+            _gender,
+            _phone,
+            _email,
+            msg.sender,
+            block.timestamp
+        );
     }
 
     function depositPlastic(uint _qtyrecycled) external {
@@ -75,6 +113,13 @@ contract WasteWise {
         rwasteWise = new RwasteWise();
         // mints receiptTokens of the same amount, `_qtyrecycled` to user upon successful recycling
         rwasteWise.mintReceipt(msg.sender, _qtyrecycled);
+
+        emit PlasticDeposited(
+            msg.sender,
+            _qtyrecycled,
+            block.timestamp,
+            user.tokenQty
+        );
     }
 
     function editUser(User calldata _user) public {
@@ -87,5 +132,13 @@ contract WasteWise {
         user.email = _user.email;
         user.phone_no = _user.phone_no;
         user.gender = _user.gender;
+
+        emit UserEditted(
+            user.name,
+            user.country,
+            user.email,
+            user.phone_no,
+            user.gender
+        );
     }
 }
