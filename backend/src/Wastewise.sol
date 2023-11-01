@@ -42,6 +42,7 @@ contract WasteWise {
 
     // Custom Errors
     error UserAcctNotCreated(); // Custom error for when a user account is not created.
+    error ZeroAmountNotAllow();
 
     constructor() {}
 
@@ -78,6 +79,9 @@ contract WasteWise {
         if (user.userAddr != msg.sender) {
             revert UserAcctNotCreated();
         }
+
+        if (_qtyrecycled == 0) revert ZeroAmountNotAllow();
+
         Recycled memory recycled;
         recycled.qtyRecycled = _qtyrecycled;
         recycled.timeRecycled = block.timestamp;
@@ -85,6 +89,7 @@ contract WasteWise {
 
         // Updates user TokenQty
         user.tokenQty = user.tokenQty + _qtyrecycled;
+
         // Create a new contract instance
         rwasteWise = new RwasteWise();
         // Mints receiptTokens of the same amount, `_qtyrecycled`, to the user upon successful recycling
