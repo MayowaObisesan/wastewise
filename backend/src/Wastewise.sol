@@ -41,8 +41,9 @@ contract WasteWise {
     uint public userId; // A counter to track the number of users in the system.
 
     // Custom Errors
-    error UserAcctNotCreated(); // Custom error for when a user account is not created.
+    error UserAcctNotCreated(); 
     error ZeroAmountNotAllow();
+    error UserAccountAlreadyExist();
 
     // Events
     event UserAccountCreated(
@@ -81,14 +82,18 @@ contract WasteWise {
     /// @param _gender The user's gender (0 for Female, 1 for Male).
     /// @param _phone The user's phone number.
     /// @param _email The user's email address.
+
     function createUserAcct(
         string memory _name,
         string memory _country,
         Gender _gender,
         uint _phone,
         string memory _email
-    ) external {
+    ) public {
         userId++;
+        if (UserMap[msg.sender] == UserMap[msg.sender].userAddr) {
+            revert UserAccountAlreadyExist();
+        }
         User storage user = UserMap[msg.sender];
         user.Id = userId;
         user.name = _name;
