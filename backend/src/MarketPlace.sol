@@ -53,6 +53,7 @@ contract MarketPlace {
     /// @return _listingId The unique identifier assigned to the new listing.
     
     function createListing(ItemInfo calldata _itemInfo) public returns (uint256 _listingId) {
+        if(_itemInfo.itemId == itemToId[_itemInfo.itemId]) revert ItemAlreadyExist();
         if (_itemInfo.price < 0.01 ether) revert MinPriceTooLow(); 
         if (block.timestamp + _itemInfo.deadline <= block.timestamp) revert DeadlineTooSoon(); 
         if (_itemInfo.deadline - block.timestamp < 60 minutes) revert MinDurationNotMet(); 
@@ -88,6 +89,7 @@ contract MarketPlace {
         uint256 _newPrice,
         bool _isActive
     ) public {
+        if(listingId[_listingId] == 0) revert ListingDoesNotExist();
         ItemInfo storage itemInfo = itemInfoToId[_listingId];
         itemInfo.name = _name;
         itemInfo.description = _description;
