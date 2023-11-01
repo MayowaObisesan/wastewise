@@ -44,6 +44,33 @@ contract WasteWise {
     error UserAcctNotCreated(); // Custom error for when a user account is not created.
     error ZeroAmountNotAllow();
 
+    // Events
+    event UserAccountCreated(
+        uint256 userId,
+        string _name,
+        string _country,
+        Gender _gender,
+        uint256 _phone,
+        string _email,
+        address user,
+        uint256 timeJoined
+    );
+
+    event PlasticDeposited(
+        address depositor,
+        uint256 _qtyrecycled,
+        uint timeRecycled,
+        uint256 tokenQty
+    );
+
+    event UserEditted(
+        string name,
+        string country,
+        string email,
+        uint256 phone_no,
+        Gender gender
+    );
+
     constructor() {}
 
     /// @dev Create a new user account.
@@ -69,6 +96,17 @@ contract WasteWise {
         user.phone_no = _phone;
         user.email = _email;
         user.timeJoined = block.timestamp;
+
+        emit UserAccountCreated(
+            userId,
+            _name,
+            _country,
+            _gender,
+            _phone,
+            _email,
+            msg.sender,
+            block.timestamp
+        );
         allUsers.push(user);
     }
 
@@ -94,6 +132,13 @@ contract WasteWise {
         rwasteWise = new RwasteWise();
         // Mints receiptTokens of the same amount, `_qtyrecycled`, to the user upon successful recycling
         rwasteWise.mintReceipt(msg.sender, _qtyrecycled);
+
+        emit PlasticDeposited(
+            msg.sender,
+            _qtyrecycled,
+            block.timestamp,
+            user.tokenQty
+        );
     }
 
     /// @dev Get all recycling transactions for the user.
@@ -114,6 +159,14 @@ contract WasteWise {
         user.email = _user.email;
         user.phone_no = _user.phone_no;
         user.gender = _user.gender;
+
+        emit UserEditted(
+            user.name,
+            user.country,
+            user.email,
+            user.phone_no,
+            user.gender
+        );
     }
 
     /// @dev Get all user data.
