@@ -1,9 +1,10 @@
 import React from "react";
 import busImg from "../../public/Component 43.png";
+import Button from "./Button";
 const Recycle = () => {
   return (
     <div>
-      <div className="lg:m-32 my-4">
+      <div className="lg:m-32 my-6">
         <h1 className="font-black text-3xl lg:text-6xl w-10/12 lg:w-2/3 mx-auto text-center lg:leading-relaxed">
           Why waste when you can{" "}
           <span className="bg-gradient-to-r from-[#2C8258] to-[#FFDE52] inline-block text-transparent bg-clip-text">
@@ -16,14 +17,25 @@ const Recycle = () => {
         </p>
       </div>
 
-      <div className="bg-gradient-to-b from-[#CBE5D8] to-[#FFFFFF] w-full h-[700px] m-0 rounded-t-full  relative top-[-10px]">
-        <button className="border-solid border-2 left-96 -top-0  mt-11 rounded-2xl border-[#026937] text-[#026937] px-12 py-4 bg-white hover:bg-[#026937] hover:text-white mx-auto absolute">
-          Get Started - for Free
-        </button>
+      <div className="bg-gradient-to-b from-[#CBE5D8] to-[#FFFFFF] w-full h-[700px] m-0 rounded-t-full  relative">
+        <div className=" absolute left-[25%] -top-12 lg:-top-14 lg:left-[40%] md:left-[38%]">
+          <Button />
+        </div>
         <img
           src={busImg}
-          className="mx-auto absolute top-24 left-60"
+          className="mx-auto absolute top-28 md:left-[5%] lg:left-[20%] z-[5] "
         ></img>
+        <div className="absolute lg:w-4/6 md:w-5/6  w-[90%] bg-[#ECF6F2] lg:top-[70%]  lg:left-[20%] md:left-[10%] md:top-[70%] left-[5%] top-[43%] lg:py-14 lg:px-36 px-16 py-8  rounded">
+          <h1 className="font-black text-3xl lg:text-3xl   mx-auto text-center">
+            Effortless Waste Scheduling
+          </h1>
+          <p className=" mx-auto text-lg   text-center py-8">
+            By using our waste schedule feature, you can conveniently manage
+            your waste disposal needs, stay organized, and contribute to a
+            cleaner environment.
+          </p>
+          <Button />
+        </div>
       </div>
     </div>
   );
