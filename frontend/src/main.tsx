@@ -1,14 +1,17 @@
-import * as React from 'react'
-import * as ReactDOM from 'react-dom/client'
-import { WagmiConfig } from 'wagmi'
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import { WagmiConfig } from "wagmi";
 
-import { App } from './App'
-import { config } from './wagmi'
+import { App } from "./App";
+import { config } from "./wagmi";
+import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <WagmiConfig config={config}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </WagmiConfig>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
