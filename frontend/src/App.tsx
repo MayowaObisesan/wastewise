@@ -1,17 +1,11 @@
 import "./index.css";
 
-import { Account } from "./components/Account";
-import { Connect } from "./components/Connect";
-import { ERC20 } from "./components/ERC20";
-import { NetworkSwitcher } from "./components/NetworkSwitcher";
-
-import Navbar from "./components/Navbar";
-import Recycle from "./components/Recycle";
-import Reward from "./components/Reward";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./pages/Dashboard/Layout";
 import Landing from "./pages/Landing";
+import Wallet from "./pages/Dashboard/Wallet";
+import Settings from "./pages/Dashboard/Settings";
+import ErrorPage from "./pages/ErrorPage";
 
 export function App() {
   return (
@@ -20,11 +14,17 @@ export function App() {
         <Route
           path="/"
           element={<Landing />}
+          errorElement={<ErrorPage />}
         ></Route>
         <Route
           path="/dashboard"
           element={<Layout />}
-        ></Route>
+          errorElement={<ErrorPage />}
+        >
+          <Route path="wallet" element={<Wallet />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="" element={<Settings />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
