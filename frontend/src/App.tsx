@@ -1,4 +1,14 @@
 import "./index.css";
+
+import { Account } from "./components/Account";
+import { Connect } from "./components/Connect";
+import { ERC20 } from "./components/ERC20";
+import { NetworkSwitcher } from "./components/NetworkSwitcher";
+
+import Navbar from "./components/Navbar";
+
+import Reward from "./components/Reward";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./pages/Dashboard/Layout";
 import Landing from "./pages/Landing";
@@ -30,51 +40,21 @@ export function App() {
           element={<Layout />}
           errorElement={<ErrorPage />}
         >
-          <Route
-            path="profile"
-            element={<Profile />}
-          />
-          <Route
-            path="wallet"
-            element={<Wallet />}
-          />
-          <Route
-            path="settings"
-            element={<Settings />}
-          />
-          <Route
-            path="recycle"
-            element={<Recycle />}
-          />
-          <Route
-            path="marketplace"
-            element={<Marketplace />}
-          />
-          <Route
-            path=""
-            element={<Home />}
-          />
-          <Route
-            path="createEvent"
-            element={<CreateEvent />}
-          />
-          <Route
-            path="myEvents"
-            element={<MyEvents />}
-          />
-          <Route
-            path="marketplace/event/:id"
-            element={<SingleEvent />}
-          />
+          <Route path="profile" element={<Profile />} />
+          <Route path="wallet" element={<Wallet />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="recycle" element={<Recycle />} />
+          <Route path="marketplace" element={<Marketplace />} />
+          <Route path="" element={<Home />} />
+          <Route path="createEvent" element={<CreateEvent />} />
+          <Route path="myEvents" element={<MyEvents />} />
+          <Route path="marketplace/event/:id" element={<SingleEvent />} />
         </Route>
         {/* <Route
           path="/Login"
           element={<Login />}
         ></Route> */}
-        <Route
-          path="/Register"
-          element={<Register />}
-        ></Route>
+        <Route path="/Register" element={<Register />}></Route>
       </Routes>
       <div className="relative">
         <Toaster
