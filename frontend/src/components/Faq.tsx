@@ -2,10 +2,10 @@ import React from "react";
 
 const Faq = () => {
   return (
-    <div className="flex lg:justify-between  lg:mx-24 lg:my-14">
-      <div className="lg:w-1/3">
+    <div className="lg:flex lg:justify-between  lg:mx-24 my-14">
+      <div className="lg:w-1/3 my-5 mx-5">
         <h5>FAQs</h5>
-        <h1 className=" text-5xl font-black">Frequently Asked Questions.</h1>
+        <h1 className="text-5xl font-black">Frequently Asked Questions.</h1>
       </div>
       <div className="lg:w-2/3">
         <div className="collapse collapse-arrow bg-white">
