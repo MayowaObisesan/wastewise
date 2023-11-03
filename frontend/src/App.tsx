@@ -8,6 +8,7 @@ import { NetworkSwitcher } from "./components/NetworkSwitcher";
 import Navbar from "./components/Navbar";
 import Recycle from "./components/Recycle";
 import Reward from "./components/Reward";
+import { Home } from "./components/dashboard";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./pages/Dashboard/Layout";
