@@ -9,6 +9,10 @@ import { NetworkSwitcher } from "./components/NetworkSwitcher";
 import Navbar from "./components/Navbar";
 import Recycle from "./components/Recycle";
 import Reward from "./components/Reward";
+import Faq from "./components/Faq";
+import Future from "./components/Future";
+import Bottom from "./components/Bottom";
+import Footer from "./components/Footer";
 
 export function App() {
   const { isConnected } = useAccount();
@@ -18,6 +22,10 @@ export function App() {
       <Navbar />
       <Recycle />
       <Reward />
+      <Faq />
+      <Future />
+      <Bottom />
+      <Footer />
       <h1>wagmi + ERC20 + Vite</h1>
 
       <Connect />

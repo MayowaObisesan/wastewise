@@ -4,8 +4,8 @@ import Button from "./Button";
 
 const Reward = () => {
   return (
-    <div className="lg:flex  lg:mt-96 lg:mx-28 mx-7  justify-between ">
-      <div className=" lg:w-1/3 mt-24 ">
+    <div className="flex lg:flex-row md:flex-row flex-col-reverse  lg:mt-96 mt-60 lg:mx-24 mx-7 md:mx-8  justify-between ">
+      <div className=" lg:w-1/3 md:w-1/3 mt-24 ">
         <h1 className="text-4xl font-black"> Earn Reward</h1>
         <p>
           You can earn points that can be redeemed for exciting rewards such as
@@ -15,7 +15,7 @@ const Reward = () => {
         </p>
         <Button />
       </div>
-      <div className=" bg-[#ECF6F2] py-16 px-5 ">
+      <div className=" bg-[#ECF6F2] lg:py-16 lg:px-5 md:w-1/2 lg:w-2/4 m-auto lg:m-0 md:mx-0 rounded-2xl">
         <img
           src={rewardImg}
           alt=""
