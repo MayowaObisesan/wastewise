@@ -1,4 +1,3 @@
-import { useAccount } from "wagmi";
 import "./index.css";
 
 import { Account } from "./components/Account";
@@ -10,25 +9,17 @@ import Navbar from "./components/Navbar";
 import Recycle from "./components/Recycle";
 import Reward from "./components/Reward";
 
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Layout } from "./pages/Dashboard/Layout";
+import Landing from "./pages/Landing";
+
 export function App() {
-  const { isConnected } = useAccount();
-
   return (
-    <>
-      <Navbar />
-      <Recycle />
-      <Reward />
-      <h1>wagmi + ERC20 + Vite</h1>
-
-      <Connect />
-
-      {isConnected && (
-        <>
-          <Account />
-          <ERC20 />
-          <NetworkSwitcher />
-        </>
-      )}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Landing />}></Route>
+        <Route path="/dashboard" element={<Layout />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
