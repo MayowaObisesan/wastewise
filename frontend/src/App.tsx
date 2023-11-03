@@ -1,4 +1,3 @@
-import { useAccount } from "wagmi";
 import "./index.css";
 
 import { Account } from "./components/Account";
@@ -9,34 +8,24 @@ import { NetworkSwitcher } from "./components/NetworkSwitcher";
 import Navbar from "./components/Navbar";
 import Recycle from "./components/Recycle";
 import Reward from "./components/Reward";
-import Faq from "./components/Faq";
-import Future from "./components/Future";
-import Bottom from "./components/Bottom";
-import Footer from "./components/Footer";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Layout } from "./pages/Dashboard/Layout";
+import Landing from "./pages/Landing";
 
 export function App() {
-  const { isConnected } = useAccount();
-
   return (
-    <>
-      <Navbar />
-      <Recycle />
-      <Reward />
-      <Faq />
-      <Future />
-      <Bottom />
-      <Footer />
-      <h1>wagmi + ERC20 + Vite</h1>
-
-      <Connect />
-
-      {isConnected && (
-        <>
-          <Account />
-          <ERC20 />
-          <NetworkSwitcher />
-        </>
-      )}
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={<Landing />}
+        ></Route>
+        <Route
+          path="/dashboard"
+          element={<Layout />}
+        ></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
