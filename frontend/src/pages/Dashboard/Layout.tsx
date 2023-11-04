@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import DashboardNav from "../../components/DashboardNav";
 import Sidebar from "../../components/Sidebar";
 import { useLocation } from "react-router-dom";
+
 type Props = {};
 
 export const Layout = (props: Props) => {
@@ -23,7 +24,7 @@ export const Layout = (props: Props) => {
           {/* Navbar */}
           <Outlet />
         </div>
-        <div className="drawer-side">
+        <div className="drawer-side z-10">
           <label
             htmlFor="my-drawer-3"
             aria-label="close sidebar"

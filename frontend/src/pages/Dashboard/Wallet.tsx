@@ -31,7 +31,7 @@ const Wallet = () => {
             </thead>
             <tbody>
               {/* row 1 */}
-              <tr>
+              <tr className="h-16">
                 <th>7-Nov-2023</th>
                 <td>You recycled 40 plastics</td>
                 <td>40</td>
@@ -39,7 +39,7 @@ const Wallet = () => {
                   <span className="badge badge-success badge-sm">Credit</span>
                 </td>
               </tr>
-              <tr>
+              <tr className="h-16">
                 <th>18-Jun-2023</th>
                 <td>You recycled 12 plastics</td>
                 <td>12</td>
@@ -47,7 +47,7 @@ const Wallet = () => {
                   <span className="badge badge-success badge-sm">Credit</span>
                 </td>
               </tr>
-              <tr>
+              <tr className="h-16">
                 <th>14-Mar-2023</th>
                 <td>You spent 4 tokens on Web3bridge event pass</td>
                 <td>4</td>
@@ -55,7 +55,7 @@ const Wallet = () => {
                   <span className="badge badge-error badge-sm">Debit</span>
                 </td>
               </tr>
-              <tr>
+              <tr className="h-16">
                 <th>9-Feb-2023</th>
                 <td>You recycled 11 plastics</td>
                 <td>11</td>
