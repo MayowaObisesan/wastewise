@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import navImg from "../../public/Carus L1 1.png";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
@@ -110,7 +111,7 @@ const Navbar = () => {
                   Log In
                 </button>
                 <button className="border-solid border-2 m-3 rounded-2xl border-[#026937] text-[#026937] px-12 py-4 bg-white hover:bg-[#026937] hover:text-white">
-                  Sign Up
+                  <Link to="Register"> Sign Up</Link>
                 </button>
               </div>
             </div>
@@ -122,7 +123,7 @@ const Navbar = () => {
             Log In
           </button>
           <button className="border-solid border-2 m-3 rounded-2xl border-[#026937] text-[#026937] px-12 py-4 bg-white hover:bg-[#026937] hover:text-white">
-            Sign Up
+            <Link to="Register"> Sign Up</Link>
           </button>
         </div>
 
