@@ -19,7 +19,7 @@ const Recycle = () => {
 
       <div className="bg-gradient-to-b from-[#CBE5D8] to-[#FFFFFF] w-full h-[700px] m-0 rounded-t-full  relative">
         <div className=" absolute left-[25%] -top-12 lg:-top-14 lg:left-[40%] md:left-[38%]">
-          <Button />
+          <Button name=" Get Started - for Free" />
         </div>
         <img
           src={busImg}
@@ -34,7 +34,7 @@ const Recycle = () => {
             your waste disposal needs, stay organized, and contribute to a
             cleaner environment.
           </p>
-          <Button />
+          <Button name=" Get Started - for Free" />
         </div>
       </div>
     </div>

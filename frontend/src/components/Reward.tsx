@@ -13,7 +13,7 @@ const Reward = () => {
           management a breeze, and with every donation, you are contributing to
           a cleaner and greener planet.
         </p>
-        <Button />
+        <Button name=" Get Started - for Free" />
       </div>
       <div className=" bg-[#ECF6F2] lg:py-16 lg:px-5 md:w-1/2 lg:w-2/4 m-auto lg:m-0 md:mx-0 rounded-2xl">
         <img
