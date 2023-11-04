@@ -49,7 +49,7 @@ const Profile = () => {
           {/* Stats */}
           <div className="stats stats-vertical w-full">
             <div className="stat">
-              <div className="stat-figure text-primary">
+              <div className="stat-figure text-success-content dark:text-success">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -64,7 +64,9 @@ const Profile = () => {
                   ></path>
                 </svg>
               </div>
-              <div className="stat-value text-success-content">645</div>
+              <div className="stat-value text-success-content dark:text-success">
+                645
+              </div>
               <div className="stat-title">Tokens</div>
               <div className="stat-desc">21% more than last month</div>
             </div>
