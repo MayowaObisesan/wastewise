@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
+
 const DashboardNav = ({ title }) => {
   return (
-    <div className="w-full navbar bg-base-100 text-base-content px-4 py-8 lg:px-8 lg:py-8">
+    <div className="sticky top-0 z-10 w-full navbar bg-[#FFFFFF88] backdrop-blur-md text-base-content px-4 py-8 lg:relative lg:px-8 lg:py-8">
       <div className="flex-none lg:hidden">
         <label
           htmlFor="my-drawer-3"
@@ -69,10 +71,13 @@ const DashboardNav = ({ title }) => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li className="">
-                <a className="h-12 leading-10 justify-between">
+                <Link
+                  to="/dashboard/profile"
+                  className="h-12 leading-10 justify-between"
+                >
                   Profile
                   <span className="badge">New</span>
-                </a>
+                </Link>
               </li>
               <li>
                 <a className="h-12 leading-10 justify-between">Settings</a>
