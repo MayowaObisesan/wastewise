@@ -15,20 +15,21 @@ contract WasteWise {
         string country;
         Gender gender;
         uint phone_no;
-        string email; 
+        string email;
         uint timeJoined;
-        address referral; 
-        uint tokenQty; 
+        address referral;
+        uint tokenQty;
     }
 
     enum Gender {
-        Female, Male
+        Female,
+        Male
     }
 
     /// @dev Structure to represent a recycling transaction.
     struct Recycled {
         uint timeRecycled; // Timestamp when the recycling took place.
-        uint qtyRecycled; 
+        uint qtyRecycled;
     }
 
     /// @dev Mapping to track recycling transactions for each user.
@@ -41,7 +42,7 @@ contract WasteWise {
     uint public userId; // A counter to track the number of users in the system.
 
     // Custom Errors
-    error UserAcctNotCreated(); 
+    error UserAcctNotCreated();
     error ZeroAmountNotAllow();
     error UserAccountAlreadyExist();
 
@@ -91,7 +92,7 @@ contract WasteWise {
         string memory _email
     ) public {
         userId++;
-        if (UserMap[msg.sender] == UserMap[msg.sender].userAddr) {
+        if (UserMap[msg.sender].userAddr == msg.sender) {
             revert UserAccountAlreadyExist();
         }
         User storage user = UserMap[msg.sender];
@@ -182,7 +183,7 @@ contract WasteWise {
 
     /// @dev Get the user's data.
     /// @return The user's data.
-    function getUser() public view returns (User) {
+    function getUser() public view returns (User memory) {
         return UserMap[msg.sender];
     }
 }
