@@ -6,6 +6,7 @@ import Landing from "./pages/Landing";
 import Wallet from "./pages/Dashboard/Wallet";
 import Settings from "./pages/Dashboard/Settings";
 import ErrorPage from "./pages/ErrorPage";
+import Marketplace from "./pages/Dashboard/Marketplace";
 
 export function App() {
   return (
@@ -23,7 +24,7 @@ export function App() {
         >
           <Route path="wallet" element={<Wallet />} />
           <Route path="settings" element={<Settings />} />
-          <Route path="" element={<Settings />} />
+          <Route path="marketplace" element={<Marketplace />} />
         </Route>
       </Routes>
     </BrowserRouter>
