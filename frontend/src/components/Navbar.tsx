@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import navImg from "../../public/Carus L1 1.png";
 import { Link } from "react-router-dom";
+import { useAccount, useContractRead, useContractWrite } from "wagmi";
+import wastewiseABi from "../../public/WasteWise.json";
+import { WasteWise } from "./WasteWise";
+import SignUpButton from "./SignUpButton";
 
 const Navbar = () => {
+  const { address } = useAccount();
   const [isNavOpen, setIsNavOpen] = useState(false);
+
   return (
     <div>
       <div className="flex items-center justify-between w-full border-b border-gray-400 py-3 px-5">
@@ -107,24 +113,20 @@ const Navbar = () => {
                 </li>
               </ul>
               <div className=" flex flex-col">
-                <button className="border-solid border-2 mt-4 m-3 rounded-2xl border-[#026937] text-[#026937] px-12 py-4 bg-white hover:bg-[#026937] hover:text-white">
-                  Log In
+                <button className="">
+                  <WasteWise />
                 </button>
-                <button className="border-solid border-2 m-3 rounded-2xl border-[#026937] text-[#026937] px-12 py-4 bg-white hover:bg-[#026937] hover:text-white">
-                  <Link to="Register"> Sign Up</Link>
-                </button>
+                <SignUpButton />
               </div>
             </div>
           </div>
         </section>
 
-        <div className=" DESKTOP-MENU hidden space-x-8 lg:flex">
-          <button className="border-solid border-2 mt-4 m-3 rounded-2xl border-[#026937] text-[#026937] px-12 py-4 bg-white hover:bg-[#026937] hover:text-white">
-            Log In
+        <div className=" DESKTOP-MENU hidden space-x-8 lg:flex lg:w-2/5">
+          <button className="">
+            <WasteWise />
           </button>
-          <button className="border-solid border-2 m-3 rounded-2xl border-[#026937] text-[#026937] px-12 py-4 bg-white hover:bg-[#026937] hover:text-white">
-            <Link to="Register"> Sign Up</Link>
-          </button>
+          <SignUpButton />
         </div>
 
         <style>{`
