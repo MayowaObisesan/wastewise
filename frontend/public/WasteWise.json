@@ -1,0 +1,292 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "tokenAddress", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  { "inputs": [], "name": "UserAccountAlreadyExist", "type": "error" },
+  { "inputs": [], "name": "UserAcctNotCreated", "type": "error" },
+  { "inputs": [], "name": "ZeroAmountNotAllow", "type": "error" },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "depositor",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_qtyrecycled",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timeRecycled",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenQty",
+        "type": "uint256"
+      }
+    ],
+    "name": "PlasticDeposited",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "userId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_country",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum WasteWise.Gender",
+        "name": "_gender",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_phone",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "_email",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timeJoined",
+        "type": "uint256"
+      }
+    ],
+    "name": "UserAccountCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "country",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "phone_no",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum WasteWise.Gender",
+        "name": "gender",
+        "type": "uint8"
+      }
+    ],
+    "name": "UserEditted",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_name", "type": "string" },
+      { "internalType": "string", "name": "_country", "type": "string" },
+      {
+        "internalType": "enum WasteWise.Gender",
+        "name": "_gender",
+        "type": "uint8"
+      },
+      { "internalType": "uint256", "name": "_phone", "type": "uint256" },
+      { "internalType": "string", "name": "_email", "type": "string" }
+    ],
+    "name": "createUserAcct",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_qtyrecycled", "type": "uint256" }
+    ],
+    "name": "depositPlastic",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "Id", "type": "uint256" },
+          { "internalType": "address", "name": "userAddr", "type": "address" },
+          { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "string", "name": "country", "type": "string" },
+          {
+            "internalType": "enum WasteWise.Gender",
+            "name": "gender",
+            "type": "uint8"
+          },
+          { "internalType": "uint256", "name": "phone_no", "type": "uint256" },
+          { "internalType": "string", "name": "email", "type": "string" },
+          {
+            "internalType": "uint256",
+            "name": "timeJoined",
+            "type": "uint256"
+          },
+          { "internalType": "address", "name": "referral", "type": "address" },
+          { "internalType": "uint256", "name": "tokenQty", "type": "uint256" }
+        ],
+        "internalType": "struct WasteWise.User",
+        "name": "_user",
+        "type": "tuple"
+      }
+    ],
+    "name": "editUser",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllUserTransaction",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "timeRecycled",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "qtyRecycled",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct WasteWise.Recycled[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllUsers",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "Id", "type": "uint256" },
+          { "internalType": "address", "name": "userAddr", "type": "address" },
+          { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "string", "name": "country", "type": "string" },
+          {
+            "internalType": "enum WasteWise.Gender",
+            "name": "gender",
+            "type": "uint8"
+          },
+          { "internalType": "uint256", "name": "phone_no", "type": "uint256" },
+          { "internalType": "string", "name": "email", "type": "string" },
+          {
+            "internalType": "uint256",
+            "name": "timeJoined",
+            "type": "uint256"
+          },
+          { "internalType": "address", "name": "referral", "type": "address" },
+          { "internalType": "uint256", "name": "tokenQty", "type": "uint256" }
+        ],
+        "internalType": "struct WasteWise.User[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getUser",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint256", "name": "Id", "type": "uint256" },
+          { "internalType": "address", "name": "userAddr", "type": "address" },
+          { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "string", "name": "country", "type": "string" },
+          {
+            "internalType": "enum WasteWise.Gender",
+            "name": "gender",
+            "type": "uint8"
+          },
+          { "internalType": "uint256", "name": "phone_no", "type": "uint256" },
+          { "internalType": "string", "name": "email", "type": "string" },
+          {
+            "internalType": "uint256",
+            "name": "timeJoined",
+            "type": "uint256"
+          },
+          { "internalType": "address", "name": "referral", "type": "address" },
+          { "internalType": "uint256", "name": "tokenQty", "type": "uint256" }
+        ],
+        "internalType": "struct WasteWise.User",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "userId",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
