@@ -1,19 +1,12 @@
 import "./index.css";
-
-import { Account } from "./components/Account";
-import { Connect } from "./components/Connect";
-import { ERC20 } from "./components/ERC20";
-import { NetworkSwitcher } from "./components/NetworkSwitcher";
-
-import Navbar from "./components/Navbar";
-import Recycle from "./components/Recycle";
-import Reward from "./components/Reward";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./pages/Dashboard/Layout";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Wallet from "./pages/Dashboard/Wallet";
+import Settings from "./pages/Dashboard/Settings";
+import ErrorPage from "./pages/ErrorPage";
 import {
   WagmiConfig,
   createConfig,
@@ -28,7 +21,6 @@ import { publicProvider } from "wagmi/providers/public";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
-import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [sepolia],
@@ -45,12 +37,6 @@ const config = createConfig({
         appName: "wagmi",
       },
     }),
-    new WalletConnectConnector({
-      chains,
-      options: {
-        projectId: "...",
-      },
-    }),
     new InjectedConnector({
       chains,
       options: {
@@ -59,7 +45,6 @@ const config = createConfig({
       },
     }),
   ],
-
   publicClient,
   webSocketPublicClient,
 });
@@ -72,11 +57,26 @@ export function App() {
           <Route
             path="/"
             element={<Landing />}
+            errorElement={<ErrorPage />}
           ></Route>
           <Route
             path="/dashboard"
             element={<Layout />}
-          ></Route>
+            errorElement={<ErrorPage />}
+          >
+            <Route
+              path="wallet"
+              element={<Wallet />}
+            />
+            <Route
+              path="settings"
+              element={<Settings />}
+            />
+            <Route
+              path=""
+              element={<Settings />}
+            />
+          </Route>
           <Route
             path="/Login"
             element={<Login />}
