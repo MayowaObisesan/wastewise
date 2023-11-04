@@ -1,6 +1,6 @@
 const Profile = () => {
   return (
-    <section className="relative w-10/12 py-4 z-[-1]">
+    <section className="relative w-10/12 py-4">
       <div className="avatar w-full">
         <div className="w-48 rounded-full ring ring-success ring-offset-base-100 ring-offset-2 mx-auto lg:mx-0">
           <img
@@ -94,9 +94,10 @@ const Profile = () => {
         {/* Submit button */}
         <div className="form-control px-4 py-8">
           <button
-            type="submit"
+            type="button"
             className="btn btn-block bg-[#026937] text-neutral-100 capitalize lg:btn-wide"
           >
+            {/* <span className="loading loading-spinner"></span> */}
             Update
           </button>
         </div>

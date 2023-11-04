@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const DashboardNav = ({ title }) => {
   return (
-    <div className="sticky top-0 w-full navbar bg-[#FFFFFF88] backdrop-blur-md text-base-content px-4 py-8 lg:relative lg:px-8 lg:py-8">
+    <div className="sticky top-0 z-[1] w-full navbar bg-transparent backdrop-blur-md text-base-content px-4 py-8 lg:relative lg:px-8 lg:py-8 dark:backdrop-blur-lg">
       <div className="flex-none lg:hidden">
         <label
           htmlFor="my-drawer-3"
@@ -50,43 +50,46 @@ const DashboardNav = ({ title }) => {
               <span className="badge badge-xs badge-error indicator-item bg-red-600 z-[0]"></span>
             </div>
           </button>
-          <div className="dropdown dropdown-end">
-            <label
-              tabIndex={0}
-              className="btn btn-ghost btn-circle avatar bg-green-200"
-            >
-              <div className="w-12 rounded-full">
-                {/* <img
+          {/* Profile Image and Dropdown */}
+          {title !== "profile" && (
+            <div className="dropdown dropdown-end">
+              <label
+                tabIndex={0}
+                className="btn btn-ghost btn-circle avatar bg-green-200"
+              >
+                <div className="w-12 rounded-full">
+                  {/* <img
                   src="https://api.dicebear.com/7.x/adventurer/svg?seed=Coco"
                   alt="avatar"
                 /> */}
-                <img
-                  src="https://api.dicebear.com/7.x/adventurer/svg?seed=Daisy"
-                  alt="avatar"
-                />
-              </div>
-            </label>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
-            >
-              <li className="">
-                <Link
-                  to="/dashboard/profile"
-                  className="h-12 leading-10 justify-between"
-                >
-                  Profile
-                  <span className="badge">New</span>
-                </Link>
-              </li>
-              <li>
-                <a className="h-12 leading-10 justify-between">Settings</a>
-              </li>
-              <li>
-                <a className="h-12 leading-10 justify-between">Logout</a>
-              </li>
-            </ul>
-          </div>
+                  <img
+                    src="https://api.dicebear.com/7.x/adventurer/svg?seed=Daisy"
+                    alt="avatar"
+                  />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+              >
+                <li className="">
+                  <Link
+                    to="/dashboard/profile"
+                    className="h-12 leading-10 justify-between"
+                  >
+                    Profile
+                    <span className="badge">New</span>
+                  </Link>
+                </li>
+                <li>
+                  <a className="h-12 leading-10 justify-between">Settings</a>
+                </li>
+                <li>
+                  <a className="h-12 leading-10 justify-between">Logout</a>
+                </li>
+              </ul>
+            </div>
+          )}
         </ul>
       </div>
     </div>
