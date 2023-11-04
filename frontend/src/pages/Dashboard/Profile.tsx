@@ -1,6 +1,6 @@
 const Profile = () => {
   return (
-    <section className="w-10/12 py-4">
+    <section className="relative w-10/12 py-4 z-[-1]">
       <div className="avatar w-full">
         <div className="w-48 rounded-full ring ring-success ring-offset-base-100 ring-offset-2 mx-auto lg:mx-0">
           <img
@@ -17,7 +17,7 @@ const Profile = () => {
           </label>
           <input
             type="text"
-            placeholder="Something to call you"
+            placeholder="What can we call you"
             className="input input-bordered w-full"
           />
           <label className="label">
