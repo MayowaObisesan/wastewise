@@ -9,7 +9,7 @@ export const Layout = (props: Props) => {
   const search = useLocation().pathname.split("/")[2];
   return (
     <section className="flex flex-row">
-      <div className="drawer lg:drawer-open">
+      <div className="drawer flex flex-col lg:drawer-open lg:grid">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-start">
           <DashboardNav title={search} />

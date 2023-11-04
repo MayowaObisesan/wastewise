@@ -33,7 +33,7 @@ const Sidebar = (props: Props) => {
 
   return (
     <div className="flex flex-col w-full bg-base-200 h-screen px-4">
-      <h1 className="block text-2xl font-bold h-32 px-8 py-12 rounded-lg bg-gradient-to-r from-yellow-500/10 to-emerald-500/10">
+      <h1 className="block text-2xl font-bold h-32 px-8 py-12 rounded-lg bg-gradient-to-br from-yellow-500/10 to-emerald-500/10">
         WasteWiseLogo
       </h1>
 
