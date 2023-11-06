@@ -8,12 +8,8 @@ const Faq = () => {
         <h1 className="text-5xl font-black">Frequently Asked Questions.</h1>
       </div>
       <div className="lg:w-2/3">
-        <div className="collapse collapse-arrow bg-white">
-          <input
-            type="radio"
-            name="my-accordion-2"
-            className="bg-[#026937]"
-          />
+        <div className="collapse collapse-arrow bg-base-200">
+          <input type="radio" name="my-accordion-2" className="bg-[#026937]" />
           <div className="collapse-title text-xl  font-medium">
             What is Caurus
           </div>
@@ -21,11 +17,8 @@ const Faq = () => {
             <p>hello</p>
           </div>
         </div>
-        <div className="collapse collapse-arrow bg-white">
-          <input
-            type="radio"
-            name="my-accordion-2"
-          />
+        <div className="collapse collapse-arrow bg-base-200">
+          <input type="radio" name="my-accordion-2" />
           <div className="collapse-title text-xl font-medium">
             How do earn points on Carus
           </div>
@@ -34,11 +27,8 @@ const Faq = () => {
           </div>
         </div>
 
-        <div className="collapse collapse-arrow bg-white">
-          <input
-            type="radio"
-            name="my-accordion-2"
-          />
+        <div className="collapse collapse-arrow bg-base-200">
+          <input type="radio" name="my-accordion-2" />
           <div className="collapse-title text-xl font-medium">
             How do I redeem my points on Carus
           </div>
@@ -46,11 +36,8 @@ const Faq = () => {
             <p>hello</p>
           </div>
         </div>
-        <div className="collapse collapse-arrow bg-white">
-          <input
-            type="radio"
-            name="my-accordion-2"
-          />
+        <div className="collapse collapse-arrow bg-base-200">
+          <input type="radio" name="my-accordion-2" />
           <div className="collapse-title text-xl font-medium">
             What is Wallet
           </div>
