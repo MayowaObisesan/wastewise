@@ -4,6 +4,7 @@ import image2 from "/evangeline-shaw-nwLTVwb7DbU-unsplash.jpg";
 import image3 from "/chuttersnap-aEnH4hJ_Mrs-unsplash.jpg";
 import image4 from "/samantha-gades-fIHozNWfcvs-unsplash.jpg";
 import image5 from "/delaney-van-JYVKaxAlp4A-unsplash.jpg";
+import Button from "../../components/Button";
 
 type Props = {};
 
@@ -22,7 +23,10 @@ const Marketplace = (props: Props) => {
             </h2>
             <p>If a dog chews shoes whose shoes does he choose?</p>
             <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
+              {/* <button className="btn text-base-content bg-[#026937]">
+                Pay Now
+              </button> */}
+              <Button name="Pay Now" />
               <h3 className="font-bold text-lg">
                 5.0 <span>CHIX</span>
               </h3>
@@ -40,7 +44,7 @@ const Marketplace = (props: Props) => {
             </h2>
             <p>If a dog chews shoes whose shoes does he choose?</p>
             <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
+              <Button name="Pay Now" />
               <h3 className="font-bold text-lg">
                 10.0 <span>CHIX</span>
               </h3>
@@ -58,7 +62,7 @@ const Marketplace = (props: Props) => {
             </h2>
             <p>If a dog chews shoes whose shoes does he choose?</p>
             <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
+              <Button name="Pay now" />
               <h3 className="font-bold text-lg">
                 2.0 <span>CHIX</span>
               </h3>
@@ -76,7 +80,7 @@ const Marketplace = (props: Props) => {
             </h2>
             <p>If a dog chews shoes whose shoes does he choose?</p>
             <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
+              <Button name="Pay now" />
               <h3 className="font-bold text-lg">
                 1.0 <span>CHIX</span>
               </h3>
@@ -94,7 +98,7 @@ const Marketplace = (props: Props) => {
             </h2>
             <p>If a dog chews shoes whose shoes does he choose?</p>
             <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
+              <Button name="Pay now" />
               <h3 className="font-bold text-lg">
                 3.0 <span>CHIX</span>
               </h3>
@@ -112,7 +116,7 @@ const Marketplace = (props: Props) => {
             </h2>
             <p>If a dog chews shoes whose shoes does he choose?</p>
             <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
+              <Button name="Pay now" />
               <h3 className="font-bold text-lg">
                 5.0 <span>CHIX</span>
               </h3>

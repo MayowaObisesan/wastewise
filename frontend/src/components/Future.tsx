@@ -13,7 +13,7 @@ const Future = () => {
         </h1>
         <Button name=" Get Started - for Free" />
       </div>
-      <div className="py-7 bg-[#F3F3F3]  ">
+      <div className="py-7">
         <h1 className="mx-auto text-3xl lg:w-1/4 w-5/6 text-[#919191] font-black">
           Be Our first Partner
         </h1>

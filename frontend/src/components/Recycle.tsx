@@ -17,7 +17,7 @@ const Recycle = () => {
         </p>
       </div>
 
-      <div className="bg-gradient-to-b from-[#CBE5D8] to-[#FFFFFF] w-full h-[700px] m-0 rounded-t-full  relative">
+      <div className="bg-gradient-to-b from-[#CBE5D8] to-[#FFFFFF] w-full h-[700px] m-0 rounded-t-full  relative dark:bg-gradient-to-br dark:from-yellow-500/10 dark:to-emerald-500/40">
         <div className=" absolute left-[25%] -top-12 lg:-top-14 lg:left-[40%] md:left-[38%]">
           <Button name=" Get Started - for Free" />
         </div>
@@ -25,7 +25,7 @@ const Recycle = () => {
           src={busImg}
           className="mx-auto absolute top-28 md:left-[5%] lg:left-[20%] z-[5] "
         ></img>
-        <div className="absolute lg:w-4/6 md:w-5/6  w-[90%] bg-[#ECF6F2] lg:top-[70%]  lg:left-[20%] md:left-[10%] md:top-[70%] left-[5%] top-[43%] lg:py-14 lg:px-36 px-16 py-8  rounded">
+        <div className="absolute lg:w-4/6 md:w-5/6  w-[90%] bg-[#ECF6F2] lg:top-[70%]  lg:left-[20%] md:left-[10%] md:top-[70%] left-[5%] top-[43%] lg:py-14 lg:px-36 px-16 py-8 rounded dark:bg-transparent">
           <h1 className="font-black text-3xl lg:text-3xl   mx-auto text-center">
             Effortless Waste Scheduling
           </h1>
