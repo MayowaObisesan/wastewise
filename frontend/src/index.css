@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
+/* html,
 body {
   background-color: white !important;
   color: black;
@@ -25,4 +25,4 @@ input,
   box-shadow: none;
   background-color: #026937;
   color: #f3f3f3;
-}
+} */

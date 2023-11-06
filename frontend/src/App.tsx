@@ -10,6 +10,9 @@ import ErrorPage from "./pages/ErrorPage";
 import Marketplace from "./pages/Dashboard/Marketplace";
 import { Home } from "./components/dashboard";
 import Profile from "./pages/Dashboard/Profile";
+import CreateEvent from "./pages/Dashboard/CreateEvent";
+import MyEvents from "./pages/Dashboard/MyEvents";
+import SingleEvent from "./pages/Dashboard/SingleEvent";
 
 export function App() {
   return (
@@ -30,15 +33,15 @@ export function App() {
           <Route path="settings" element={<Settings />} />
           <Route path="marketplace" element={<Marketplace />} />
           <Route path="" element={<Home />} />
+          <Route path="createEvent" element={<CreateEvent />} />
+          <Route path="myEvents" element={<MyEvents />} />
+          <Route path="singleEvent" element={<SingleEvent />} />
         </Route>
         {/* <Route
           path="/Login"
           element={<Login />}
         ></Route> */}
-        <Route
-          path="/Register"
-          element={<Register />}
-        ></Route>
+        <Route path="/Register" element={<Register />}></Route>
       </Routes>
     </BrowserRouter>
   );
