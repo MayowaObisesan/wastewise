@@ -11,6 +11,7 @@ contract MarketPlace {
     struct ItemInfo {
         string name; 
         string description; 
+        string image;
         uint256 price; 
         uint256 deadline; 
         address lister; 
@@ -63,6 +64,7 @@ contract MarketPlace {
         ItemInfo storage newItemInfo = itemInfoToId[listingId];
         newItemInfo.name = _itemInfo.name;
         newItemInfo.description = _itemInfo.description;
+        newItemInfo.image = _itemInfo.image;
         newItemInfo.price = _itemInfo.price;
         newItemInfo.deadline = _itemInfo.deadline;
         newItemInfo.lister = msg.sender;
@@ -102,6 +104,14 @@ contract MarketPlace {
     /// @return ItemInfo The information about the item listing.
     function getItemInfo(uint256 _listingId) public view returns (ItemInfo memory) {
         return itemInfoToId[_listingId];
+    }
+
+    function getAllItemInfo() public view returns (ItemInfo[] memory){
+        ItemInfo[] memory allItemInfo = new ItemInfo[](listingId);
+        for(uint i = 0; i < listingId; i++){
+            allItemInfo.push(itemInfoToId[i + 1]);
+        }
+        return allItemInfo;
     }
 }
 
