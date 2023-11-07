@@ -18,6 +18,19 @@ contract MarketPlace {
         uint256 itemId; 
     }
 
+     struct Transaction {
+        uint date;
+        Type typeOfTransaction;
+        uint NumberOfTokens;
+    }
+
+    enum Type {
+        Recycle,
+        Purchase
+    }
+
+    mapping(address => Transaction) transactions;
+
     /// @dev Mapping to store item information by their unique listing ID.
     mapping(uint256 => ItemInfo) public itemInfoToId;
 
@@ -74,7 +87,48 @@ contract MarketPlace {
     /// @dev Redeem receipt tokens for a transaction.
     function redeemReciptToken() public payable {}
 
-    function buyListing() public {}
+    /// @dev Buy an item from the marketplace.
+    /// @param _listingId The unique identifier of the item listing to buy.
+    function buyListing(uint256 _listingId) public payable{
+        if(IitemInfoToId[_listingId] != listingId) revert ListingDoesNotExist();
+
+        // Get the Listing
+        ItemInfo storage item = itemInfoToId[_listingId];
+
+        // Check if the listing is active
+        if(!item.isActive) revert ListingNotActive();
+
+            // Check if the price is met
+        if(msg.value < item.price) revert PriceNotMet(int256(item.price - msg.value));
+
+        // Calculate the difference between the sent value and the item price
+        int256 priceDifference = int256(msg.value) - int256(itemInfo.price);
+
+        // If the sent value is higher than the item price, refund the excess amount
+        if (priceDifference > 0) {
+        payable(msg.sender).transfer(uint256(priceDifference));
+        }
+     
+
+        // Update the listing to be inactive
+        item.isActive = false;
+
+        // Transfer the item from the seller to the buyer
+        rwasteWise.transferFrom(item.lister, msg.sender, _listingId);
+
+        // pay the seller
+        payable(item.lister).transfer(msg.value);
+
+        // Create a new transaction
+        Transaction memory transaction;
+        transaction.date = block.timestamp;
+        transaction.typeOfTransaction = Type.Purchase;
+        transaction.NumberOfTokens = 1;
+
+        // Store the transaction
+        transactions[msg.sender] = transaction;
+
+    }
 
     /// @dev Update the information of an existing item listing.
     /// @param _name The new name of the item.
