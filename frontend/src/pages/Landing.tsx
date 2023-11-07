@@ -25,17 +25,6 @@ const Landing = (props: Props) => {
       <Future />
       <Bottom />
       <Footer />
-      <h1>wagmi + ERC20 + Vite</h1>
-
-      <Connect />
-
-      {isConnected && (
-        <>
-          <Account />
-          <ERC20 />
-          <NetworkSwitcher />
-        </>
-      )}
     </>
   );
 };

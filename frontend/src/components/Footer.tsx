@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <div className="lg:mx-28 mx-7">
       <p className="text-[#919191]">Contact Us</p>
-      <ul className="flex justify-between lg:w-1/6  w-1/2 py-6">
+      <ul className="flex justify-between lg:w-1/6 md:w-1/6  w-1/2 py-6">
         <li>
           <a href="http://">
             <img

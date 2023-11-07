@@ -46,7 +46,7 @@ export function WasteWise() {
           className="dropdown-content z-[1] menu  "
         >
           {connectors.map((connector) => (
-            <li>
+            <li key={connector.id}>
               <button
                 disabled={!connector.ready}
                 key={connector.id}
