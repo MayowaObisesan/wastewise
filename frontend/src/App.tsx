@@ -10,9 +10,14 @@ import ErrorPage from "./pages/ErrorPage";
 import Marketplace from "./pages/Dashboard/Marketplace";
 import { Home } from "./components/dashboard";
 import Profile from "./pages/Dashboard/Profile";
+<<<<<<< HEAD
+import Recycle from "./pages/Dashboard/Deposit";
+import { Toaster } from "sonner";
+=======
 import CreateEvent from "./pages/Dashboard/CreateEvent";
 import MyEvents from "./pages/Dashboard/MyEvents";
 import SingleEvent from "./pages/Dashboard/SingleEvent";
+>>>>>>> dev
 
 export function App() {
   return (
@@ -31,6 +36,7 @@ export function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="wallet" element={<Wallet />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="recycle" element={<Recycle />} />
           <Route path="marketplace" element={<Marketplace />} />
           <Route path="" element={<Home />} />
           <Route path="createEvent" element={<CreateEvent />} />
@@ -38,11 +44,35 @@ export function App() {
           <Route path="marketplace/event/:id" element={<SingleEvent />} />
         </Route>
         {/* <Route
+<<<<<<< HEAD
+              path="/Login"
+              element={<Login />}
+            ></Route> */}
+=======
           path="/Login"
           element={<Login />}
         ></Route> */}
+>>>>>>> dev
         <Route path="/Register" element={<Register />}></Route>
       </Routes>
+      <div className="relative">
+        <Toaster
+          theme="system"
+          className="toaster-elem"
+          position="top-right"
+          toastOptions={{
+            style: {
+              // position: "relative",
+              // background: "green",
+              top: "114px",
+            },
+          }}
+          // offset={72}
+          richColors={true}
+          gap={6}
+          closeButton={true}
+        />
+      </div>
     </BrowserRouter>
   );
 }

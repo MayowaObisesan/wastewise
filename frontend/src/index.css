@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+.toaster-elem {
+  position: relative;
+  background-color: orange;
+}
+
+.my-classname {
+  /* position: relative; */
+  background: firebrick;
+}
