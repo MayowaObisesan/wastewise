@@ -1,25 +1,74 @@
-import React from "react";
+import React, { useState } from "react";
 import image1 from "/will-breen-BZ5ek7LSoYY-unsplash.jpg";
+import { useContractRead } from "wagmi";
+import marketPlaceAbi from "../../../public/Marketplace.json";
+import { useParams, useSearchParams } from "react-router-dom";
+import { formatUnits } from "viem";
 
-type Props = {};
+const SingleEvent = () => {
+  let { id } = useParams();
+  const [listing, setListing] = useState([]);
+  const formatDate = (time: number) => {
+    // Convert the timestamp to milliseconds by multiplying it by 1000
+    const date = new Date(time * 1000);
 
-const SingleEvent = (props: Props) => {
+    // Get the year, month, and day components
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1; // Months are zero-based, so add 1 to get the correct month
+    const day = date.getDate();
+    const hrs = date.getHours();
+    const mins = date.getMinutes();
+
+    // Create an array of month names to map the numeric month to its name
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    // Get the month name using the month value as an index in the monthNames array
+    const monthName = monthNames[month - 1];
+
+    const formattedDate = `${monthName} ${day}, ${year} ${hrs}:${mins}`;
+
+    return formattedDate;
+  };
+  const { data, isError, isLoading } = useContractRead({
+    address: "0xAe2C0C62fd49Bb4D641d2f7913EEF3f457A60692",
+    abi: marketPlaceAbi,
+    functionName: "getItemInfo",
+    args: [id],
+    onSuccess(data) {
+      setListing(data);
+      console.log(data);
+    },
+  });
   return (
     <div className="mb-8">
       <div className="card mb-5 w-[95%] max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl mx-auto bg-base-100 shadow-xl lg:shadow-2xl pt-4">
         <figure>
-          <img src={image1} alt="Shoes" />
+          <img src={data?.image} alt="Shoes" />
         </figure>
         <div className="card-body">
           <h2 className="card-title">
-            Merchandise Drop
+            {data?.name}
             <div className="badge badge-secondary">NEW</div>
           </h2>
-          <p>If a dog chews shoes whose shoes does he choose?</p>
-          <div className="card-actions justify-between items-center">
+          <p>{data?.description}</p>
+          <p>Ends: {formatDate(Number(data?.deadline))}</p>
+          <div className="card-actions justify-between items-center mt-3">
             <button className="btn btn-primary">Pay Now</button>
             <h3 className="font-bold text-lg">
-              5.0 <span>CHIX</span>
+              {data ? formatUnits(data?.price, 18) : ""} <span>CHIX</span>
             </h3>
           </div>
         </div>

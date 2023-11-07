@@ -35,7 +35,7 @@ export function App() {
           <Route path="" element={<Home />} />
           <Route path="createEvent" element={<CreateEvent />} />
           <Route path="myEvents" element={<MyEvents />} />
-          <Route path="singleEvent" element={<SingleEvent />} />
+          <Route path="marketplace/event/:id" element={<SingleEvent />} />
         </Route>
         {/* <Route
           path="/Login"
