@@ -11,6 +11,7 @@ contract MarketPlace {
     struct ItemInfo {
         string name; 
         string description; 
+        string image;
         uint256 price; 
         uint256 deadline; 
         address lister; 
@@ -38,6 +39,7 @@ contract MarketPlace {
     error PriceNotMet(int256 difference); 
     error ListingExpired(); 
     error PriceMismatch(uint256 originalPrice); 
+    error NoImageUrl();
 
     /* EVENTS */
 
@@ -47,26 +49,23 @@ contract MarketPlace {
         admin = msg.sender;
         rwasteWise = RwasteWise(tokenAddress);
     }
-
-    /// @dev Create a new item listing in the marketplace with the provided item information.
-    /// @param _itemInfo The information of the item listing to be created.
-    /// @return _listingId The unique identifier assigned to the new listing.
     
-    function createListing(ItemInfo calldata _itemInfo) public returns (uint256 _listingId) {
-        if(_itemInfo.itemId == itemToId[_itemInfo.itemId]) revert ItemAlreadyExist();
-        if (_itemInfo.price < 0.01 ether) revert MinPriceTooLow(); 
-        if (block.timestamp + _itemInfo.deadline <= block.timestamp) revert DeadlineTooSoon(); 
-        if (_itemInfo.deadline - block.timestamp < 60 minutes) revert MinDurationNotMet(); 
+    function createListing(string calldata _name, string calldata _description, string calldata _image, uint _price, uint _deadline) public returns (uint256 _listingId) {
+        if (_price < 0.01 ether) revert MinPriceTooLow(); 
+        if (block.timestamp + _deadline <= block.timestamp) revert DeadlineTooSoon(); 
+        if (_deadline - block.timestamp < 60 minutes) revert MinDurationNotMet(); 
+        if (keccak256(abi.encode(_image)) == keccak256(abi.encode(""))) revert NoImageUrl();
         // Append item information to storage.
         // append to Storage
         listingId++;
         ItemInfo storage newItemInfo = itemInfoToId[listingId];
-        newItemInfo.name = _itemInfo.name;
-        newItemInfo.description = _itemInfo.description;
-        newItemInfo.price = _itemInfo.price;
-        newItemInfo.deadline = _itemInfo.deadline;
+        newItemInfo.name = _name;
+        newItemInfo.description = _description;
+        newItemInfo.image = _image;
+        newItemInfo.price = _price;
+        newItemInfo.deadline = _deadline;
         newItemInfo.lister = msg.sender;
-        newItemInfo.isActive = _itemInfo.isActive;
+        newItemInfo.isActive = true;
         _listingId = listingId;
         return listingId;
     }
@@ -89,7 +88,7 @@ contract MarketPlace {
         uint256 _newPrice,
         bool _isActive
     ) public {
-        if(listingId[_listingId] == 0) revert ListingDoesNotExist();
+        // if(listingId[_listingId] == 0) revert ListingDoesNotExist();
         ItemInfo storage itemInfo = itemInfoToId[_listingId];
         itemInfo.name = _name;
         itemInfo.description = _description;
@@ -102,6 +101,14 @@ contract MarketPlace {
     /// @return ItemInfo The information about the item listing.
     function getItemInfo(uint256 _listingId) public view returns (ItemInfo memory) {
         return itemInfoToId[_listingId];
+    }
+
+    function getAllItemInfo() public view returns (ItemInfo[] memory){
+        ItemInfo[] memory allItemInfo = new ItemInfo[](listingId);
+        for(uint i = 0; i < listingId; i++){
+            allItemInfo[i] = itemInfoToId[i + 1];
+        }
+        return allItemInfo;
     }
 }
 
