@@ -28,8 +28,6 @@ const CreateEvent = (props: Props) => {
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  // let imgUrl = "";
-  // console.log(event);
   const pinFileToIPFS = async (files: any) => {
     try {
       let data = new FormData();
@@ -70,38 +68,7 @@ const CreateEvent = (props: Props) => {
     setLoading(true);
     const imgUrl = await pinFileToIPFS(imagePath);
     if (imgUrl) setImage(imgUrl);
-    // write?.();
-
-    // let newPromise = new Promise((resolve, reject) => {
-    //   resolve(pinFileToIPFS(imagePath));
-    // });
-    // newPromise
-    //   .then(() => {
-    //     setTimeout(async () => {
-    //       await setEvent({ name, description, image, price, deadline });
-    //     }, 3000);
-    //     console.log(event);
-    //   })
-    //   .then(() => {
-    //     console.log(event);
-    //     setTimeout(() => {
-    //       write();
-    //     }, 9000);
-    //     console.log(event);
-    //   });
-    // await Promise.all([, console.log(imgUrl), write()]);
-    // setEvent({ name, description, imgUrl, price, deadline });
   };
-
-  // const { config } = usePrepareContractWrite({
-  //   address: "0xAe2C0C62fd49Bb4D641d2f7913EEF3f457A60692",
-  //   abi: marketPlaceAbi,
-  //   functionName: "createListing",
-  //   args: [name, description, image, price, deadline],
-  //   onSettled(data, error) {
-  //     console.log("Settled", { data, error });
-  //   },
-  // });
 
   const { write, isLoading, data } = useContractWrite({
     address: "0x1CC3c9Aa0D707819b24F9465438d6a80d44F401b",
