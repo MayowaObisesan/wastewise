@@ -1,3 +1,5 @@
+import Button from "../../components/Button";
+
 const Profile = () => {
   return (
     <section className="relative w-10/12 py-4 lg:flex lg:flex-col lg:w-11/12">
@@ -210,13 +212,7 @@ const Profile = () => {
 
       {/* Submit button */}
       <div className="form-control px-4 py-8 mx-auto">
-        <button
-          type="button"
-          className="btn btn-block bg-[#026937] text-neutral-100 capitalize lg:btn-wide"
-        >
-          {/* <span className="loading loading-spinner"></span> */}
-          Update
-        </button>
+        <Button name="Update" size="btn btn-block lg:btn-wide" />
       </div>
     </section>
   );

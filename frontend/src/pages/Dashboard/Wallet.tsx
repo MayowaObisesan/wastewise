@@ -1,18 +1,18 @@
 const Wallet = () => {
   return (
-    <section className="w-full p-8 space-y-12">
-      <section className="relative h-72 px-12 py-10 rounded-2xl bg-gradient-to-br from-yellow-500/10 to-emerald-500/40">
+    <section className="w-full p-6 space-y-12 lg:p-8">
+      <section className="relative h-72 px-8 py-6 rounded-2xl bg-gradient-to-br from-yellow-500/10 to-emerald-500/40 lg:px-12 lg:py-10">
         <div className="text-sm">
           Address
           <div className="font-bold text-xl">0x1213131417316</div>
         </div>
-        <div className="absolute top-10 right-12 text-right text-sm">
+        <div className="absolute lg:absolute lg:top-10 lg:right-12 lg:text-right text-sm">
           Last Transaction
           <div className="font-bold">November 7, 2023.</div>
         </div>
-        <div className="absolute bottom-10 right-12 text-right">
+        <div className="absolute bottom-5 right-6 lg:bottom-10 lg:right-12 lg:text-right">
           No of Tokens
-          <div className="font-bold text-8xl">453</div>
+          <div className="font-bold text-7xl lg:text-8xl">453</div>
         </div>
       </section>
 
