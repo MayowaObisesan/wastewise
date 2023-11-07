@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { home, logout, settings, wallet } from "../assets";
 import { Link, useLocation } from "react-router-dom";
+import { activeBgColor } from "../utils";
 
 type Props = {};
 
@@ -16,16 +17,18 @@ const Sidebar = (props: Props) => {
       setIsActive("wallet");
     } else if (location.pathname === "/dashboard/settings") {
       setIsActive("settings");
+    } else if (location.pathname === "/dashboard/recycle") {
+      setIsActive("recycle");
     } else if (location.pathname === "/dashboard/campaign") {
       setIsActive("campaign");
+    } else if (location.pathname === "/dashboard/marketplace") {
+      setIsActive("marketplace");
     }
   }, [location]);
 
-  const activeBackgroundColor = "#026937";
-
   // set style for active link
   const activeLinkStyle = {
-    backgroundColor: activeBackgroundColor,
+    backgroundColor: activeBgColor,
     textDecoration: "none",
     color: "#FFF",
     transition: ".5s ease",
@@ -62,7 +65,7 @@ const Sidebar = (props: Props) => {
               </svg>
               <h2 className="text-lg" style={{ isActive }}>
                 {" "}
-                Home
+                Dashboard
               </h2>
             </Link>
             {/* <a className="active">Home</a> */}
@@ -79,19 +82,19 @@ const Sidebar = (props: Props) => {
           </li>
           <li>
             <Link
-              to="/dashboard/settings"
+              to="/dashboard/recycle"
               className="flex flex-row gap-2 items-center"
-              style={isActive === "settings" ? activeLinkStyle : {}}
+              style={isActive === "recycle" ? activeLinkStyle : {}}
             >
-              <img src={settings} alt="settings-Icon" />
-              <h2 className="text-lg">Settings</h2>
+              <img src={settings} alt="recycle-Icon" />
+              <h2 className="text-lg">Recycle</h2>
             </Link>
           </li>
           <li>
             <Link
               to="/dashboard/marketplace"
               className="flex flex-row gap-2 items-center"
-              style={isActive === "campaign" ? activeLinkStyle : {}}
+              style={isActive === "marketplace" ? activeLinkStyle : {}}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

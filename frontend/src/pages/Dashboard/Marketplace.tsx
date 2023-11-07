@@ -12,7 +12,7 @@ const Marketplace = (props: Props) => {
   return (
     <div className="my-8">
       <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
+        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
           <figure>
             <img src={image1} alt="Shoes" />
           </figure>
@@ -33,7 +33,7 @@ const Marketplace = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
+        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
           <figure>
             <img src={image2} alt="Shoes" />
           </figure>
@@ -51,7 +51,7 @@ const Marketplace = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
+        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
           <figure>
             <img src={image3} alt="Shoes" />
           </figure>
@@ -69,7 +69,7 @@ const Marketplace = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
+        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
           <figure>
             <img src={image4} alt="Shoes" />
           </figure>
@@ -87,7 +87,7 @@ const Marketplace = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
+        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
           <figure>
             <img src={image5} alt="Shoes" />
           </figure>
@@ -105,7 +105,7 @@ const Marketplace = (props: Props) => {
             </div>
           </div>
         </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
+        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
           <figure>
             <img src={image1} alt="Shoes" />
           </figure>
