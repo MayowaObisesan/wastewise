@@ -10,6 +10,8 @@ import ErrorPage from "./pages/ErrorPage";
 import Marketplace from "./pages/Dashboard/Marketplace";
 import { Home } from "./components/dashboard";
 import Profile from "./pages/Dashboard/Profile";
+import Recycle from "./pages/Dashboard/Deposit";
+import { Toaster } from "sonner";
 import CreateEvent from "./pages/Dashboard/CreateEvent";
 import MyEvents from "./pages/Dashboard/MyEvents";
 import SingleEvent from "./pages/Dashboard/SingleEvent";
@@ -28,21 +30,70 @@ export function App() {
           element={<Layout />}
           errorElement={<ErrorPage />}
         >
-          <Route path="profile" element={<Profile />} />
-          <Route path="wallet" element={<Wallet />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="marketplace" element={<Marketplace />} />
-          <Route path="" element={<Home />} />
-          <Route path="createEvent" element={<CreateEvent />} />
-          <Route path="myEvents" element={<MyEvents />} />
-          <Route path="marketplace/event/:id" element={<SingleEvent />} />
+          <Route
+            path="profile"
+            element={<Profile />}
+          />
+          <Route
+            path="wallet"
+            element={<Wallet />}
+          />
+          <Route
+            path="settings"
+            element={<Settings />}
+          />
+          <Route
+            path="recycle"
+            element={<Recycle />}
+          />
+          <Route
+            path="marketplace"
+            element={<Marketplace />}
+          />
+          <Route
+            path=""
+            element={<Home />}
+          />
+          <Route
+            path="createEvent"
+            element={<CreateEvent />}
+          />
+          <Route
+            path="myEvents"
+            element={<MyEvents />}
+          />
+          <Route
+            path="marketplace/event/:id"
+            element={<SingleEvent />}
+          />
         </Route>
         {/* <Route
           path="/Login"
           element={<Login />}
         ></Route> */}
-        <Route path="/Register" element={<Register />}></Route>
+        <Route
+          path="/Register"
+          element={<Register />}
+        ></Route>
       </Routes>
+      <div className="relative">
+        <Toaster
+          theme="system"
+          className="toaster-elem"
+          position="top-right"
+          toastOptions={{
+            style: {
+              // position: "relative",
+              // background: "green",
+              top: "114px",
+            },
+          }}
+          // offset={72}
+          richColors={true}
+          gap={6}
+          closeButton={true}
+        />
+      </div>
     </BrowserRouter>
   );
 }

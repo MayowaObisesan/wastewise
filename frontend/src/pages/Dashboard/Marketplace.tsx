@@ -14,7 +14,7 @@ type Props = {};
 
 const Marketplace = (props: Props) => {
   const [listings, setListings] = useState([]);
-  const [loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
   const formatDate = (time: number) => {
     // Convert the timestamp to milliseconds by multiplying it by 1000
     const date = new Date(time * 1000);
@@ -59,57 +59,61 @@ const Marketplace = (props: Props) => {
     },
   });
 
-  useEffect(()=>{
-    setTimeout(()=>setLoading(!loading), 2000);
-  },[])
+  useEffect(() => {
+    setTimeout(() => setLoading(!loading), 2000);
+  }, []);
   return (
     <div className="my-8">
       <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-        {loading?(<Link to={`event/${index + 1}`} key={index}>
-              <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-                <figure>
-                  <img src={item.image} alt="Shoes" />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">
-                    {item.name}
-                    <div className="badge badge-secondary">NEW</div>
-                  </h2>
-                  <p>{item.description}</p>
-                  <p>Ends: {formatDate(Number(item.deadline))}</p>
-                  <div className="card-actions justify-between items-center mt-3">
-                     <Button name="Pay Now" />
-                    <h3 className="font-bold text-lg">
-                      {formatUnits(item.price, 18)} <span>CHIX</span>
-                    </h3>
-                  </div>
+        {loading ? (
+          <Link to={`event/${index + 1}`} key={index}>
+            <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
+              <figure>
+                <img src={item.image} alt="Shoes" />
+              </figure>
+              <div className="card-body">
+                <h2 className="card-title">
+                  {item.name}
+                  <div className="badge badge-secondary">NEW</div>
+                </h2>
+                <p>{item.description}</p>
+                <p>Ends: {formatDate(Number(item.deadline))}</p>
+                <div className="card-actions justify-between items-center mt-3">
+                  <Button name="Pay Now" />
+                  <h3 className="font-bold text-lg">
+                    {formatUnits(item.price, 18)} <span>CHIX</span>
+                  </h3>
                 </div>
               </div>
-            </Link>):(listings.map((item, index) => {
-          return (
-            <Link to={`event/${index + 1}`} key={index}>
-              <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-                <figure>
-                  <img src={item.image} alt="Shoes" />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">
-                    {item.name}
-                    <div className="badge badge-secondary">NEW</div>
-                  </h2>
-                  <p>{item.description}</p>
-                  <p>Ends: {formatDate(Number(item.deadline))}</p>
-                  <div className="card-actions justify-between items-center mt-3">
-                    <Button name="Pay Now" />
-                    <h3 className="font-bold text-lg">
-                      {formatUnits(item.price, 18)} <span>CHIX</span>
-                    </h3>
+            </div>
+          </Link>
+        ) : (
+          listings.map((item, index) => {
+            return (
+              <Link to={`event/${index + 1}`} key={index}>
+                <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
+                  <figure>
+                    <img src={item.image} alt="Shoes" />
+                  </figure>
+                  <div className="card-body">
+                    <h2 className="card-title">
+                      {item.name}
+                      <div className="badge badge-secondary">NEW</div>
+                    </h2>
+                    <p>{item.description}</p>
+                    <p>Ends: {formatDate(Number(item.deadline))}</p>
+                    <div className="card-actions justify-between items-center mt-3">
+                      <Button name="Pay Now" />
+                      <h3 className="font-bold text-lg">
+                        {formatUnits(item.price, 18)} <span>CHIX</span>
+                      </h3>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          );
-        }))}
+              </Link>
+            );
+          })
+        )}
       </div>
     </div>
   );

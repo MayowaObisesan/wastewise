@@ -1,0 +1,1 @@
+export const activeBgColor = "#026937";
