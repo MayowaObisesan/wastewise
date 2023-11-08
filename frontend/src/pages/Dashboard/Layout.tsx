@@ -44,6 +44,14 @@ export const Layout = (props: Props) => {
       </div>
       {/* <div className="flex flex-col flex-1 bg-base-100">
         <div>Header</div>
+    <div className=" flex flex-row">
+      <div className="">
+        <Sidebar />
+      </div>
+      <div>
+        <div>
+          <Header />
+        </div>
         <div>
           <Outlet />
         </div>
