@@ -16,7 +16,7 @@ contract MarketPlace {
         uint256 deadline; 
         address lister; 
         bool isActive; 
-        uint256 itemId; 
+        uint256 itemId;
     }
 
      struct Transaction {
@@ -59,7 +59,6 @@ contract MarketPlace {
     RwasteWise rwasteWise;
 
     constructor(address tokenAddress) {
-        admin = msg.sender;
         rwasteWise = RwasteWise(tokenAddress);
     }
     
