@@ -1,5 +1,5 @@
 import React from "react";
-import rewardImg from "../../public/Group 62.png";
+import rewardImg from "../assets/Group 62.png";
 import Button from "./Button";
 
 const Reward = () => {
@@ -16,10 +16,7 @@ const Reward = () => {
         <Button name=" Get Started - for Free" />
       </div>
       <div className=" bg-[#ECF6F2] lg:py-16 lg:px-5 md:w-1/2 lg:w-2/4 m-auto lg:m-0 md:mx-0 rounded-2xl dark:bg-green-200/10">
-        <img
-          src={rewardImg}
-          alt=""
-        />
+        <img src={rewardImg} alt="" />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CaurusImg from "../../public/Carus L1 1.png";
+import CaurusImg from "../assets/Carus L1 1.png";
 import "react-phone-number-input/style.css";
 import { CountryDropdown } from "react-country-region-selector";
 import {
@@ -10,9 +10,10 @@ import {
   useAccount,
 } from "wagmi";
 
-import wastewiseABi from "../../public/WasteWise.json";
+// import wastewiseABi from "../utils/abi/WasteWise.json";
 import { WasteWise } from "../components/WasteWise";
 import Button from "../components/Button";
+import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../utils";
 
 const Register = () => {
   const { address } = useAccount();
@@ -23,8 +24,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
 
   const { config } = usePrepareContractWrite({
-    address: "0x283486bBD8aD32cd437249e048a464e14b6ff8dA",
-    abi: wastewiseABi,
+    address: WASTEWISE_ADDRESS,
+    abi: WASTEWISE_ABI,
     args: [name, country, gender, number, email],
     functionName: "createUserAcct",
   });
@@ -53,11 +54,7 @@ const Register = () => {
     <>
       <div className="flex justify-between lg:mx-7 my-5">
         {" "}
-        <img
-          className="m-4"
-          src={CaurusImg}
-          alt=""
-        />
+        <img className="m-4" src={CaurusImg} alt="" />
         <WasteWise />
       </div>
 
@@ -75,10 +72,7 @@ const Register = () => {
               write?.();
             }}
           >
-            <label
-              htmlFor="Name"
-              className="text-[#121212] text-base font-light"
-            >
+            <label htmlFor="Name" className="text-base-content">
               {" "}
               Name:{" "}
             </label>
@@ -90,10 +84,7 @@ const Register = () => {
               placeholder="John"
               value={name}
             />
-            <label
-              htmlFor="country"
-              className="text-[#121212] text-base font-light"
-            >
+            <label htmlFor="country" className="text-base-content">
               Country:{" "}
             </label>
             <CountryDropdown
@@ -102,7 +93,7 @@ const Register = () => {
               className="text-[#121212]     p-3 lg:m-2 my-2 w-screen lg:w-2/3 text-base font-light bg-[#F3F3F3]"
             />
             <div className="flex justify-between w-1/3">
-              <label className="flex text-[#121212] text-base font-light">
+              <label className="flex text-base-content">
                 <input
                   className="bg-[#F3F3F3]  lg:m-2 my-2 mx-3  lg:w-2/3"
                   type="radio"
@@ -112,7 +103,7 @@ const Register = () => {
                 />
                 Male
               </label>
-              <label className=" flex text-[#121212] text-base font-light">
+              <label className=" flex text-base-content">
                 {" "}
                 <input
                   className="  text-[#121212] lg:m-2 my-2  mx-3  lg:w-2/3"
@@ -124,10 +115,7 @@ const Register = () => {
                 Female
               </label>
             </div>
-            <label
-              htmlFor="number"
-              className="text-[#121212] text-base font-light"
-            >
+            <label htmlFor="number" className="text-base-content">
               Number:{" "}
             </label>
             <input
@@ -137,10 +125,7 @@ const Register = () => {
               value={number}
               onChange={(e) => setNumber(parseInt(e.target.value))}
             />
-            <label
-              htmlFor="email"
-              className="text-[#121212] text-base font-light"
-            >
+            <label htmlFor="email" className="text-base-content">
               Email:{" "}
             </label>
             <input
@@ -154,13 +139,21 @@ const Register = () => {
             <Button
               name={isLoading ? "Loading" : "Sign up"}
               disabled={!write || isLoading}
+              onClick={handleSubmit}
             />
+            {/* <button
+              className="btn btn-success"
+              onClick={handleSubmit}
+              disabled={!write || isLoading}
+            >
+              Signup
+            </button> */}
 
             {isSuccess && (
               <div>
                 Successfully signed you up!
                 <div>
-                  <a href={`https://etherscan.io/tx/${data?.hash}`}>
+                  <a href={`https://sepolia.etherscan.io/tx/${data?.hash}`}>
                     Etherscan
                   </a>
                 </div>
