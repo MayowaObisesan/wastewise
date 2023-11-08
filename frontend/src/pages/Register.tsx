@@ -10,9 +10,9 @@ import {
   useAccount,
 } from "wagmi";
 
-import wastewiseABi from "../../public/WasteWise.json";
 import { WasteWise } from "../components/WasteWise";
 import Button from "../components/Button";
+import { WasteWiseABI, WasteWise_ADDRESS } from "../../constants";
 
 const Register = () => {
   const { address } = useAccount();
@@ -23,8 +23,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
 
   const { config } = usePrepareContractWrite({
-    address: "0x283486bBD8aD32cd437249e048a464e14b6ff8dA",
-    abi: wastewiseABi,
+    address: WasteWise_ADDRESS,
+    abi: WasteWiseABI,
     args: [name, country, gender, number, email],
     functionName: "createUserAcct",
   });
@@ -53,11 +53,7 @@ const Register = () => {
     <>
       <div className="flex justify-between lg:mx-7 my-5">
         {" "}
-        <img
-          className="m-4"
-          src={CaurusImg}
-          alt=""
-        />
+        <img className="m-4" src={CaurusImg} alt="" />
         <WasteWise />
       </div>
 
@@ -70,10 +66,7 @@ const Register = () => {
             className="flex flex-col"
             action=""
             id="signup-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              write?.();
-            }}
+            onSubmit={handleSubmit}
           >
             <label
               htmlFor="Name"
