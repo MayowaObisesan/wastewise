@@ -1,20 +1,20 @@
 import React from "react";
-import busImg from "../../public/Component 43.png";
+import busImg from "../assets/Component 43.png";
 import Button from "./Button";
 const Recycle = () => {
   return (
     <div>
       <div className="hero ">
-        <div className="hero-content text-center  -z-[1]">
-          <div className="max-w-md">
-            <h1 className="text-5xl font-bold">
+        <div className="hero-content text-center -z-[1]">
+          <div className="w-full py-40">
+            <h1 className="text-5xl font-bold lg:text-8xl">
               {" "}
               Why waste when you can{" "}
               <span className="bg-gradient-to-r from-[#2C8258] to-[#FFDE52] inline-block text-transparent bg-clip-text">
                 Recycle
               </span>
             </h1>
-            <p className="py-6">
+            <p className="py-6 text-2xl lg:py-12">
               Let's work together to reduce waste, promote recycling, and create
               a greener future.
             </p>
@@ -38,7 +38,7 @@ const Recycle = () => {
             your waste disposal needs, stay organized, and contribute to a
             cleaner environment.
           </p>
-          <Button name=" Get Started - for Free" />
+          <Button name="Get Started - for Free" />
         </div>
       </div>
     </div>

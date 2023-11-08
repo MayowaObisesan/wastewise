@@ -7,7 +7,7 @@ const Faq = () => {
         <h5>FAQs</h5>
         <h1 className="text-5xl font-black">Frequently Asked Questions.</h1>
       </div>
-      <div className="lg:w-2/3">
+      <div className="lg:w-2/3 space-y-8">
         <div className="collapse collapse-arrow bg-base-200">
           <input type="radio" name="my-accordion-2" className="bg-[#026937]" />
           <div className="collapse-title text-xl  font-medium">

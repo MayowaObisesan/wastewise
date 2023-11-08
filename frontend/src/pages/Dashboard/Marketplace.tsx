@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from "react";
-import image1 from "/will-breen-BZ5ek7LSoYY-unsplash.jpg";
-import image2 from "/evangeline-shaw-nwLTVwb7DbU-unsplash.jpg";
-import image3 from "/chuttersnap-aEnH4hJ_Mrs-unsplash.jpg";
-import image4 from "/samantha-gades-fIHozNWfcvs-unsplash.jpg";
-import image5 from "/delaney-van-JYVKaxAlp4A-unsplash.jpg";
+import { useState } from "react";
 import { useContractRead } from "wagmi";
-import marketPlaceAbi from "../../../public/Marketplace.json";
 import { formatUnits } from "viem";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
+import { MARKETPLACE_ABI, MARKETPLACE_ADDRESS } from "../../utils";
 
 type Props = {};
 
@@ -49,29 +44,24 @@ const Marketplace = (props: Props) => {
     return formattedDate;
   };
   const { data, isError, isLoading } = useContractRead({
-    address: "0x1CC3c9Aa0D707819b24F9465438d6a80d44F401b",
-    abi: marketPlaceAbi,
+    address: MARKETPLACE_ADDRESS,
+    abi: MARKETPLACE_ABI,
     functionName: "getAllItemInfo",
     onSuccess(data) {
       setListings(data);
       console.log(formatDate(Number(data[0]?.deadline)));
     },
   });
+
   return (
     <div className="my-8">
       <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
         {listings.map((item, index) => {
           return (
-            <Link
-              to={`event/${index + 1}`}
-              key={index}
-            >
+            <Link to={`event/${index + 1}`} key={index}>
               <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
                 <figure>
-                  <img
-                    src={item.image}
-                    alt="Shoes"
-                  />
+                  <img src={item.image} alt="Shoes" />
                 </figure>
                 <div className="card-body">
                   <h2 className="card-title">

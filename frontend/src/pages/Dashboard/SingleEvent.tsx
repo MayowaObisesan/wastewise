@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import image1 from "/will-breen-BZ5ek7LSoYY-unsplash.jpg";
+import { useState } from "react";
 import { useContractRead } from "wagmi";
-import marketPlaceAbi from "../../../public/Marketplace.json";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { formatUnits } from "viem";
+import { MARKETPLACE_ABI, MARKETPLACE_ADDRESS } from "../../utils";
 
 const SingleEvent = () => {
   let { id } = useParams();
@@ -43,8 +42,9 @@ const SingleEvent = () => {
     return formattedDate;
   };
   const { data, isError, isLoading } = useContractRead({
-    address: "0xAe2C0C62fd49Bb4D641d2f7913EEF3f457A60692",
-    abi: marketPlaceAbi,
+    // address: "0xAe2C0C62fd49Bb4D641d2f7913EEF3f457A60692",
+    address: MARKETPLACE_ADDRESS,
+    abi: MARKETPLACE_ABI,
     functionName: "getItemInfo",
     args: [id],
     onSuccess(data) {
