@@ -1,8 +1,11 @@
 import Button from "../../components/Button";
+import { useWasteWiseContext } from "../../context";
 
 
 
 const Profile = () => {
+  const { currentUser } = useWasteWiseContext();
+
   return (
     <section className="relative w-10/12 py-4 lg:flex lg:flex-col lg:w-11/12">
       <div className="avatar w-full lg:hidden">
@@ -26,8 +29,8 @@ const Profile = () => {
               </div>
             </div>
             <section className="px-8">
-              <div className="block h-24 py-8 text-4xl font-medium">
-                Jane Fuss
+              <div className="block h-24 py-8 text-4xl font-semibold">
+                {currentUser?.name}
               </div>
             </section>
           </div>
@@ -36,15 +39,19 @@ const Profile = () => {
           <div className="px-12 pt-6 space-y-6">
             <div className="">
               <span className="text-sm font-semibold">Member since: </span>
-              <span className="font-medium px-2">November 2, 2023</span>
+              <span className="font-medium px-2">
+                {Number(currentUser?.timeJoined) || "November 2, 2023"}
+              </span>
             </div>
             <div>
               <span className="text-sm font-semibold">Email:</span>
-              <span className="font-medium px-2">me@gmail.com</span>
+              <span className="font-medium px-2">{currentUser?.email}</span>
             </div>
             <div>
               <span className="text-sm font-semibold">Phone:</span>
-              <span className="font-medium px-2">+2349131581488</span>
+              <span className="font-medium px-2">
+                {Number(currentUser?.phone_no)}
+              </span>
             </div>
           </div>
         </section>
@@ -126,6 +133,7 @@ const Profile = () => {
               type="text"
               placeholder="What can we call you"
               className="input input-bordered w-full"
+              defaultValue={currentUser?.name}
             />
             <label className="label">
               <span className="label-text-alt text-error">
@@ -144,6 +152,7 @@ const Profile = () => {
               type="text"
               placeholder="your@email.com"
               className="input input-bordered w-full"
+              defaultValue={currentUser?.email}
             />
             <label className="label">
               <span className="label-text-alt text-error">
@@ -179,6 +188,7 @@ const Profile = () => {
                     type="text"
                     className="input input-bordered join-item w-full focus:outline-0 focus:bg-base-100"
                     placeholder="+234 913 158 1488"
+                    defaultValue={currentUser?.phone_no}
                   />
                 </div>
               </div>
@@ -200,8 +210,12 @@ const Profile = () => {
               <option disabled selected>
                 Gender
               </option>
-              <option>Male</option>
-              <option>Female</option>
+              <option value={1} selected={currentUser?.gender === 1}>
+                Male
+              </option>
+              <option value={0} selected={currentUser?.gender === 0}>
+                Female
+              </option>
             </select>
             <label className="label">
               <span className="label-text-alt text-error">

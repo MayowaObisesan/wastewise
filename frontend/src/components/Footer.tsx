@@ -1,8 +1,8 @@
 import React from "react";
-import whatsapp from "../../public/Whatsapp.png";
-import linkedin from "../../public/Linkedin.png";
-import twitter from "../../public/Twitter.png";
-import instagram from "../../public/Instagram.png";
+import whatsapp from "../assets/Whatsapp.png";
+import linkedin from "../assets/Linkedin.png";
+import twitter from "../assets/Twitter.png";
+import instagram from "../assets/Instagram.png";
 
 const Footer = () => {
   return (
@@ -11,34 +11,22 @@ const Footer = () => {
       <ul className="flex justify-between lg:w-1/6 md:w-1/6  w-1/2 py-6">
         <li>
           <a href="http://">
-            <img
-              src={whatsapp}
-              alt=""
-            />
+            <img src={whatsapp} alt="" />
           </a>
         </li>
         <li>
           <a href="http://">
-            <img
-              src={linkedin}
-              alt=""
-            />
+            <img src={linkedin} alt="" />
           </a>
         </li>
         <li>
           <a href="http://">
-            <img
-              src={twitter}
-              alt=""
-            />
+            <img src={twitter} alt="" />
           </a>
         </li>
         <li>
           <a href="http://">
-            <img
-              src={instagram}
-              alt=""
-            />
+            <img src={instagram} alt="" />
           </a>
         </li>
       </ul>

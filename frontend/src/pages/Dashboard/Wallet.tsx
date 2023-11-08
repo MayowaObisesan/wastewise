@@ -1,10 +1,23 @@
+import { useWasteWiseContext } from "../../context";
+import { shortenAddress } from "../../utils";
+
 const Wallet = () => {
+  const { currentUser } = useWasteWiseContext();
+
   return (
     <section className="w-full p-6 space-y-12 lg:p-8">
-      <section className="relative h-72 px-8 py-6 rounded-2xl bg-gradient-to-br from-yellow-500/10 to-emerald-500/40 lg:px-12 lg:py-10">
+      <section className="relative h-80 px-8 py-6 rounded-2xl bg-gradient-to-br from-yellow-500/10 to-emerald-500/40 lg:px-12 lg:py-10">
         <div className="text-sm">
           Address
-          <div className="font-bold text-xl">0x1213131417316</div>
+          <div className="font-bold text-lg">
+            {shortenAddress(currentUser?.userAddr)}
+          </div>
+        </div>
+        <div className="text-sm absolute lg:bottom-10">
+          <div className="text-lg font-bold px-2">Hi,</div>
+          <div className="font-bold text-7xl lg:text-9xl">
+            {currentUser?.name}
+          </div>
         </div>
         <div className="absolute lg:absolute lg:top-10 lg:right-12 lg:text-right text-sm">
           Last Transaction
