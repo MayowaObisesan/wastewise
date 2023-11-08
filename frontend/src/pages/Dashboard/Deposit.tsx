@@ -1,9 +1,50 @@
 import { Toaster, toast } from "sonner";
 import Button from "../../components/Button";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import localforage from "localforage";
+import { WasteWise_ADDRESS, WasteWiseABI } from "../../../constants/index";
+
+import {
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
 
 const Recycle = () => {
+  const [numPlastic, setNumPlastic] = useState<number>();
+
+  const { config: depositPlasticConfig } = usePrepareContractWrite({
+    address: WasteWise_ADDRESS,
+    abi: WasteWiseABI,
+    functionName: "depositPlastic",
+    args: [numPlastic],
+  });
+
+  const {
+    data: depositPlasticData,
+    isError: isDepositPlasticError,
+    write: depositPlasticWrite,
+  } = useContractWrite(depositPlasticConfig);
+
+  const { isLoading: isDepositingPlastic, isSuccess: isPlasticDeposited } =
+    useWaitForTransaction({
+      hash: depositPlasticData?.hash,
+    });
+
+  // useEffect(() => {
+  //   console.log("depositPlasticData:", depositPlasticData);
+  //   console.log("isDepositingPlastic:", isDepositingPlastic);
+  //   console.log("isPlasticDeposited", isPlasticDeposited);
+  //   console.log("isDepositPlasticError:", isDepositPlasticError);
+  //   console.log("======= Depositing Plastic =======");
+  // }, [depositPlasticData, isDepositingPlastic, isPlasticDeposited]);
+
+  const handleDepositPlastic = async (e: any) => {
+    e.preventDefault();
+
+    depositPlasticWrite?.();
+  };
+
   const sdgModal = useRef(null);
   return (
     <section className="relative w-10/12">
@@ -92,8 +133,9 @@ const Recycle = () => {
               recycle.
             </li>
             <li>
-              Your token will be accumulated and will be displayed on your EIA
-              card, which you can display as your achievement to the SDG Goals.
+              Your token will be accumulated and will be displayed on your
+              Environmental Impact Assessment (EIA) card, which you can display
+              as your achievement to the SDG Goals.
             </li>
           </ol>
         </div>
@@ -101,22 +143,29 @@ const Recycle = () => {
       <div className="bg-base-200 text-sm px-4 py-2 my-2 lg:p-6 rounded-md lg:text-lg">
         Kindly input the amount of plastics you will like to recycle
       </div>
+
       <div className="flex flex-col w-full mx-auto my-8 space-y-8 lg:my-12 lg:w-7/12">
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">No of Plastics</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Number of plastics"
-            className="input input-lg input-bordered w-full placeholder:text-base"
-          />
-          <label className="label">
-            <span className="label-text-alt">You will get 15 tokens</span>
-          </label>
-        </div>
-        <Button name="Recycle" size="block" customStyle="w-full" />
+        <form action="" onSubmit={handleDepositPlastic}>
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">No of Plastics</span>
+            </label>
+            <input
+              value={numPlastic}
+              onChange={(e: any) => setNumPlastic(e.target.value)}
+              type="number"
+              id="number"
+              placeholder="Number of plastics"
+              className="input input-lg input-bordered w-full placeholder:text-base"
+            />
+            <label className="label">
+              <span className="label-text-alt">You will get 15 tokens</span>
+            </label>
+          </div>
+          <Button name="Recycle" size="block" customStyle="w-full" />
+        </form>
       </div>
+
       {/* <div>
         <button
           onClick={() =>

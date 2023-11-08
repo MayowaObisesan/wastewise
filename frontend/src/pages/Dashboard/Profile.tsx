@@ -1,5 +1,7 @@
 import Button from "../../components/Button";
 
+
+
 const Profile = () => {
   return (
     <section className="relative w-10/12 py-4 lg:flex lg:flex-col lg:w-11/12">
