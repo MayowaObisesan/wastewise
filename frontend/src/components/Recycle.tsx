@@ -23,7 +23,7 @@ const Recycle = () => {
         </div>
       </div>
 
-      <div className="bg-gradient-to-b -top-10 from-[#CBE5D8] to-[#FFFFFF] w-full h-[700px] m-0 rounded-t-full  relative dark:bg-gradient-to-br dark:from-yellow-500/10 dark:to-emerald-500/40 -z-[1]">
+      <div className="bg-gradient-to-b -top-10 from-[#CBE5D8] to-[#FFFFFF] w-full h-[700px] m-0 rounded-t-full  relative dark:bg-gradient-to-br dark:from-yellow-500/10 dark:to-emerald-500/40 -z-[3]">
         <div className=" absolute left-[25%] -top-8 lg:-top-14 lg:left-[40%] md:left-[38%]"></div>
         <img
           src={busImg}

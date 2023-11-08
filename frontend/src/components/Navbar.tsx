@@ -44,11 +44,7 @@ const Navbar = () => {
           >
             MENU
           </label>
-          <div
-            className={`navbar-end  hidden lg:flex  ${
-              isConnected && "justify-around"
-            }`}
-          >
+          <div className={"navbar-end "}>
             <WasteWise />
             {isConnected && <SignUpButton />}
           </div>
@@ -68,7 +64,7 @@ const Navbar = () => {
             </div>
           </li>
           <li>
-            <Link to="Layout"> DashBoard</Link>
+            <Link to="/dashboard"> DashBoard</Link>
           </li>
         </ul>
       </div>
