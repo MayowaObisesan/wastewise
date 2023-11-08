@@ -1,14 +1,11 @@
 import React from "react";
-import logoimg from "../../public/Carus L1 1.png";
+import logoimg from "../assets/Carus L1 1.png";
 
 const Bottom = () => {
   return (
     <div className="flex flex-wrap lg:flex-nowrap justify-between mx-5 lg:m-28">
       <div className="lg:w-1/3 md:w-2/3    sm:m-7">
-        <img
-          src={logoimg}
-          className="mb-8 p-0"
-        />
+        <img src={logoimg} className="mb-8 p-0" />
         <p>
           We specialize in waste collection, recycling, and disposal services.
           Our state-of-the-art facilities and advanced technologies ensure

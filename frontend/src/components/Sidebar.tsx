@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { home, logout, settings, wallet } from "../assets";
 import { Link, useLocation } from "react-router-dom";
 import { activeBgColor } from "../utils";
+import Logo from "./Logo";
 
 type Props = {};
 
@@ -36,8 +37,8 @@ const Sidebar = (props: Props) => {
 
   return (
     <div className="flex flex-col w-full bg-base-200 h-screen px-4">
-      <h1 className="block text-2xl font-bold h-32 px-8 py-12 rounded-lg">
-        WasteWiseLogo
+      <h1 className="block text-2xl font-bold h-32 px-3 py-12 rounded-lg mr-auto">
+        <Logo />
       </h1>
 
       <article className="flex-1 h-full py-4">

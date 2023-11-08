@@ -5,6 +5,8 @@ import {
   useEnsAvatar,
   useEnsName,
 } from "wagmi";
+import Button from "./Button";
+import { shortenAddress } from "../utils";
 
 export function WasteWise() {
   const { address, connector, isConnected } = useAccount();
@@ -17,15 +19,11 @@ export function WasteWise() {
   if (isConnected) {
     return (
       <div className="flex justify-between lg:w-1/3">
-        <div className="my-auto  text-[#026937] lg:block hidden">{`${address?.substring(
-          0,
-          6
-        )}...${address?.substring(address.length - 4)}`}</div>
+        <div className="my-auto  text-[#026937] lg:block hidden">
+          {shortenAddress(address)}
+        </div>
 
-        <button
-          className="btn m-1 text-[#026937]"
-          onClick={disconnect}
-        >
+        <button className="btn m-1 text-[#026937]" onClick={disconnect}>
           Disconnect {connector?.name}
         </button>
       </div>
@@ -34,17 +32,15 @@ export function WasteWise() {
 
   return (
     <div>
-      <div className="dropdown  border-solid border-2 mt-4  -mr-8 rounded-2xl">
-        <label
+      <div className="dropdown mt-4 rounded-2xl w-full">
+        {/* <label
           tabIndex={0}
           className="btn m-1  border-[#026937] text-[#026937] bg-white hover:bg-[#026937] hover:text-white"
         >
           Connect Wallet
-        </label>
-        <ul
-          tabIndex={0}
-          className="dropdown-content z-[1] menu  "
-        >
+        </label> */}
+        <Button name="Connect Wallet" size="lg" />
+        <ul tabIndex={0} className="dropdown-content z-[1] menu  ">
           {connectors.map((connector) => (
             <li key={connector.id}>
               <button
