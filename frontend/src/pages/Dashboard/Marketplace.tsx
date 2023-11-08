@@ -9,10 +9,11 @@ import {
   useContractWrite,
   usePrepareContractWrite,
 } from "wagmi";
-import marketPlaceAbi from "../../../public/Marketplace.json";
+import marketPlaceAbi from "../../../constants/marketPlaceABI.json";
 import { formatUnits } from "viem";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
+import { MARKETPLACE_ABI, MARKETPLACE_ADDRESS } from "../../utils";
 
 type Props = {};
 
@@ -54,15 +55,14 @@ const Marketplace = (props: Props) => {
     return formattedDate;
   };
   const { data, isError, isLoading } = useContractRead({
-    address: "0x1CC3c9Aa0D707819b24F9465438d6a80d44F401b",
-    abi: marketPlaceAbi,
+    address: MARKETPLACE_ADDRESS,
+    abi: MARKETPLACE_ABI,
     functionName: "getAllItemInfo",
     onSuccess(data) {
       setListings(data);
       console.log(formatDate(Number(data[0]?.deadline)));
     },
   });
-
   const { config } = usePrepareContractWrite({
     address: "0xecb504d39723b0be0e3a9aa33d646642d1051ee1",
     abi: marketPlaceAbi,

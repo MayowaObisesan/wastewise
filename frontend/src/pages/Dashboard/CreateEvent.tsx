@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
-import image1 from "/will-breen-BZ5ek7LSoYY-unsplash.jpg";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import marketPlaceAbi from "../../../public/Marketplace.json";
-import {
-  useAccount,
-  useContractWrite,
-  usePrepareContractWrite,
-  useWaitForTransaction,
-} from "wagmi";
+import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { Connect } from "../../components/Connect";
 import { useNavigate } from "react-router-dom";
+import { MARKETPLACE_ABI } from "../../utils";
+
 type Props = {};
 
 const CreateEvent = (props: Props) => {
@@ -72,7 +67,7 @@ const CreateEvent = (props: Props) => {
 
   const { write, isLoading, data } = useContractWrite({
     address: "0x1CC3c9Aa0D707819b24F9465438d6a80d44F401b",
-    abi: marketPlaceAbi,
+    abi: MARKETPLACE_ABI,
     functionName: "createListing",
     args: [name, description, image, price, deadline],
     onError() {
