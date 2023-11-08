@@ -1,9 +1,8 @@
-import React from "react";
-import image1 from "/will-breen-BZ5ek7LSoYY-unsplash.jpg";
-import image2 from "/evangeline-shaw-nwLTVwb7DbU-unsplash.jpg";
-import image3 from "/chuttersnap-aEnH4hJ_Mrs-unsplash.jpg";
-import image4 from "/samantha-gades-fIHozNWfcvs-unsplash.jpg";
-import image5 from "/delaney-van-JYVKaxAlp4A-unsplash.jpg";
+import image1 from "../../assets/will-breen-BZ5ek7LSoYY-unsplash.jpg";
+import image2 from "../../assets/evangeline-shaw-nwLTVwb7DbU-unsplash.jpg";
+import image3 from "../../assets/chuttersnap-aEnH4hJ_Mrs-unsplash.jpg";
+import image4 from "../../assets/samantha-gades-fIHozNWfcvs-unsplash.jpg";
+import image5 from "../../assets/delaney-van-JYVKaxAlp4A-unsplash.jpg";
 
 type Props = {};
 
