@@ -23,7 +23,10 @@ export function WasteWise() {
           {shortenAddress(address)}
         </div>
 
-        <button className="btn m-1 text-[#026937]" onClick={disconnect}>
+        <button
+          className="btn m-1 text-[#026937]"
+          onClick={disconnect}
+        >
           Disconnect {connector?.name}
         </button>
       </div>
@@ -39,8 +42,14 @@ export function WasteWise() {
         >
           Connect Wallet
         </label> */}
-        <Button name="Connect Wallet" size="lg" />
-        <ul tabIndex={0} className="dropdown-content z-[1] menu  ">
+        <Button
+          name="Connect Wallet"
+          size="lg"
+        />
+        <ul
+          tabIndex={0}
+          className="dropdown-content z-[1] menu  "
+        >
           {connectors.map((connector) => (
             <li key={connector.id}>
               <button

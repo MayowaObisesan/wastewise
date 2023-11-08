@@ -54,17 +54,21 @@ const Register = () => {
     <>
       <div className="flex justify-between lg:mx-7 my-5">
         {" "}
-        <img className="m-4" src={CaurusImg} alt="" />
+        <img
+          className="m-4"
+          src={CaurusImg}
+          alt=""
+        />
         <WasteWise />
       </div>
 
       <div className="flex h-screen">
-        <div className="lg:w-1/2 lg:mx-28 mx-1 lg:pl-8 ">
-          <h1 className="text-3xl font-black leading-8 mb-8">
+        <div className="lg:w-1/2 lg:pl-8 ">
+          <h1 className="text-3xl  mx-auto w-fit font-black leading-8 mb-8">
             Register An Account!
           </h1>
           <form
-            className="flex flex-col"
+            className="flex flex-col mx-5  lg:mx-auto w-fit"
             action=""
             id="signup-form"
             onSubmit={(e) => {
@@ -72,30 +76,44 @@ const Register = () => {
               write?.();
             }}
           >
-            <label htmlFor="Name" className="text-base-content">
+            <label
+              htmlFor="Name"
+              className="text-base-content"
+            >
               {" "}
               Name:{" "}
             </label>
             <input
               name="Name"
               id="Name"
-              className="p-3 lg:m-2 w-screen lg:w-2/3"
+              className="p-3  my-2 bg-[#F3F3F3] "
               onChange={(e) => setName(e.target.value)}
               placeholder="John"
               value={name}
             />
-            <label htmlFor="country" className="text-base-content">
+            <label
+              htmlFor="country"
+              className="text-base-content"
+            >
               Country:{" "}
             </label>
             <CountryDropdown
               value={country}
               onChange={(val) => selectCountry(val)}
-              className="text-[#121212]     p-3 lg:m-2 my-2 w-screen lg:w-2/3 text-base font-light bg-[#F3F3F3]"
+              className="text-[#121212]  my-2     p-3 text-base font-light bg-[#F3F3F3]"
             />
+
+            <label
+              htmlFor="gender"
+              className="text-base-content"
+            >
+              Gender:
+            </label>
             <div className="flex justify-between w-1/3">
               <label className="flex text-base-content">
                 <input
-                  className="bg-[#F3F3F3]  lg:m-2 my-2 mx-3  lg:w-2/3"
+                  name="gender"
+                  className="bg-[#F3F3F3]  my-2"
                   type="radio"
                   value="Male"
                   checked={gender === 1}
@@ -104,9 +122,9 @@ const Register = () => {
                 Male
               </label>
               <label className=" flex text-base-content">
-                {" "}
                 <input
-                  className="  text-[#121212] lg:m-2 my-2  mx-3  lg:w-2/3"
+                  className=" bg-[#F3F3F3]  text-[#121212] lg:m-2 my-2 "
+                  name="gender"
                   type="radio"
                   value="Female"
                   checked={gender === 0}
@@ -115,17 +133,23 @@ const Register = () => {
                 Female
               </label>
             </div>
-            <label htmlFor="number" className="text-base-content">
-              Number:{" "}
+            <label
+              htmlFor="number"
+              className="text-base-content"
+            >
+              Number:
             </label>
             <input
-              className="p-3 lg:m-2 my-2 w-screen lg:w-2/3"
+              className="bg-[#F3F3F3] p-3  my-2 "
               placeholder="Enter phone number"
               type="number"
               value={number}
               onChange={(e) => setNumber(parseInt(e.target.value))}
             />
-            <label htmlFor="email" className="text-base-content">
+            <label
+              htmlFor="email"
+              className="text-base-content"
+            >
               Email:{" "}
             </label>
             <input
@@ -134,7 +158,7 @@ const Register = () => {
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               placeholder="react@example.com"
-              className="p-3 lg:m-2 my-2 w-screen lg:w-2/3"
+              className=" bg-[#F3F3F3] p-3  my-2 "
             />
             <Button
               name={isLoading ? "Loading" : "Sign up"}
@@ -150,15 +174,24 @@ const Register = () => {
             </button> */}
 
             {isSuccess && (
-              <div>
-                Successfully signed you up!
-                <div>
-                  <a href={`https://sepolia.etherscan.io/tx/${data?.hash}`}>
-                    Etherscan
-                  </a>
+              <div className="toast toast-end toast-top">
+                <div className="alert alert-info">
+                  Successfully signed you up!{" "}
+                  <a
+                    href={`https://sepolia.etherscan.io/tx/${data?.hash}`}
+                    className="text-xs"
+                  >
+                    view on Etherscan
+                  </a>{" "}
                 </div>
               </div>
             )}
+
+            {
+              <div>
+                <div></div>
+              </div>
+            }
           </form>
         </div>
         <div className="bg-gradient-to-t from-[#CBE5D8] to-[#FFFFFF] dark:bg-gradient-to-t dark:from-yellow-500/10 dark:to-emerald-500/40 w-1/2 px-16 hidden lg:block dark:bg-transparent">

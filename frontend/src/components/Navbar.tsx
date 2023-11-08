@@ -18,7 +18,7 @@ const Navbar = () => {
         type="checkbox"
         className="drawer-toggle"
       />
-      <div className="drawer-content">
+      <div className="drawer-content w-full">
         {/* Page content here */}
 
         <div className="navbar bg-base-100">
@@ -34,11 +34,11 @@ const Navbar = () => {
           </div>
           <label
             htmlFor="my-drawer-4"
-            className=" navbar-end  drawer-button btn lg:hidden"
+            className=" navbar-end  drawer-button btn md:hidden lg:hidden"
           >
             MENU
           </label>
-          <div className={"navbar-end gap-8"}>
+          <div className="navbar-end gap-8 ">
             <WasteWise />
             {isConnected && <SignUpButton />}
           </div>
