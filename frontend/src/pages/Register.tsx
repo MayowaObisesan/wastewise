@@ -168,14 +168,14 @@ const Register = () => {
             )}
           </form>
         </div>
-        <div className="bg-gradient-to-t from-[#CBE5D8] to-[#FFFFFF] w-1/2 px-16 hidden lg:block">
+        <div className="bg-gradient-to-t from-[#CBE5D8] to-[#FFFFFF] dark:bg-gradient-to-t dark:from-yellow-500/10 dark:to-emerald-500/40 w-1/2 px-16 hidden lg:block dark:bg-transparent">
           <h1
-            className="text-[#02582E] text-2xl font-extrabold mb-3
+            className="light:text-[#02582E] text-2xl font-extrabold mb-3
 "
           >
             Register an Account
           </h1>
-          <p className="text-xl font-normal text-[#02582E]">
+          <p className="text-xl font-normal light:text-[#02582E] ">
             Register an account as an individual or business to access all the
             feature of Carus. Join our community who are making a difference for
             our planet. It’s quick, easy and free!
