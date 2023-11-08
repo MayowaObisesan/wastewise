@@ -60,125 +60,18 @@ const Marketplace = (props: Props) => {
   return (
     <div className="my-8">
       <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-<<<<<<< HEAD
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
-          <figure>
-            <img src={image1} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Merchandise Drop
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              {/* <button className="btn text-base-content bg-[#026937]">
-                Pay Now
-              </button> */}
-              <Button name="Pay Now" />
-              <h3 className="font-bold text-lg">
-                5.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
-          <figure>
-            <img src={image2} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Web3 Conference
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <Button name="Pay Now" />
-              <h3 className="font-bold text-lg">
-                10.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
-          <figure>
-            <img src={image3} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              INTMAX Buffer
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <Button name="Pay now" />
-              <h3 className="font-bold text-lg">
-                2.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
-          <figure>
-            <img src={image4} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Base Street Party
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <Button name="Pay now" />
-              <h3 className="font-bold text-lg">
-                1.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
-          <figure>
-            <img src={image5} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Solana Tradefair
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <Button name="Pay now" />
-              <h3 className="font-bold text-lg">
-                3.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-200 shadow-xl">
-          <figure>
-            <img src={image1} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Merchandise Drop
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <Button name="Pay now" />
-              <h3 className="font-bold text-lg">
-                5.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-=======
         {listings.map((item, index) => {
           return (
-            <Link to={`event/${index + 1}`} key={index}>
+            <Link
+              to={`event/${index + 1}`}
+              key={index}
+            >
               <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
                 <figure>
-                  <img src={item.image} alt="Shoes" />
+                  <img
+                    src={item.image}
+                    alt="Shoes"
+                  />
                 </figure>
                 <div className="card-body">
                   <h2 className="card-title">
@@ -188,7 +81,7 @@ const Marketplace = (props: Props) => {
                   <p>{item.description}</p>
                   <p>Ends: {formatDate(Number(item.deadline))}</p>
                   <div className="card-actions justify-between items-center mt-3">
-                     <Button name="Pay Now" />
+                    <Button name="Pay Now" />
                     <h3 className="font-bold text-lg">
                       {formatUnits(item.price, 18)} <span>CHIX</span>
                     </h3>
@@ -198,7 +91,6 @@ const Marketplace = (props: Props) => {
             </Link>
           );
         })}
->>>>>>> dev
       </div>
     </div>
   );
