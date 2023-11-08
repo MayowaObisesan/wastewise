@@ -15,7 +15,7 @@ contract MarketPlace {
         uint256 deadline; 
         address lister; 
         bool isActive; 
-        uint256 itemId; 
+        uint256 itemId;
     }
 
     /// @dev Mapping to store item information by their unique listing ID.
@@ -44,7 +44,6 @@ contract MarketPlace {
     RwasteWise rwasteWise;
 
     constructor(address tokenAddress) {
-        admin = msg.sender;
         rwasteWise = RwasteWise(tokenAddress);
     }
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity 0.8.19;
 import {RwasteWise} from "./RwasteWise.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -19,6 +19,7 @@ contract WasteWise {
         uint timeJoined;
         address referral;
         uint tokenQty;
+        bool isAdmin; 
     }
 
     enum Gender {
@@ -73,16 +74,17 @@ contract WasteWise {
         Gender gender
     );
 
-    constructor(address tokenAddress) {
+    event AdminSeeded(address adminAddress);
+
+    constructor(address tokenAddress, address[] memory _admins) {
         rwasteWise = RwasteWise(tokenAddress);
+        // Set each address in _admins as an admin
+        for (uint i = 0; i < _admins.length; i++) {
+        User storage user = UserMap[_admins[i]];
+        user.isAdmin = true;
+    }
     }
 
-    /// @dev Create a new user account.
-    /// @param _name The user's name.
-    /// @param _country The user's country.
-    /// @param _gender The user's gender (0 for Female, 1 for Male).
-    /// @param _phone The user's phone number.
-    /// @param _email The user's email address.
 
     function createUserAcct(
         string memory _name,
