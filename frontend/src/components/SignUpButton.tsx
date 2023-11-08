@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAccount, useContractRead } from "wagmi";
-import wastewiseABi from "../../public/WasteWise.json";
+import { WasteWiseABI, WasteWise_ADDRESS } from "../../constants";
 const SignUpButton = () => {
   const { address, isConnected } = useAccount();
 
   const { data } = useContractRead({
-    address: "0x283486bBD8aD32cd437249e048a464e14b6ff8dA",
-    abi: wastewiseABi,
+    address: WasteWise_ADDRESS,
+    abi: WasteWiseABI,
     functionName: "getAllUsers",
   });
 
