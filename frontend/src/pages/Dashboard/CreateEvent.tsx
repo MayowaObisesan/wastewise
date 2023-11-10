@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
-import { Connect } from "../../components/Connect";
 import { useNavigate } from "react-router-dom";
-import { MARKETPLACE_ABI } from "../../utils";
+import {
+  MARKETPLACE_ABI,
+  MARKETPLACE_ADDRESS,
+  pinFileToIPFS,
+} from "../../utils";
 
 type Props = {};
 
@@ -14,43 +16,7 @@ const CreateEvent = (props: Props) => {
   const [image, setImage] = useState<string>("");
   const [price, setPrice] = useState<number>(0);
   const [deadline, setDeadline] = useState<number>(0);
-  const [event, setEvent] = useState({
-    name: "",
-    description: "",
-    image: "",
-    price: 0,
-    deadline: 0,
-  });
   const [loading, setLoading] = useState<boolean>(false);
-
-  const pinFileToIPFS = async (files: any) => {
-    try {
-      let data = new FormData();
-      data.append("file", files[0]);
-      data.append("pinataOptions", '{"cidVersion": 0}');
-      data.append("pinataMetadata", '{"name": "seda"}');
-
-      const res = await axios.post(
-        "https://api.pinata.cloud/pinning/pinFileToIPFS",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_PINATA_JWT}`,
-          },
-        }
-      );
-      console.log(res.data);
-      console.log(
-        `View the file here: https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`
-      );
-      return `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const handleImage = (e: any) => {
-    console.log(e.target.files);
-  };
 
   const toTimeStamp = (strDate: string) => {
     const dt = Date.parse(strDate);
@@ -66,42 +32,35 @@ const CreateEvent = (props: Props) => {
   };
 
   const { write, isLoading, data } = useContractWrite({
-    address: "0x1CC3c9Aa0D707819b24F9465438d6a80d44F401b",
+    address: MARKETPLACE_ADDRESS,
     abi: MARKETPLACE_ABI,
     functionName: "createListing",
     args: [name, description, image, price, deadline],
     onError() {
-      setLoading(!loading);
+      setLoading(false);
     },
   });
 
-  const waitForTransaction = useWaitForTransaction({
+  useWaitForTransaction({
     hash: data?.hash,
     onSettled(data, error) {
       if (data?.blockHash) {
-        setLoading(!loading);
+        setLoading(false);
         navigate("/dashboard/marketplace");
       }
     },
   });
 
   useEffect(() => {
-    console.log(image);
     if (image != "") {
       write?.();
     }
   }, [image, name, description, deadline, price]);
 
-  const { address } = useAccount();
-
   const navigate = useNavigate();
 
   return (
     <div className="mb-8">
-      <div>
-        <Connect />
-        <p>{address}</p>
-      </div>
       <div className="card w-[95%] mx-auto bg-base-100 shadow-xl lg:shadow-2xl pt-4">
         <h3 className="uppercase text-xl text-center font-bold">
           Post your event

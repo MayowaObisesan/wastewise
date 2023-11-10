@@ -15,14 +15,13 @@ contract MarketPlace {
         uint256 price; 
         uint256 deadline; 
         address lister; 
-        bool isActive; 
         uint256 itemId;
     }
 
      struct Transaction {
         uint date;
         Type typeOfTransaction;
-        uint NumberOfTokens;
+        uint amountOfTokens;
     }
 
     enum Type {
@@ -62,7 +61,7 @@ contract MarketPlace {
         rwasteWise = RwasteWise(tokenAddress);
     }
     
-    function createListing(string calldata _name, string calldata _description, string calldata _image, uint _price, uint _deadline) public returns (uint256 _listingId) {
+    function createListing(string calldata _name, string calldata _description, string calldata _image, uint _price, uint _deadline) public {
         if (_price < 0.01 ether) revert MinPriceTooLow(); 
         if (block.timestamp + _deadline <= block.timestamp) revert DeadlineTooSoon(); 
         if (_deadline - block.timestamp < 60 minutes) revert MinDurationNotMet(); 
@@ -77,9 +76,7 @@ contract MarketPlace {
         newItemInfo.price = _price;
         newItemInfo.deadline = _deadline;
         newItemInfo.lister = msg.sender;
-        newItemInfo.isActive = true;
-        _listingId = listingId;
-        return listingId;
+        newItemInfo.itemId = listingId;
     }
 
     /// @dev Redeem receipt tokens for a transaction.
@@ -87,41 +84,29 @@ contract MarketPlace {
 
     /// @dev Buy an item from the marketplace.
     /// @param _listingId The unique identifier of the item listing to buy.
-    function buyListing(uint256 _listingId) public payable{
-        if(IitemInfoToId[_listingId] != listingId) revert ListingDoesNotExist();
+    function buyListing(uint256 _listingId,uint256 _amountToPay) public{
+        // if(itemInfoToId[_listingId] != listingId) revert ListingDoesNotExist();
 
         // Get the Listing
         ItemInfo storage item = itemInfoToId[_listingId];
 
         // Check if the listing is active
-        if(!item.isActive) revert ListingNotActive();
+        if(block.timestamp > item.deadline) revert ListingNotActive();
 
-            // Check if the price is met
-        if(msg.value < item.price) revert PriceNotMet(int256(item.price - msg.value));
+            // Check if the price matches
+        if(_amountToPay != item.price) revert PriceMismatch(item.price);
 
-        // Calculate the difference between the sent value and the item price
-        int256 priceDifference = int256(msg.value) - int256(itemInfo.price);
+        // transfer tokens from buyer to seller
+        rwasteWise.transferFrom(msg.sender, address(this), _amountToPay);
 
-        // If the sent value is higher than the item price, refund the excess amount
-        if (priceDifference > 0) {
-        payable(msg.sender).transfer(uint256(priceDifference));
-        }
-     
-
-        // Update the listing to be inactive
-        item.isActive = false;
-
-        // Transfer the item from the seller to the buyer
-        rwasteWise.transferFrom(item.lister, msg.sender, _listingId);
-
-        // pay the seller
-        payable(item.lister).transfer(msg.value);
+        // burn the tokens collected
+        rwasteWise.burnReceipt(address(this), _amountToPay);
 
         // Create a new transaction
         Transaction memory transaction;
         transaction.date = block.timestamp;
         transaction.typeOfTransaction = Type.Purchase;
-        transaction.NumberOfTokens = 1;
+        transaction.amountOfTokens = _amountToPay;
 
         // Store the transaction
         transactions[msg.sender] = transaction;
@@ -133,20 +118,17 @@ contract MarketPlace {
     /// @param _description New description of the item.
     /// @param _listingId The unique identifier of the item listing to update.
     /// @param _newPrice New price for the item.
-    /// @param _isActive Flag to indicate if the listing is active.
     function updateListing(
         string calldata _name,
         string calldata _description,
         uint256 _listingId,
-        uint256 _newPrice,
-        bool _isActive
+        uint256 _newPrice
     ) public {
         // if(listingId[_listingId] == 0) revert ListingDoesNotExist();
         ItemInfo storage itemInfo = itemInfoToId[_listingId];
         itemInfo.name = _name;
         itemInfo.description = _description;
         itemInfo.price = _newPrice;
-        itemInfo.isActive = _isActive;
     }
 
     /// @dev Get information about an item listing by its unique identifier.
@@ -162,6 +144,26 @@ contract MarketPlace {
             allItemInfo[i] = itemInfoToId[i + 1];
         }
         return allItemInfo;
+    }
+
+    function getAllActiveItemInfo() private view returns(ItemInfo[] memory){
+        uint activeItemsLength;
+        for(uint i = 0; i < listingId; i++){
+             ItemInfo memory itemInfo = itemInfoToId[i + 1];
+             if(block.timestamp < itemInfo.deadline){
+                activeItemsLength++;
+             }
+        }
+        ItemInfo[] memory allActiveItemInfo = new ItemInfo[](activeItemsLength);
+        uint index;
+        for(uint i = 0; i < listingId; i++){
+             ItemInfo memory itemInfo = itemInfoToId[i + 1];
+             if(block.timestamp < itemInfo.deadline){
+                allActiveItemInfo[index] = itemInfoToId[i + 1];
+                index++;
+             }
+        }
+        return allActiveItemInfo;
     }
 }
 
