@@ -1,4 +1,14 @@
 import "./index.css";
+
+import { Account } from "./components/Account";
+import { Connect } from "./components/Connect";
+import { ERC20 } from "./components/ERC20";
+import { NetworkSwitcher } from "./components/NetworkSwitcher";
+
+import Navbar from "./components/Navbar";
+
+import Reward from "./components/Reward";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./pages/Dashboard/Layout";
 import Landing from "./pages/Landing";

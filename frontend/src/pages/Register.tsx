@@ -98,10 +98,7 @@ const Register = () => {
             className="flex flex-col"
             action=""
             id="signup-form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              write?.();
-            }}
+            onSubmit={handleSubmit}
           >
             {/* <label htmlFor="Name" className="text-base-content">
               {" "}

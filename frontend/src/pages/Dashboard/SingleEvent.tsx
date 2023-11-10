@@ -1,74 +1,130 @@
-import { useState } from "react";
-import { useContractRead } from "wagmi";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  useContractRead,
+  useContractWrite,
+  usePrepareContractWrite,
+  useWaitForTransaction,
+} from "wagmi";
+import { useNavigate, useParams } from "react-router-dom";
 import { formatUnits } from "viem";
-import { MARKETPLACE_ABI, MARKETPLACE_ADDRESS } from "../../utils";
+import {
+  MARKETPLACE_ABI,
+  MARKETPLACE_ADDRESS,
+  RWASTEWISE_ABI,
+  RWASTEWISE_ADDRESS,
+  formatDate,
+} from "../../utils";
 
 const SingleEvent = () => {
   let { id } = useParams();
-  const [listing, setListing] = useState([]);
-  const formatDate = (time: number) => {
-    // Convert the timestamp to milliseconds by multiplying it by 1000
-    const date = new Date(time * 1000);
-
-    // Get the year, month, and day components
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Months are zero-based, so add 1 to get the correct month
-    const day = date.getDate();
-    const hrs = date.getHours();
-    const mins = date.getMinutes();
-
-    // Create an array of month names to map the numeric month to its name
-    const monthNames = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    // Get the month name using the month value as an index in the monthNames array
-    const monthName = monthNames[month - 1];
-
-    const formattedDate = `${monthName} ${day}, ${year} ${hrs}:${mins}`;
-
-    return formattedDate;
-  };
-  const { data, isError, isLoading } = useContractRead({
-    // address: "0xAe2C0C62fd49Bb4D641d2f7913EEF3f457A60692",
+  const [listing, setListing] = useState(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [disablePay, setDisablePay] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { isLoading } = useContractRead({
     address: MARKETPLACE_ADDRESS,
     abi: MARKETPLACE_ABI,
     functionName: "getItemInfo",
     args: [id],
-    onSuccess(data) {
+    onError(data: any) {
+      console.log(data);
+    },
+    onSuccess(data: any) {
       setListing(data);
+      setLoading(false);
+    },
+  });
+
+  const handleDisable = () => {
+    let dateNow = Math.floor(Date.now() / 1000);
+    if (listing?.deadline < dateNow) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const { config: buyListingConfig } = usePrepareContractWrite({
+    address: MARKETPLACE_ADDRESS,
+    abi: MARKETPLACE_ABI,
+    functionName: "buyListing",
+    args: [listing?.itemId, listing?.price],
+    onError(data: any) {
       console.log(data);
     },
   });
+  const { data: payData, write } = useContractWrite(buyListingConfig);
+
+  const { config: approveListing } = usePrepareContractWrite({
+    address: RWASTEWISE_ADDRESS,
+    abi: RWASTEWISE_ABI,
+    functionName: "approve",
+    args: [MARKETPLACE_ADDRESS, listing?.price],
+    onError(data: any) {
+      console.log(data);
+    },
+  });
+  const { data: approveData, write: write2 } = useContractWrite(approveListing);
+
+  useWaitForTransaction({
+    hash: approveData?.hash,
+    onSettled(data, error) {
+      if (data?.blockHash) {
+        console.log("he don enter");
+        write?.();
+      }
+    },
+  });
+  useWaitForTransaction({
+    hash: payData?.hash,
+    onSettled(data, error) {
+      if (data?.blockHash) {
+        setLoading(false);
+        navigate("/dashboard/marketplace");
+      }
+    },
+  });
+  const handlePay = async () => {
+    setLoading(true);
+    console.log(true);
+    write2?.();
+  };
+
+  useEffect(() => {
+    if (isLoading) {
+      setLoading(true);
+    }
+  }, []);
+
   return (
     <div className="mb-8">
       <div className="card mb-5 w-[95%] max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl mx-auto bg-base-100 shadow-xl lg:shadow-2xl pt-4">
         <figure>
-          <img src={data?.image} alt="Shoes" />
+          <img src={listing?.image} alt="Shoes" />
         </figure>
         <div className="card-body">
           <h2 className="card-title">
-            {data?.name}
+            {listing?.name}
             <div className="badge badge-secondary">NEW</div>
           </h2>
-          <p>{data?.description}</p>
-          <p>Ends: {formatDate(Number(data?.deadline))}</p>
+          <p>{listing?.description}</p>
+          <p>Ends: {formatDate(Number(listing?.deadline))}</p>
           <div className="card-actions justify-between items-center mt-3">
-            <button className="btn btn-primary">Pay Now</button>
+            <button
+              className="btn btn-primary"
+              onClick={handlePay}
+              disabled={handleDisable()}
+            >
+              {loading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : disablePay ? (
+                "Expired"
+              ) : (
+                "Pay Now"
+              )}
+            </button>
             <h3 className="font-bold text-lg">
-              {data ? formatUnits(data?.price, 18) : ""} <span>CHIX</span>
+              {listing ? formatUnits(listing?.price, 18) : ""} <span>CHIX</span>
             </h3>
           </div>
         </div>

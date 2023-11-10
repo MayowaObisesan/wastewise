@@ -76,7 +76,6 @@ const WastewiseProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    console.log(data);
     setIsRegistered(Number(data?.userAddr) !== 0);
     setCurrentUser(data);
     return () => {};
