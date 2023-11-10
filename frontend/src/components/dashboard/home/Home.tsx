@@ -1,4 +1,3 @@
-import React from "react";
 import {
   community,
   donate,
@@ -9,13 +8,37 @@ import {
 } from "../../../assets";
 import EIACard from "./EIACard";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
+import { useWasteWiseContext } from "../../../context";
+import useNotificationCount from "../../../hooks/useNotificationCount";
+import NotificationCard from "../../NotificationCard";
+import { ToastElem } from "../../../utils";
 
 type Props = {};
 
 const Home = (props: Props) => {
+  const { wastewiseStore, notifCount, notifications, setNotifCount } =
+    useWasteWiseContext();
+  const { notificationCount } = useNotificationCount();
+
+  const handleCreateToast = () => {
+    // ToastElem({
+    //   message: "Registration successful",
+    //   toastType: "success",
+    // });
+  };
+
   return (
-    <div className="flex flex-row mt-6 gap-10 mx-6">
+    <div className="flex flex-row mt-6 mx-6 w-full">
       <section>
+        <button onClick={handleCreateToast}>Give me a toast</button>
+        <div className="space-y-2">
+          {notifications.map((eachNotification: any) => (
+            <div className="flex flex-col space-y-6 gap-y-2">
+              <NotificationCard {...eachNotification} />
+            </div>
+          ))}
+        </div>
         <img src={recycle} alt="recycle-Icon" />
 
         <div className="mt-10">

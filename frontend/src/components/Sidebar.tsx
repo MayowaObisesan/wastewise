@@ -163,13 +163,21 @@ const Sidebar = (props: Props) => {
         </ul>
       </article>
 
-      <button
+      {/* <button
         type={"button"}
         className="relative h-32 px-8 flex flex-row gap-2 text-lg items-center rounded-lg hover:bg-base-300 transition-all delay-400"
       >
-        <img src={logout} alt="logout-Icon" />
-        <h2 className="text-[#6D6D6D]">Logout</h2>
-      </button>
+        <h2 className="text-[#6D6D6D]">
+          v1.0.0&copy; {new Date().getFullYear()}
+        </h2>
+      </button> */}
+      <div className="relative w-full px-8 my-8 flex flex-row gap-2 text-base items-center rounded-lg transition-all delay-400">
+        <div className="grid flex-grow place-items-center">v1.0.0</div>
+        <div className="divider divider-horizontal"></div>
+        <div className="grid flex-grow place-items-center">
+          &copy; {new Date().getFullYear()}
+        </div>
+      </div>
     </div>
   );
 };
