@@ -5,17 +5,20 @@ import localforage from "localforage";
 import { WasteWise_ADDRESS, WasteWiseABI } from "../../../constants/index";
 
 import {
+  useAccount,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../../utils";
 
 const Recycle = () => {
+  const { address } = useAccount();
   const [numPlastic, setNumPlastic] = useState<number>();
 
   const { config: depositPlasticConfig } = usePrepareContractWrite({
-    address: WasteWise_ADDRESS,
-    abi: WasteWiseABI,
+    address: WASTEWISE_ADDRESS,
+    abi: WASTEWISE_ABI,
     functionName: "depositPlastic",
     args: [numPlastic],
   });
@@ -41,7 +44,7 @@ const Recycle = () => {
 
   const handleDepositPlastic = async (e: any) => {
     e.preventDefault();
-
+    console.log(true);
     depositPlasticWrite?.();
   };
 

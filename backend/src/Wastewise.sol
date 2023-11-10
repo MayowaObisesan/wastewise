@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.19;
+pragma solidity ^0.8.19;
 import {RwasteWise} from "./RwasteWise.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
@@ -98,7 +98,6 @@ contract WasteWise {
     }
     }
 
-
     function createUserAcct(
         string memory _name,
         string memory _country,
@@ -163,7 +162,7 @@ contract WasteWise {
     user.tokenQty = user.tokenQty + _qtyrecycled;
 
     // Mint receiptTokens of the same amount, `_qtyrecycled`, to the user upon successful recycling
-    rwasteWise.mintReceipt(msg.sender, _qtyrecycled);
+    rwasteWise.mintReceipt(msg.sender, _qtyrecycled * 10 ** 18);
 
     emit PlasticDeposited(
         msg.sender,

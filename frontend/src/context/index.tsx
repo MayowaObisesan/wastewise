@@ -1,7 +1,7 @@
 import localforage from "localforage";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAccount, useContractRead } from "wagmi";
-import { WASTEWISE_ABI } from "../utils";
+import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../utils";
 
 type contextType = {
   wastewiseStore: any;
@@ -21,14 +21,13 @@ const WastewiseProvider = ({ children }) => {
   });
 
   const { data } = useContractRead({
-    address: "0x283486bBD8aD32cd437249e048a464e14b6ff8dA",
+    address: WASTEWISE_ADDRESS,
     abi: WASTEWISE_ABI,
     functionName: "getUser",
     account: address,
   });
 
   useEffect(() => {
-    console.log(data);
     setIsRegistered(Number(data?.userAddr) !== 0);
     setCurrentUser(data);
     return () => {};
