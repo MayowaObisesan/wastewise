@@ -10,18 +10,23 @@ import {
   useAccount,
 } from "wagmi";
 
-// import wastewiseABi from "../utils/abi/WasteWise.json";
 import { WasteWise } from "../components/WasteWise";
 import Button from "../components/Button";
 import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../utils";
+import { useWasteWiseContext } from "../context";
+import { toast } from "sonner";
+import SignUpButton from "../components/SignUpButton";
+import { Link } from "react-router-dom";
+import Logo from "../components/Logo";
 
 const Register = () => {
-  const { address } = useAccount();
-  const [number, setNumber] = useState(0);
+  const { address, isConnected } = useAccount();
+  const [number, setNumber] = useState();
   const [country, setCountry] = useState("");
   const [gender, setGender] = useState(1);
-  const [name, setName] = useState("Bilibaby");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const { currentUser } = useWasteWiseContext();
 
   const { config } = usePrepareContractWrite({
     address: WASTEWISE_ADDRESS,
@@ -36,9 +41,9 @@ const Register = () => {
   });
 
   const handleGenderChange = (event: any) => {
-    if (event.target.value === "Female") {
+    if (event.target.value === "female") {
       setGender(0);
-    } else if (event.target.value === "Male") {
+    } else if (event.target.value === "male") {
       setGender(1);
     }
   };
@@ -52,11 +57,37 @@ const Register = () => {
 
   return (
     <>
-      <div className="flex justify-between lg:mx-7 my-5">
-        {" "}
-        <img className="m-4" src={CaurusImg} alt="" />
-        <WasteWise />
-      </div>
+      <section className="sticky top-0 z-10 px-8 py-4 bg-transparent backdrop-blur-3xl">
+        <div className="navbar bg-base-200 w-full mx-auto rounded-2xl">
+          <div className="navbar-start flex-1">
+            <Logo />
+          </div>
+          <div className={"navbar-end gap-8"}>
+            <div className="flex-none">
+              <ul className="menu menu-horizontal px-1">
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+                {/* <li>
+                  <details>
+                    <summary>Parent</summary>
+                    <ul className="p-2 bg-base-100">
+                      <li>
+                        <a>Link</a>
+                      </li>
+                      <li>
+                        <a>Link 2</a>
+                      </li>
+                    </ul>
+                  </details>
+                </li> */}
+              </ul>
+            </div>
+            <WasteWise />
+            {isConnected && <SignUpButton />}
+          </div>
+        </div>
+      </section>
 
       <div className="flex h-screen">
         <div className="lg:w-1/2 lg:mx-28 mx-1 lg:pl-8 ">
@@ -69,7 +100,7 @@ const Register = () => {
             id="signup-form"
             onSubmit={handleSubmit}
           >
-            <label htmlFor="Name" className="text-base-content">
+            {/* <label htmlFor="Name" className="text-base-content">
               {" "}
               Name:{" "}
             </label>
@@ -80,8 +111,79 @@ const Register = () => {
               onChange={(e) => setName(e.target.value)}
               placeholder="John"
               value={name}
-            />
-            <label htmlFor="country" className="text-base-content">
+            /> */}
+            <div className="form-control w-full my-4">
+              <label className="label">
+                <span className="label-text">Nickname</span>
+                {/* <span className="label-text-alt">Top Right label</span> */}
+              </label>
+              <input
+                type="text"
+                name="Name"
+                placeholder="What can we call you"
+                className="input input-bordered w-full"
+                defaultValue={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {/* Nickname can only be strings and numbers */}
+                </span>
+                {/* <span className="label-text-alt">Bottom Right label</span> */}
+              </label>
+            </div>
+
+            {/* Email form input */}
+            <div className="form-control w-full my-4">
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
+              <input
+                type="text"
+                placeholder="your@email.com"
+                className="input input-bordered w-full"
+                defaultValue={currentUser?.email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  Invalid Email Address
+                </span>
+              </label>
+            </div>
+
+            {/* Phone Number form input */}
+            <div className="form-control w-full my-4">
+              <label className="label">
+                <span className="label-text">Phone number</span>
+              </label>
+              <div className="join">
+                <CountryDropdown
+                  value={country}
+                  // defaultOptionLabel="---"
+                  onChange={(val) => selectCountry(val)}
+                  className="select select-bordered join-item bg-base-200 focus:outline-0 focus:bg-base-300"
+                />
+                <div className="form-control w-full">
+                  <div>
+                    <input
+                      type="text"
+                      className="input input-bordered join-item w-full focus:outline-0 focus:bg-base-100"
+                      placeholder="+234 913 158 1488"
+                      defaultValue={number}
+                      onChange={(e) => setNumber(parseInt(e.target.value))}
+                    />
+                  </div>
+                </div>
+              </div>
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {/* Invalid Phone number */}
+                </span>
+              </label>
+            </div>
+
+            {/* <label htmlFor="country" className="text-base-content">
               Country:{" "}
             </label>
             <CountryDropdown
@@ -111,8 +213,34 @@ const Register = () => {
                 />
                 Female
               </label>
+            </div> */}
+
+            {/* Gender Form input */}
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Select Gender</span>
+                {/* <span className="label-text-alt">Alt label</span> */}
+              </label>
+              <div className="join">
+                {["female", "male"].map((eachGender) => (
+                  <input
+                    className="join-item btn checked:bg-success flex-1"
+                    type="radio"
+                    name="options"
+                    value={eachGender}
+                    aria-label={eachGender}
+                    onChange={handleGenderChange}
+                  />
+                ))}
+              </div>
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {/* Invalid Email Address */}
+                </span>
+              </label>
             </div>
-            <label htmlFor="number" className="text-base-content">
+
+            {/* <label htmlFor="number" className="text-base-content">
               Number:{" "}
             </label>
             <input
@@ -121,8 +249,9 @@ const Register = () => {
               type="number"
               value={number}
               onChange={(e) => setNumber(parseInt(e.target.value))}
-            />
-            <label htmlFor="email" className="text-base-content">
+            /> */}
+
+            {/* <label htmlFor="email" className="text-base-content">
               Email:{" "}
             </label>
             <input
@@ -132,12 +261,25 @@ const Register = () => {
               value={email}
               placeholder="react@example.com"
               className="p-3 lg:m-2 my-2 w-screen lg:w-2/3"
-            />
-            <Button
+            /> */}
+            {/* <Button
               name={isLoading ? "Loading" : "Sign up"}
               disabled={!write || isLoading}
               onClick={handleSubmit}
-            />
+            /> */}
+
+            {/* Submit button */}
+            <div className="form-control px-4 py-8 mx-auto">
+              <Button
+                name={isLoading ? "Loading" : "Sign up"}
+                size="btn btn-block lg:btn-wide"
+                disabled={!write || isLoading}
+                onClick={handleSubmit}
+              >
+                {/* <span className="loading"></span> */}
+              </Button>
+            </div>
+
             {/* <button
               className="btn btn-success"
               onClick={handleSubmit}
@@ -151,7 +293,7 @@ const Register = () => {
                 Successfully signed you up!
                 <div>
                   <a href={`https://sepolia.etherscan.io/tx/${data?.hash}`}>
-                    Etherscan
+                    Confirm your transaction on Etherscan
                   </a>
                 </div>
               </div>

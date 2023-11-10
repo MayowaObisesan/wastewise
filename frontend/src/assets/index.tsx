@@ -9,6 +9,9 @@ import donate from "./donate.svg";
 import recycleWaste from "./recycleWaste.svg";
 import redeem from "./redeem.svg";
 import community from "./community.svg";
+import tr1 from "./transparent_recycle1.png";
+import tr1hd from "./transparent_recycle1_hd.png";
+import tr2 from "./transparent_recycle2.png";
 
 export {
   profileAvatar,
@@ -22,4 +25,7 @@ export {
   donate,
   redeem,
   community,
+  tr1,
+  tr1hd,
+  tr2,
 };

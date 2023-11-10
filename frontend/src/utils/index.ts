@@ -1,5 +1,8 @@
 import wastewiseAbi from "../utils/abi/WasteWise.json";
 import marketplaceAbi from "../utils/abi/Marketplace.json";
+import { useWasteWiseContext } from "../context";
+import { toast } from "sonner";
+import useNotificationCount from "../hooks/useNotificationCount";
 import rwasteWiseAbi from "../utils/abi/RwasteWise.json";
 import axios from "axios";
 
@@ -14,8 +17,74 @@ export const MARKETPLACE_ABI = marketplaceAbi;
 export const RWASTEWISE_ABI = rwasteWiseAbi;
 
 export const shortenAddress = (addr: string) => {
-  return `${addr?.substring(0, 6)}...${addr?.substring(addr.length - 4)}`;
-};
+    return `${addr?.substring(0, 6)}...${addr?.substring(addr.length - 4)}`;
+}
+
+type toastProp = {
+    message: string;
+    toastType: "success" | "error" | "default";
+}
+
+export const ToastElem = (props: toastProp) => {
+    const { wastewiseStore, setNotifCount } = useWasteWiseContext();
+    const notificationCount = useNotificationCount();
+
+    if (props.toastType === "success") {
+        return (
+            toast.success(props.message, {
+                onAutoClose: (t) => {
+                    wastewiseStore
+                        .setItem(t.id.toString(), {
+                            id: t.id,
+                            title: t.title,
+                            datetime: new Date(),
+                            type: t.type,
+                        })
+                        .then(function (_) {
+                            setNotifCount(notificationCount);
+                        });
+                },
+            })
+        )
+    } else if (props.toastType === "error") {
+        return (
+            toast.error(props.message, {
+                onAutoClose: (t) => {
+                    wastewiseStore
+                        .setItem(t.id.toString(), {
+                            id: t.id,
+                            title: t.title,
+                            datetime: new Date(),
+                            type: t.type,
+                        })
+                        .then(function (_) {
+                            setNotifCount(notificationCount);
+                        });
+                },
+            })
+        )
+    } else {
+        return (
+            toast("My first toast", {
+                onAutoClose: (t) => {
+                    console.log(
+                        `Toast with id ${t.id} has been closed automatically`
+                    );
+                    wastewiseStore
+                        .setItem(t.id.toString(), {
+                            id: t.id,
+                            title: t.title,
+                            datetime: new Date(),
+                            type: t.type,
+                        })
+                        .then(function (_) {
+                            setNotifCount(notificationCount);
+                        });
+                },
+            })
+        );
+    }
+}
 
 export const formatDate = (time: number) => {
   // Convert the timestamp to milliseconds by multiplying it by 1000
