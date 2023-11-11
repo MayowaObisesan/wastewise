@@ -14,6 +14,7 @@ import {
 import { WasteWise } from "../components/WasteWise";
 import Button from "../components/Button";
 import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../utils";
+import Logo from "../components/Logo";
 
 const Register = () => {
   const { address } = useAccount();
@@ -54,7 +55,7 @@ const Register = () => {
     <>
       <div className="flex justify-between lg:mx-7 my-5">
         {" "}
-        <img className="m-4" src={CaurusImg} alt="" />
+        <Logo />
         <WasteWise />
       </div>
 
