@@ -11,8 +11,6 @@ contract WastewiseTest is Test {
 
     WasteWise.User user;
 
-    // WasteWise.Gender gender;
-
     function setUp() public {
         address[] memory testAddresses = new address[](2);
         testAddresses[0] = address(0x123);
@@ -44,9 +42,4 @@ contract WastewiseTest is Test {
         assertEq(wasteWise.getUser().timeJoined, block.timestamp);
         assertEq(wasteWise.getUser().isAdmin, false);
     }
-
-    // function testFuzz_SetNumber(uint256 x) public {
-    //     counter.setNumber(x);
-    //     assertEq(counter.number(), x);
-    // }
 }

@@ -19,7 +19,7 @@ contract WasteWise {
         uint timeJoined;
         address referral;
         uint tokenQty;
-        bool isAdmin; 
+        bool isAdmin;
     }
 
     struct Transaction {
@@ -93,9 +93,9 @@ contract WasteWise {
         rwasteWise = RwasteWise(tokenAddress);
         // Set each address in _admins as an admin
         for (uint i = 0; i < _admins.length; i++) {
-        User storage user = UserMap[_admins[i]];
-        user.isAdmin = true;
-    }
+            User storage user = UserMap[_admins[i]];
+            user.isAdmin = true;
+        }
     }
 
     function createUserAcct(
@@ -132,46 +132,44 @@ contract WasteWise {
         allUsers.push(user);
     }
 
-
     /// @dev Record a plastic recycling transaction for the user.
     /// @param _qtyrecycled The quantity of plastic recycled.
     function depositPlastic(uint _qtyrecycled) external {
-    User storage user = UserMap[msg.sender];
-    if (user.userAddr != msg.sender) {
-        revert UserAcctNotCreated();
+        User storage user = UserMap[msg.sender];
+        if (user.userAddr != msg.sender) {
+            revert UserAcctNotCreated();
+        }
+
+        if (_qtyrecycled == 0) revert ZeroAmountNotAllow();
+
+        // Create a new transaction
+        Transaction memory transaction;
+        transaction.date = block.timestamp;
+        transaction.typeOfTransaction = Type.Recycle;
+        transaction.NumberOfTokens = _qtyrecycled;
+
+        // Store the transaction for the user
+        transactions[msg.sender] = transaction;
+
+        // Create a new Recycled struct
+        Recycled memory recycled;
+        recycled.qtyRecycled = _qtyrecycled;
+        recycled.timeRecycled = block.timestamp;
+        RecycledMap[msg.sender].push(recycled);
+
+        // Update user TokenQty
+        user.tokenQty = user.tokenQty + _qtyrecycled;
+
+        // Mint receiptTokens of the same amount, `_qtyrecycled`, to the user upon successful recycling
+        rwasteWise.mintReceipt(msg.sender, _qtyrecycled * 10 ** 18);
+
+        emit PlasticDeposited(
+            msg.sender,
+            _qtyrecycled,
+            block.timestamp,
+            user.tokenQty
+        );
     }
-
-    if (_qtyrecycled == 0) revert ZeroAmountNotAllow();
-
-    // Create a new transaction
-    Transaction memory transaction;
-    transaction.date = block.timestamp;
-    transaction.typeOfTransaction = Type.Recycle;
-    transaction.NumberOfTokens = _qtyrecycled;
-
-    // Store the transaction for the user
-    transactions[msg.sender] = transaction;
-
-    // Create a new Recycled struct
-    Recycled memory recycled;
-    recycled.qtyRecycled = _qtyrecycled;
-    recycled.timeRecycled = block.timestamp;
-    RecycledMap[msg.sender].push(recycled);
-
-    // Update user TokenQty
-    user.tokenQty = user.tokenQty + _qtyrecycled;
-
-    // Mint receiptTokens of the same amount, `_qtyrecycled`, to the user upon successful recycling
-    rwasteWise.mintReceipt(msg.sender, _qtyrecycled * 10 ** 18);
-
-    emit PlasticDeposited(
-        msg.sender,
-        _qtyrecycled,
-        block.timestamp,
-        user.tokenQty
-    );
-}
-
 
     /// @dev Get all recycling transactions for the user.
     /// @return An array of recycling transactions for the user.
