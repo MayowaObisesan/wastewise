@@ -7,25 +7,39 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract WasteWise {
     RwasteWise rwasteWise; // An instance of RwasteWise contract.
 
+    enum Role {
+        ADMINS,
+        VERIFIERS,
+        USERS
+    }
+
     /// @dev Structure to represent a user in the system.
     struct User {
-        uint Id;
+        uint id;
         address userAddr;
         string name;
         string country;
         Gender gender;
-        uint phone_no;
+        uint phoneNo;
         string email;
         uint timeJoined;
         address referral;
         uint tokenQty;
         bool isAdmin;
+        Role role;
     }
 
     struct Transaction {
         uint date;
         Type typeOfTransaction;
-        uint NumberOfTokens;
+        uint numberOfTokens;
+        TxStatus status;
+    }
+
+    enum TxStatus {
+        PENDING,
+        APPROVED,
+        REJECTED
     }
 
     enum Gender {
@@ -47,12 +61,13 @@ contract WasteWise {
     /// @dev Mapping to track recycling transactions for each user.
     mapping(address => Recycled[]) RecycledMap;
 
-    mapping(address => Transaction) transactions;
+    mapping(address => Transaction[]) transactionsMap;
 
     /// @dev Mapping to store user data.
     mapping(address => User) public UserMap;
 
     User[] allUsers; // An array to store all user data.
+    User[] allAdmins; // An array to store all admins
     uint public userId; // A counter to track the number of users in the system.
 
     // Custom Errors
@@ -79,15 +94,33 @@ contract WasteWise {
         uint256 tokenQty
     );
 
-    event UserEditted(
+    event UserEdited(
         string name,
         string country,
         string email,
-        uint256 phone_no,
+        uint256 phoneNo,
         Gender gender
     );
 
     event AdminSeeded(address adminAddress);
+
+    // MODIFIERS
+    modifier onlyVerifiers() {
+        require(
+            UserMap[msg.sender].role == Role.VERIFIERS ||
+                UserMap[msg.sender].role == Role.ADMINS,
+            "Only the verifiers can call this function"
+        );
+        _;
+    }
+
+    modifier onlyAdmins() {
+        require(
+            UserMap[msg.sender].role == Role.ADMINS,
+            "Only the Admin can call this function"
+        );
+        _;
+    }
 
     constructor(address tokenAddress, address[] memory _admins) {
         rwasteWise = RwasteWise(tokenAddress);
@@ -110,12 +143,12 @@ contract WasteWise {
             revert UserAccountAlreadyExist();
         }
         User storage user = UserMap[msg.sender];
-        user.Id = userId;
+        user.id = userId;
         user.name = _name;
         user.userAddr = msg.sender;
         user.country = _country;
         user.gender = _gender;
-        user.phone_no = _phone;
+        user.phoneNo = _phone;
         user.email = _email;
         user.timeJoined = block.timestamp;
 
@@ -173,8 +206,27 @@ contract WasteWise {
 
     /// @dev Get all recycling transactions for the user.
     /// @return An array of recycling transactions for the user.
-    function getAllUserTransaction() public view returns (Recycled[] memory) {
+    function getUserRecycles() public view returns (Recycled[] memory) {
         return RecycledMap[msg.sender];
+    }
+
+    /// @dev Get all recycling transactions for the user.
+    /// @return An array of recycling transactions for the user.
+    function getAllUserRecycles() public view returns (Recycled[] memory) {
+        User[] memory _users = allUsers;
+        Recycled[] memory allRecycled;
+        for (uint i = 0; i < _users.length; ) {
+            // Recycled[] memory myRecycled = RecycledMap[_users[i].userAddr];
+            // for (uint j = 0; j < myRecycled.length; ) {
+            //     allRecycled.push(myRecycled[j]);
+            // }
+            // i++;
+        }
+        return allRecycled;
+    }
+
+    function getUserTransactions() public view returns (Transaction[] memory) {
+        return transactionsMap[msg.sender];
     }
 
     /// @dev Edit user information.
@@ -187,14 +239,14 @@ contract WasteWise {
         user.name = _user.name;
         user.country = _user.country;
         user.email = _user.email;
-        user.phone_no = _user.phone_no;
+        user.phoneNo = _user.phoneNo;
         user.gender = _user.gender;
 
-        emit UserEditted(
+        emit UserEdited(
             user.name,
             user.country,
             user.email,
-            user.phone_no,
+            user.phoneNo,
             user.gender
         );
     }
@@ -209,5 +261,21 @@ contract WasteWise {
     /// @return The user's data.
     function getUser() public view returns (User memory) {
         return UserMap[msg.sender];
+    }
+
+    function addAdmins(address _addr) public view onlyAdmin {
+        // TODO: Add address to admin array
+        // TODO: Must be approved by 2/3 of the admins
+    }
+
+    function approveNewAdmin(address _addr) public view onlyAdmin {
+        // TODO:Only admins can call this function.
+        // TODO: Check that the address to be called is added to the admin array
+        uint i;
+        for (i = 0; i < allAdmins; ) {
+            if (allAdmins[i] == _addr) {
+                // TODO: Increase the approval count for this address
+            }
+        }
     }
 }
