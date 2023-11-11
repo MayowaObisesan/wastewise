@@ -21,7 +21,7 @@ const Navbar = () => {
       <div className="drawer-content w-full">
         {/* Page content here */}
 
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-transparent">
           <div className="navbar-start">
             <Logo />
           </div>

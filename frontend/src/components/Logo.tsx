@@ -9,7 +9,7 @@ const Logo = (props: Props) => {
   return (
     <Link
       to="/"
-      className="btn btn-ghost btn-neutral normal-case text-xl font-bold px-1 hover:bg-transparent"
+      className="btn btn-ghost btn-neutral normal-case text-xl font-bold px-4 hover:bg-transparent"
     >
       <img src={logo} alt="" className="h-7" />
       {!props.hideText && (

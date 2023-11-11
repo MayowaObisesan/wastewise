@@ -1,6 +1,8 @@
 import Button from "../../components/Button";
 import { useWasteWiseContext } from "../../context";
 
+
+
 const Profile = () => {
   const { currentUser } = useWasteWiseContext();
 
