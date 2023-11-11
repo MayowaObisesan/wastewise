@@ -4,6 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {RwasteWise} from "./RwasteWise.sol";
+import {WasteWise} from "./Wastewise.sol";
 
 /// @title MarketPlace: A smart contract for managing item listings in a marketplace.
 contract MarketPlace {
@@ -56,9 +57,11 @@ contract MarketPlace {
     /* EVENTS */
 
     RwasteWise rwasteWise;
+    WasteWise wasteWise;
 
-    constructor(address tokenAddress) {
+    constructor(address tokenAddress, address wasteWiseAddr) {
         rwasteWise = RwasteWise(tokenAddress);
+        wasteWise = WasteWise(wasteWiseAddr);
     }
 
     function createListing(
@@ -68,6 +71,13 @@ contract MarketPlace {
         uint _price,
         uint _deadline
     ) public {
+        for (uint i = 0; i < wasteWise.allAdmins.length; i++) {
+            require(
+                wasteWise.allAdmins[i] == msg.sender,
+                "you are not admin, not authorised"
+            );
+        }
+
         if (_price < 0.01 ether) revert MinPriceTooLow();
         if (block.timestamp + _deadline <= block.timestamp)
             revert DeadlineTooSoon();
@@ -75,6 +85,7 @@ contract MarketPlace {
             revert MinDurationNotMet();
         if (keccak256(abi.encode(_image)) == keccak256(abi.encode("")))
             revert NoImageUrl();
+
         // Append item information to storage.
         // append to Storage
         listingId++;
