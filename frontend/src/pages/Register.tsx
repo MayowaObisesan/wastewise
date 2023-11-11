@@ -57,17 +57,6 @@ const Register = () => {
 
   return (
     <>
-<<<<<<< HEAD
-      <div className="flex justify-between lg:mx-7 my-5">
-        {" "}
-        <img
-          className="m-4"
-          src={CaurusImg}
-          alt=""
-        />
-        <WasteWise />
-      </div>
-=======
       <section className="sticky top-0 z-10 px-8 py-4 bg-transparent backdrop-blur-3xl">
         <div className="navbar bg-base-200 w-full mx-auto rounded-2xl">
           <div className="navbar-start flex-1">
@@ -99,7 +88,6 @@ const Register = () => {
           </div>
         </div>
       </section>
->>>>>>> 20c22db620cb40d0763d7f9f5adae089cabada36
 
       <div className="flex h-screen">
         <div className="lg:w-1/2 lg:pl-8 ">
@@ -112,14 +100,7 @@ const Register = () => {
             id="signup-form"
             onSubmit={handleSubmit}
           >
-<<<<<<< HEAD
-            <label
-              htmlFor="Name"
-              className="text-base-content"
-            >
-=======
             {/* <label htmlFor="Name" className="text-base-content">
->>>>>>> 20c22db620cb40d0763d7f9f5adae089cabada36
               {" "}
               Name:{" "}
             </label>
@@ -130,13 +111,6 @@ const Register = () => {
               onChange={(e) => setName(e.target.value)}
               placeholder="John"
               value={name}
-<<<<<<< HEAD
-            />
-            <label
-              htmlFor="country"
-              className="text-base-content"
-            >
-=======
             /> */}
             <div className="form-control w-full my-4">
               <label className="label">
@@ -210,7 +184,6 @@ const Register = () => {
             </div>
 
             {/* <label htmlFor="country" className="text-base-content">
->>>>>>> 20c22db620cb40d0763d7f9f5adae089cabada36
               Country:{" "}
             </label>
             <CountryDropdown
@@ -274,17 +247,9 @@ const Register = () => {
                 </span>
               </label>
             </div>
-<<<<<<< HEAD
-            <label
-              htmlFor="number"
-              className="text-base-content"
-            >
-              Number:
-=======
 
             {/* <label htmlFor="number" className="text-base-content">
               Number:{" "}
->>>>>>> 20c22db620cb40d0763d7f9f5adae089cabada36
             </label>
             <input
               className="bg-[#F3F3F3] p-3  my-2 "
@@ -292,17 +257,9 @@ const Register = () => {
               type="number"
               value={number}
               onChange={(e) => setNumber(parseInt(e.target.value))}
-<<<<<<< HEAD
-            />
-            <label
-              htmlFor="email"
-              className="text-base-content"
-            >
-=======
             /> */}
 
             {/* <label htmlFor="email" className="text-base-content">
->>>>>>> 20c22db620cb40d0763d7f9f5adae089cabada36
               Email:{" "}
             </label>
             <input
@@ -311,15 +268,9 @@ const Register = () => {
               onChange={(e) => setEmail(e.target.value)}
               value={email}
               placeholder="react@example.com"
-<<<<<<< HEAD
-              className=" bg-[#F3F3F3] p-3  my-2 "
-            />
-            <Button
-=======
               className="p-3 lg:m-2 my-2 w-screen lg:w-2/3"
             /> */}
             {/* <Button
->>>>>>> 20c22db620cb40d0763d7f9f5adae089cabada36
               name={isLoading ? "Loading" : "Sign up"}
               disabled={!write || isLoading}
               onClick={handleSubmit}
@@ -346,24 +297,12 @@ const Register = () => {
             </button> */}
 
             {isSuccess && (
-<<<<<<< HEAD
-              <div className="toast toast-end toast-top">
-                <div className="alert alert-info">
-                  Successfully signed you up!{" "}
-                  <a
-                    href={`https://sepolia.etherscan.io/tx/${data?.hash}`}
-                    className="text-xs"
-                  >
-                    view on Etherscan
-                  </a>{" "}
-=======
               <div>
                 Successfully signed you up!
                 <div>
                   <a href={`https://sepolia.etherscan.io/tx/${data?.hash}`}>
                     Confirm your transaction on Etherscan
                   </a>
->>>>>>> 20c22db620cb40d0763d7f9f5adae089cabada36
                 </div>
               </div>
             )}

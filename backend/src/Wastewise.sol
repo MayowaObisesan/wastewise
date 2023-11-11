@@ -50,7 +50,7 @@ contract WasteWise {
     mapping(address => Transaction) transactions;
 
     /// @dev Mapping to store user data.
-    mapping(address => User) UserMap;
+    mapping(address => User) public UserMap;
 
     User[] allUsers; // An array to store all user data.
     uint public userId; // A counter to track the number of users in the system.
