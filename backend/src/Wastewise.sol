@@ -264,17 +264,17 @@ contract WasteWise {
     }
 
     function addAdmins(address _addr) public view onlyAdmin {
-        // Add address to admin array
-        // Must be approved by 2/3 of the admins
+        // TODO: Add address to admin array
+        // TODO: Must be approved by 2/3 of the admins
     }
 
     function approveNewAdmin(address _addr) public view onlyAdmin {
-        // Only admins can call this function.
-        // Check that the address to be called is added to the admin array
+        // TODO:Only admins can call this function.
+        // TODO: Check that the address to be called is added to the admin array
         uint i;
         for (i = 0; i < allAdmins; ) {
             if (allAdmins[i] == _addr) {
-                // Increase the approval count for this address
+                // TODO: Increase the approval count for this address
             }
         }
     }
