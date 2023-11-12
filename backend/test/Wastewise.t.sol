@@ -4,11 +4,14 @@ pragma solidity ^0.8.13;
 import {Test, console2} from "forge-std/Test.sol";
 import {WasteWise} from "../src/Wastewise.sol";
 import {RwasteWise} from "../src/RwasteWise.sol";
+
+import {MarketPlace} from "../src/MarketPlace.sol";
 import {Helpers} from "./Helpers.sol";
 
 contract WastewiseTest is Helpers {
     WasteWise wasteWise;
     RwasteWise wasteToken;
+    MarketPlace marketPlace;
 
     // Test Users Address
     address userA;
@@ -22,6 +25,7 @@ contract WastewiseTest is Helpers {
     address[] admins;
 
     WasteWise.User uObject;
+    MarketPlace.ItemInfo itemInfo;
 
     function setUp() public {
         (userA, pKeyA) = mkaddr("USERA");
