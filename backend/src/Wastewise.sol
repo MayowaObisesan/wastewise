@@ -64,10 +64,10 @@ contract WasteWise {
     mapping(address => Transaction[]) transactionsMap;
 
     /// @dev Mapping to store user data.
-    mapping(address => User) UserMap;
+    mapping(address => User) public UserMap;
 
     User[] allUsers; // An array to store all user data.
-    User[] allAdmins; // An array to store all admins
+    address[] public allAdmins; // An array to store all admins
     uint public userId; // A counter to track the number of users in the system.
 
     // Custom Errors
@@ -128,6 +128,8 @@ contract WasteWise {
         for (uint i = 0; i < _admins.length; i++) {
             User storage user = UserMap[_admins[i]];
             user.isAdmin = true;
+            // User storage newAdmin;
+            allAdmins.push(_admins[i]);
         }
     }
 
@@ -167,19 +169,13 @@ contract WasteWise {
 
     /// @dev Record a plastic recycling transaction for the user.
     /// @param _qtyrecycled The quantity of plastic recycled.
-    function depositPlastic(uint _qtyrecycled) external onlyVerifiers {
+    function depositPlastic(uint _qtyrecycled) external {
         User storage user = UserMap[msg.sender];
         if (user.userAddr != msg.sender) {
             revert UserAcctNotCreated();
         }
 
         if (_qtyrecycled == 0) revert ZeroAmountNotAllow();
-
-        // Create a new Recycled struct
-        Recycled memory recycled;
-        recycled.qtyRecycled = _qtyrecycled;
-        recycled.timeRecycled = block.timestamp;
-        RecycledMap[msg.sender].push(recycled);
 
         // Create a new transaction
         Transaction memory transaction;
@@ -189,6 +185,12 @@ contract WasteWise {
 
         // Store the transaction for the user
         transactionsMap[msg.sender].push(transaction);
+
+        // Create a new Recycled struct
+        Recycled memory recycled;
+        recycled.qtyRecycled = _qtyrecycled;
+        recycled.timeRecycled = block.timestamp;
+        RecycledMap[msg.sender].push(recycled);
 
         // Update user TokenQty
         user.tokenQty = user.tokenQty + _qtyrecycled;
@@ -263,19 +265,23 @@ contract WasteWise {
         return UserMap[msg.sender];
     }
 
-    function addAdmins(address _addr) public view onlyAdmin {
+    function getAdmin() public view returns (address[] memory) {
+        return allAdmins;
+    }
+
+    function addAdmins(address _addr) public view onlyAdmins {
         // TODO: Add address to admin array
         // TODO: Must be approved by 2/3 of the admins
     }
 
-    function approveNewAdmin(address _addr) public view onlyAdmin {
+    function approveNewAdmin(address _addr) public view onlyAdmins {
         // TODO:Only admins can call this function.
         // TODO: Check that the address to be called is added to the admin array
-        uint i;
-        for (i = 0; i < allAdmins; ) {
-            if (allAdmins[i] == _addr) {
-                // TODO: Increase the approval count for this address
-            }
-        }
+        // uint i;
+        // for (i = 0; i < allAdmins.length; ) {
+        //     if (allAdmins[i].userAddr == _addr) {
+        //         // TODO: Increase the approval count for this address
+        //     }
+        // }
     }
 }
