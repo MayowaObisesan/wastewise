@@ -54,6 +54,7 @@ contract MarketPlace {
     error PriceMismatch(uint256 originalPrice);
     error NoImageUrl();
     error NotAdmin();
+    error NotEnoughToken();
 
     /* EVENTS */
 
@@ -65,25 +66,24 @@ contract MarketPlace {
         wasteWise = WasteWise(wasteWiseAddr);
     }
 
+    modifier onlyAdmins() {
+        bool isAdmin;
+        for (uint i = 0; i < wasteWise.getAdmin().length; i++) {
+            if (wasteWise.getAdmin()[i] == msg.sender) {
+                isAdmin = true;
+            }
+        }
+        require(isAdmin, "Not Admin");
+        _;
+    }
+
     function createListing(
         string calldata _name,
         string calldata _description,
         string calldata _image,
         uint _price,
         uint _deadline
-    ) public {
-        bool isAdmin;
-        // if (wasteWise.getAdmins() != msg.sender) revert NotAdmin();
-        for (uint i = 0; i < wasteWise.getAdmin().length; i++) {
-            if (wasteWise.getAdmin()[i] == msg.sender) {
-                isAdmin = true;
-            }
-        }
-
-        if (!isAdmin) {
-            revert NotAdmin();
-        }
-
+    ) public onlyAdmins {
         if (_price < 0.01 ether) revert MinPriceTooLow();
         if (block.timestamp + _deadline <= block.timestamp)
             revert DeadlineTooSoon();
@@ -104,46 +104,35 @@ contract MarketPlace {
         newItemInfo.itemId = listingId;
     }
 
-    /// @dev Redeem receipt tokens for a transaction.
-    function redeemReciptToken() public payable {}
-
     /// @dev Buy an item from the marketplace.
     /// @param _listingId The unique identifier of the item listing to buy.
-    function buyListing(uint256 _listingId, uint256 _amountToPay) public {
-        ItemInfo memory newItemInfo = itemInfoToId[listingId];
-        // Check if the listingId exists
+    function buyListing(uint256 _listingId, uint256 quantity) public {
+        ItemInfo memory newItemInfo = itemInfoToId[_listingId];
         if (newItemInfo.itemId != _listingId) revert ListingDoesNotExist();
+        if (block.timestamp > newItemInfo.deadline) revert ListingNotActive();
 
-        // Check if the user has our token at all
-        // if()
-        // Take in the number of listing to buy, not the amount
-        // Check if the user has enough of our token to make the purchase.
-        // Kindly make use of Custom errors for these checks.
-
-        // Get the Listing
-        ItemInfo storage item = itemInfoToId[_listingId];
-
-        // Check if the listing is active
-        if (block.timestamp > item.deadline) revert ListingNotActive();
-
-        // Check if the price matches
-        if (_amountToPay != item.price) revert PriceMismatch(item.price);
+        uint256 totalPrice = newItemInfo.price * quantity;
+        if (rwasteWise.balanceOf(msg.sender) < totalPrice)
+            revert NotEnoughToken();
 
         // transfer tokens from buyer to seller
-        rwasteWise.transferFrom(msg.sender, address(this), _amountToPay);
+        rwasteWise.transferFrom(msg.sender, address(this), totalPrice);
 
         // burn the tokens collected
-        rwasteWise.burnReceipt(address(this), _amountToPay);
+        rwasteWise.burnReceipt(address(this), totalPrice);
 
         // Create a new transaction
         Transaction memory transaction;
         transaction.date = block.timestamp;
         transaction.typeOfTransaction = Type.Purchase;
-        transaction.amountOfTokens = _amountToPay;
+        transaction.amountOfTokens = totalPrice;
 
         // Store the transaction
         transactions[msg.sender] = transaction;
     }
+
+    /// @dev Redeem receipt tokens for a transaction.
+    function redeemReciptToken() public payable {}
 
     /// @dev Update the information of an existing item listing.
     /// @param _name The new name of the item.
@@ -155,8 +144,8 @@ contract MarketPlace {
         string calldata _description,
         uint256 _listingId,
         uint256 _newPrice
-    ) public {
-        // if(listingId[_listingId] == 0) revert ListingDoesNotExist();
+    ) public onlyAdmins {
+        if (_listingId != listingId) revert ListingDoesNotExist();
         ItemInfo storage itemInfo = itemInfoToId[_listingId];
         itemInfo.name = _name;
         itemInfo.description = _description;

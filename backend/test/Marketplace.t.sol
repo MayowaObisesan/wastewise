@@ -31,6 +31,14 @@ contract MarketPlaceTest is Helpers {
         wasteToken = new RwasteWise();
         wasteWise = new WasteWise(address(wasteToken), admins);
         marketPlace = new MarketPlace(address(wasteToken), address(wasteWise));
+        vm.prank(address(6));
+        wasteWise.createUserAcct(
+            "ola",
+            "nig",
+            WasteWise.Gender.Male,
+            987654,
+            "@gmail.com"
+        );
     }
 
     function testCreateListing() public {
@@ -92,5 +100,155 @@ contract MarketPlaceTest is Helpers {
             3500
         );
         vm.expectRevert("tme cannot be less than 60 mins");
+    }
+
+    function testCreateAcct() public {
+        wasteWise.createUserAcct(
+            "ola",
+            "nig",
+            WasteWise.Gender.Male,
+            987654,
+            "@gmail.com"
+        );
+        WasteWise.User memory user = wasteWise.getUser();
+        assertEq(user.name, "ola");
+    }
+
+    function testDepositPlastic() public {
+        vm.startPrank(address(6));
+        wasteWise.depositPlastic(2);
+        wasteToken.approve(
+            address(marketPlace),
+            wasteToken.balanceOf(address(6))
+        );
+        vm.stopPrank();
+        vm.prank(address(0x3333));
+        marketPlace.createListing(
+            "merch",
+            "merch for conference",
+            "url",
+            1e18,
+            30000000
+        );
+        vm.prank(address(6));
+        marketPlace.buyListing(1, 2);
+
+        assertEq(wasteToken.balanceOf(address(6)), 0);
+    }
+
+    function testFailNoApprovalDepositPlastic() public {
+        vm.startPrank(address(6));
+        wasteWise.depositPlastic(2);
+        vm.stopPrank();
+        vm.prank(address(0x3333));
+        marketPlace.createListing(
+            "merch",
+            "merch for conference",
+            "url",
+            1e18,
+            30000000
+        );
+        vm.prank(address(6));
+        marketPlace.buyListing(1, 2);
+        assertEq(
+            wasteToken.balanceOf(address(6)),
+            wasteToken.balanceOf(address(6))
+        );
+        vm.expectRevert("contract Not Approved");
+    }
+
+    function testFailInsufficientToken() public {
+        vm.startPrank(address(6));
+        wasteWise.depositPlastic(1);
+        wasteToken.approve(
+            address(marketPlace),
+            wasteToken.balanceOf(address(6))
+        );
+        vm.stopPrank();
+        vm.prank(address(0x3333));
+        marketPlace.createListing(
+            "merch",
+            "merch for conference",
+            "url",
+            1e18,
+            30000000
+        );
+        vm.prank(address(6));
+        marketPlace.buyListing(1, 2);
+        vm.expectRevert("Insufficient Token for Qty Requested");
+    }
+
+    function testFailListingNotActive() public {
+        vm.startPrank(address(6));
+        wasteWise.depositPlastic(2);
+        wasteToken.approve(
+            address(marketPlace),
+            wasteToken.balanceOf(address(6))
+        );
+        vm.stopPrank();
+        vm.prank(address(0x3333));
+        marketPlace.createListing(
+            "merch",
+            "merch for conference",
+            "url",
+            1e18,
+            30000000
+        );
+        vm.prank(address(6));
+        marketPlace.buyListing(2, 2);
+        vm.expectRevert("listing Not Active");
+        assertEq(wasteToken.balanceOf(address(6)), 0);
+    }
+
+    function testUpdateListing() public {
+        vm.startPrank(address(0x3333));
+        marketPlace.createListing(
+            "merch",
+            "merch for conference",
+            "url",
+            1e18,
+            30000000
+        );
+        marketPlace.updateListing(
+            "newListingName",
+            "updatedListing description",
+            1,
+            2e18
+        );
+        assertEq(marketPlace.getItemInfo(1).name, "newListingName");
+        assertEq(
+            marketPlace.getItemInfo(1).description,
+            "updatedListing description"
+        );
+        assertEq(marketPlace.getItemInfo(1).price, 2e18);
+    }
+
+    function testFailListingNotExistence() public {
+        vm.prank(address(0x3333));
+        marketPlace.updateListing(
+            "newListingName",
+            "updatedListing description",
+            1,
+            2e18
+        );
+        vm.expectRevert("listing not in existence");
+    }
+
+    function testFailNotAdminUpdateListing() public {
+        vm.prank(address(0x3333));
+        marketPlace.createListing(
+            "merch",
+            "merch for conference",
+            "url",
+            1e18,
+            30000000
+        );
+        marketPlace.updateListing(
+            "newListingName",
+            "updatedListing description",
+            1,
+            2e18
+        );
+        vm.expectRevert("Only Admin can update Listing");
     }
 }
