@@ -72,8 +72,8 @@ contract MarketPlace {
 
     modifier onlyAdmins() {
         bool isAdmin;
-        for (uint i = 0; i < wasteWise.getAdmin().length; i++) {
-            if (wasteWise.getAdmin()[i] == msg.sender) {
+        for (uint i = 0; i < wasteWise.getAdmins().length; i++) {
+            if (wasteWise.getAdmins()[i] == msg.sender) {
                 isAdmin = true;
             }
         }
