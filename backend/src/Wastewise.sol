@@ -228,12 +228,6 @@ contract WasteWise {
         // Store the transaction for the user
         transactionsMap[_userAddr].push(transaction);
 
-        // Create a new Recycled struct
-        Recycled memory recycled;
-        recycled.qtyRecycled = _qtyrecycled;
-        recycled.timeRecycled = block.timestamp;
-        RecycledMap[msg.sender].push(recycled);
-
         // Update user TokenQty
         user.tokenQty = user.tokenQty + _qtyrecycled;
 
@@ -317,9 +311,13 @@ contract WasteWise {
         return UserMap[msg.sender];
     }
 
-    function getUser(uint256 _userId) public view returns (User memory) {
+    function getUserById(uint256 _userId) public view returns (User memory) {
         address userAddr = IdToAddress[_userId];
         return UserMap[userAddr];
+    }
+
+    function getAdmins() public view returns (address[] memory) {
+        return allAdmins;
     }
 
     function addAdmins(address _addr) public onlyAdmins {
@@ -351,7 +349,7 @@ contract WasteWise {
             // Automatically add that user as an admin to the admin array
 
             UserMap[_addr].role = Role.ADMINS;
-            allAdmins.push(UserMap[_addr]);
+            allAdmins.push(_addr);
         }
 
         // Emit an event for when that user is enlisted as an admin
@@ -362,7 +360,7 @@ contract WasteWise {
         // Checks that the address to be called is added to the admin array
         bool isInArray = false;
         for (uint i = 0; i < allAdmins.length; i++) {
-            if (allAdmins[i].userAddr == _addr) {
+            if (allAdmins[i] == _addr) {
                 isInArray = true;
                 break;
             }
