@@ -178,6 +178,7 @@ contract WasteWise {
         user.phoneNo = _phone;
         user.email = _email;
         user.timeJoined = block.timestamp;
+        IdToAddress[userId] = msg.sender;
 
         emit UserAccountCreated(
             userId,
