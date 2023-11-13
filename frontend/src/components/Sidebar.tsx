@@ -36,134 +36,135 @@ const Sidebar = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-col w-full bg-base-200 h-screen px-4">
-      <h1 className="block text-2xl font-bold h-32 px-3 py-12 rounded-lg mr-auto">
-        <Logo />
-      </h1>
+    <div className="h-screen bg-base-100 p-4">
+      <div className="flex flex-col h-full w-full bg-base-300 rounded-2xl px-2">
+        <h1 className="block text-2xl font-bold h-32 px-3 py-12 rounded-lg mr-auto">
+          <Logo />
+        </h1>
 
-      <article className="flex-1 h-full py-4">
-        <ul className="menu menu-lg bg-transparent w-72 rounded-box space-y-8">
-          <li>
-            <Link
-              to="/dashboard"
-              className=""
-              style={isActive === "dashboard" ? activeLinkStyle : {}}
-            >
-              {/* <img src={home} alt="home-Icon" /> */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+        <article className="flex-1 h-full py-4">
+          <ul className="menu menu-lg bg-transparent w-72 rounded-box space-y-8">
+            <li>
+              <Link
+                to="/dashboard"
+                className=""
+                style={isActive === "dashboard" ? activeLinkStyle : {}}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                />
-              </svg>
-              <h2 className="text-lg" style={{ isActive }}>
-                {" "}
-                Dashboard
-              </h2>
-            </Link>
-            {/* <a className="active">Home</a> */}
-          </li>
-          <li>
-            <Link
-              to="/dashboard/wallet"
-              className="items-center"
-              style={isActive === "wallet" ? activeLinkStyle : {}}
-            >
-              <img src={wallet} alt="wallet-Icon" />
-              <h2 className="text-lg">Wallet</h2>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/dashboard/recycle"
-              className="flex flex-row gap-2 items-center"
-              style={isActive === "recycle" ? activeLinkStyle : {}}
-            >
-              <img src={settings} alt="recycle-Icon" />
-              <h2 className="text-lg">Recycle</h2>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/dashboard/marketplace"
-              className="flex flex-row gap-2 items-center"
-              style={isActive === "marketplace" ? activeLinkStyle : {}}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                {/* <img src={home} alt="home-Icon" /> */}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                  />
+                </svg>
+                <h2 className="text-lg" style={{ isActive }}>
+                  {" "}
+                  Dashboard
+                </h2>
+              </Link>
+              {/* <a className="active">Home</a> */}
+            </li>
+            <li>
+              <Link
+                to="/dashboard/wallet"
+                className="items-center"
+                style={isActive === "wallet" ? activeLinkStyle : {}}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
-              <h2 className="text-lg">Marketplace</h2>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/dashboard/createEvent"
-              className="flex flex-row gap-2 items-center"
-              style={isActive === "campaign" ? activeLinkStyle : {}}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                <img src={wallet} alt="wallet-Icon" />
+                <h2 className="text-lg">Wallet</h2>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/recycle"
+                className="flex flex-row gap-2 items-center"
+                style={isActive === "recycle" ? activeLinkStyle : {}}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
-              <h2 className="text-lg">Create Event</h2>
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/dashboard/myEvents"
-              className="flex flex-row gap-2 items-center"
-              style={isActive === "campaign" ? activeLinkStyle : {}}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+                <img src={settings} alt="recycle-Icon" />
+                <h2 className="text-lg">Recycle</h2>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/marketplace"
+                className="flex flex-row gap-2 items-center"
+                style={isActive === "marketplace" ? activeLinkStyle : {}}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
-              <h2 className="text-lg">My Events</h2>
-            </Link>
-          </li>
-        </ul>
-      </article>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+                <h2 className="text-lg">Marketplace</h2>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/createEvent"
+                className="flex flex-row gap-2 items-center"
+                style={isActive === "campaign" ? activeLinkStyle : {}}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+                <h2 className="text-lg">Create Event</h2>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/myEvents"
+                className="flex flex-row gap-2 items-center"
+                style={isActive === "campaign" ? activeLinkStyle : {}}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+                <h2 className="text-lg">My Events</h2>
+              </Link>
+            </li>
+          </ul>
+        </article>
 
-      {/* <button
+        {/* <button
         type={"button"}
         className="relative h-32 px-8 flex flex-row gap-2 text-lg items-center rounded-lg hover:bg-base-300 transition-all delay-400"
       >
@@ -171,11 +172,12 @@ const Sidebar = (props: Props) => {
           v1.0.0&copy; {new Date().getFullYear()}
         </h2>
       </button> */}
-      <div className="relative w-full px-8 my-8 flex flex-row gap-2 text-base items-center rounded-lg transition-all delay-400">
-        <div className="grid flex-grow place-items-center">v1.0.0</div>
-        <div className="divider divider-horizontal"></div>
-        <div className="grid flex-grow place-items-center">
-          &copy; {new Date().getFullYear()}
+        <div className="relative w-full px-8 my-8 flex flex-row gap-2 text-base items-center rounded-lg transition-all delay-400">
+          <div className="grid flex-grow place-items-center">v1.0.0</div>
+          <div className="divider divider-horizontal"></div>
+          <div className="grid flex-grow place-items-center">
+            &copy; {new Date().getFullYear()}
+          </div>
         </div>
       </div>
     </div>
