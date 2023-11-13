@@ -73,7 +73,7 @@ contract WasteWise {
     mapping(address => Transaction[]) transactionsMap;
 
     /// @dev Mapping to store user data.
-    mapping(address => User) UserMap;
+    mapping(address => User) public UserMap;
 
     mapping(uint => AdminRequest) adminRequest;
     mapping(address => mapping(address => bool)) hasApprovedAdmin;
@@ -82,7 +82,7 @@ contract WasteWise {
     uint adminReqId;
 
     User[] allUsers; // An array to store all user data.
-    User[] allAdmins; // An array to store all admins
+    address[] public allAdmins; // An array to store all admins
     uint public userId; // A counter to track the number of users in the system.
 
     // Custom Errors
@@ -151,6 +151,8 @@ contract WasteWise {
         for (uint i = 0; i < _admins.length; i++) {
             User storage user = UserMap[_admins[i]];
             user.isAdmin = true;
+            // User storage newAdmin;
+            allAdmins.push(_admins[i]);
         }
     }
 
@@ -225,6 +227,12 @@ contract WasteWise {
 
         // Store the transaction for the user
         transactionsMap[_userAddr].push(transaction);
+
+        // Create a new Recycled struct
+        Recycled memory recycled;
+        recycled.qtyRecycled = _qtyrecycled;
+        recycled.timeRecycled = block.timestamp;
+        RecycledMap[msg.sender].push(recycled);
 
         // Update user TokenQty
         user.tokenQty = user.tokenQty + _qtyrecycled;
