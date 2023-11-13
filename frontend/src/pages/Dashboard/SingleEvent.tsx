@@ -117,7 +117,7 @@ const SingleEvent = () => {
             >
               {loading ? (
                 <span className="loading loading-spinner loading-sm"></span>
-              ) : disablePay ? (
+              ) : handleDisable() ? (
                 "Expired"
               ) : (
                 "Pay Now"
