@@ -6,7 +6,11 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {RwasteWise} from "./RwasteWise.sol";
 import {WasteWise} from "./Wastewise.sol";
 
-/// @title MarketPlace: A smart contract for managing item listings in a marketplace.
+/**
+ * @title MarketPlace: A smart contract for managing item listings in a marketplace.
+ * @author Marcellus Ifeanyi, Mayowa Obisesan, Biliqis Onikoyi, Isaac Wanger, konyeri Joshua
+ * @dev This MarketPlace contract allows users who have recycled their pet Bottles to easily redeem their receipt tokens.
+ */
 contract MarketPlace {
     /// @dev Structure to represent information about an item listing.
     struct ItemInfo {
@@ -131,14 +135,13 @@ contract MarketPlace {
         transactions[msg.sender] = transaction;
     }
 
-    /// @dev Redeem receipt tokens for a transaction.
-    function redeemReciptToken() public payable {}
-
-    /// @dev Update the information of an existing item listing.
-    /// @param _name The new name of the item.
-    /// @param _description New description of the item.
-    /// @param _listingId The unique identifier of the item listing to update.
-    /// @param _newPrice New price for the item.
+    /**
+     * @dev Update the information of an existing item listing.
+     * @param _name  The new name of the item.
+     * @param _description New description of the item.
+     * @param _listingId The unique identifier of the item listing to update.
+     * @param _newPrice New price for the item.
+     */
     function updateListing(
         string calldata _name,
         string calldata _description,
@@ -152,9 +155,11 @@ contract MarketPlace {
         itemInfo.price = _newPrice;
     }
 
-    /// @dev Get information about an item listing by its unique identifier.
-    /// @param _listingId The unique identifier of the item listing.
-    /// @return ItemInfo The information about the item listing.
+    /**
+     * @dev Get information about an item listing by its unique identifier.
+     * @param _listingId The unique identifier of the item listing.
+     * @return ItemInfo The information about the item listing.
+     */
     function getItemInfo(
         uint256 _listingId
     ) public view returns (ItemInfo memory) {

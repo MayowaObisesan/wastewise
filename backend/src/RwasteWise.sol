@@ -6,8 +6,10 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**
  * @title WasteWise Receipt Token
+ * @author Marcellus Ifeanyi, Mayowa Obisesan, Biliqis Onikoyi, Isaac Wanger, konyeri Joshua
  * @notice This is the Receipt token that the user gets upon successful deposit of pet bottles on the WastWise Protocol
  * @dev This implements an ERC2O Token using the OpenZeppelin library
+ *
  */
 
 contract RwasteWise is ERC20 {
