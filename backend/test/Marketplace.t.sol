@@ -116,7 +116,7 @@ contract MarketPlaceTest is Helpers {
 
     function testDepositPlastic() public {
         vm.startPrank(address(6));
-        wasteWise.depositPlastic(2);
+        wasteWise.depositPlastic(2, 1);
         wasteToken.approve(
             address(marketPlace),
             wasteToken.balanceOf(address(6))
