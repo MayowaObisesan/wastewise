@@ -4,11 +4,14 @@ pragma solidity ^0.8.13;
 import {Test, console2} from "forge-std/Test.sol";
 import {WasteWise} from "../src/Wastewise.sol";
 import {RwasteWise} from "../src/RwasteWise.sol";
+
+import {MarketPlace} from "../src/MarketPlace.sol";
 import {Helpers} from "./Helpers.sol";
 
 contract WastewiseTest is Helpers {
     WasteWise wasteWise;
     RwasteWise wasteToken;
+    MarketPlace marketPlace;
 
     // Test Users Address
     address userA;
@@ -22,6 +25,7 @@ contract WastewiseTest is Helpers {
     address[] admins;
 
     WasteWise.User uObject;
+    MarketPlace.ItemInfo itemInfo;
 
     function setUp() public {
         (userA, pKeyA) = mkaddr("USERA");
@@ -47,7 +51,8 @@ contract WastewiseTest is Helpers {
             referral: address(0),
             tokenQty: 10,
             isAdmin: true,
-            role: WasteWise.Role.ADMINS
+            role: WasteWise.Role.ADMINS,
+            approvalCount: 5
         });
     }
 
@@ -113,7 +118,7 @@ contract WastewiseTest is Helpers {
 
     function testFailDepositPlastic() public {
         // Don't create a user before trying to deposit plastic. This test will fail
-        wasteWise.depositPlastic(10);
+        wasteWise.depositPlastic(10, 1);
     }
 
     function testFailDepositPlasticModifier() public {
@@ -124,7 +129,7 @@ contract WastewiseTest is Helpers {
             uObject.phoneNo,
             uObject.email
         );
-        wasteWise.depositPlastic(1);
+        wasteWise.depositPlastic(1, 1);
         WasteWise.User memory user = wasteWise.getUser();
         vm.expectRevert(WasteWise.ZeroAmountNotAllow.selector);
     }
@@ -137,7 +142,7 @@ contract WastewiseTest is Helpers {
             uObject.phoneNo,
             uObject.email
         );
-        wasteWise.depositPlastic(0);
+        wasteWise.depositPlastic(0, 1);
         vm.expectRevert(WasteWise.ZeroAmountNotAllow.selector);
     }
 
@@ -149,7 +154,7 @@ contract WastewiseTest is Helpers {
             uObject.phoneNo,
             uObject.email
         );
-        wasteWise.depositPlastic(4);
+        wasteWise.depositPlastic(4, 1);
         WasteWise.Transaction[] memory transaction = wasteWise
             .getUserTransactions();
         assertEq(transaction.length, 1);
@@ -163,7 +168,7 @@ contract WastewiseTest is Helpers {
             uObject.phoneNo,
             uObject.email
         );
-        wasteWise.depositPlastic(4);
+        wasteWise.depositPlastic(4, 1);
         WasteWise.Transaction[] memory transaction = wasteWise
             .getUserTransactions();
         assertEq(transaction[0].numberOfTokens, 4);
@@ -177,7 +182,7 @@ contract WastewiseTest is Helpers {
             uObject.phoneNo,
             uObject.email
         );
-        wasteWise.depositPlastic(4);
+        wasteWise.depositPlastic(4, 1);
         WasteWise.Transaction[] memory transaction = wasteWise
             .getUserTransactions();
         assertEq(transaction[0].numberOfTokens, 1);
@@ -191,7 +196,7 @@ contract WastewiseTest is Helpers {
             uObject.phoneNo,
             uObject.email
         );
-        wasteWise.depositPlastic(4);
+        wasteWise.depositPlastic(4, 1);
         WasteWise.Recycled[] memory recycled = wasteWise.getUserRecycles();
         assertEq(recycled[0].qtyRecycled, 4);
     }
@@ -204,8 +209,8 @@ contract WastewiseTest is Helpers {
             uObject.phoneNo,
             uObject.email
         );
-        wasteWise.depositPlastic(4);
-        wasteWise.depositPlastic(8);
+        wasteWise.depositPlastic(4, 1);
+        wasteWise.depositPlastic(8, 1);
 
         // Test the user's totalQuantity count if it increases with every user deposit
         WasteWise.User memory user = wasteWise.getUser();
@@ -220,8 +225,8 @@ contract WastewiseTest is Helpers {
             uObject.phoneNo,
             uObject.email
         );
-        wasteWise.depositPlastic(4);
-        wasteWise.depositPlastic(8);
+        wasteWise.depositPlastic(4, 1);
+        wasteWise.depositPlastic(8, 1);
 
         // Test the user's wiseToken as a receipt for depositing Tokens
         // The balance will be the initial minted token + this deposit accrued token quantity
