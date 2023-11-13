@@ -116,7 +116,7 @@ contract MarketPlaceTest is Helpers {
 
     function testDepositPlastic() public {
         vm.startPrank(address(6));
-        wasteWise.depositPlastic(2, 1);
+        wasteWise.depositPlastic(2, 6);
         wasteToken.approve(
             address(marketPlace),
             wasteToken.balanceOf(address(6))
@@ -138,7 +138,7 @@ contract MarketPlaceTest is Helpers {
 
     function testFailNoApprovalDepositPlastic() public {
         vm.startPrank(address(6));
-        wasteWise.depositPlastic(2);
+        wasteWise.depositPlastic(2, 10);
         vm.stopPrank();
         vm.prank(address(0x3333));
         marketPlace.createListing(
@@ -159,7 +159,7 @@ contract MarketPlaceTest is Helpers {
 
     function testFailInsufficientToken() public {
         vm.startPrank(address(6));
-        wasteWise.depositPlastic(1);
+        wasteWise.depositPlastic(1, 6);
         wasteToken.approve(
             address(marketPlace),
             wasteToken.balanceOf(address(6))
@@ -180,7 +180,7 @@ contract MarketPlaceTest is Helpers {
 
     function testFailListingNotActive() public {
         vm.startPrank(address(6));
-        wasteWise.depositPlastic(2);
+        wasteWise.depositPlastic(2, 9);
         wasteToken.approve(
             address(marketPlace),
             wasteToken.balanceOf(address(6))

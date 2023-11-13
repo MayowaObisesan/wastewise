@@ -311,9 +311,13 @@ contract WasteWise {
         return UserMap[msg.sender];
     }
 
-    function getUser(uint256 _userId) public view returns (User memory) {
+    function getUserById(uint256 _userId) public view returns (User memory) {
         address userAddr = IdToAddress[_userId];
         return UserMap[userAddr];
+    }
+
+    function getAdmins() public view returns (address[] memory) {
+        return allAdmins;
     }
 
     function addAdmins(address _addr) public onlyAdmins {
