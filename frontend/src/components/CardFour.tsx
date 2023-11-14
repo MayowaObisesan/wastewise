@@ -1,6 +1,19 @@
+import { useAccount, useContractRead } from "wagmi";
+import { useWasteWiseContext } from "../context";
+import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
+
 const CardFour = () => {
+  const { address } = useAccount();
+  const { currentUser } = useWasteWiseContext();
+  const { data } = useContractRead({
+    address: WASTEWISE_ADDRESS,
+    abi: WasteWiseABI,
+    functionName: "getAllUsers",
+    account: address,
+  });
+
   return (
-    <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className="rounded-xl border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4">
         <svg
           className="fill-primary dark:fill-white"
@@ -28,7 +41,7 @@ const CardFour = () => {
       <div className="mt-4 flex items-end justify-between">
         <div>
           <h4 className="text-title-md font-bold text-black dark:text-white">
-            3.456
+            {data?.length}
           </h4>
           <span className="text-sm font-medium">Total Users</span>
         </div>
