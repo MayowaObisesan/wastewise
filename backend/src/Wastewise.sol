@@ -82,7 +82,7 @@ contract WasteWise {
     uint adminReqId;
 
     User[] allUsers; // An array to store all user data.
-    User[] allAdmins; // An array to store all admins
+    //User[] allAdmins; // An array to store all admins
     User[] verifiers;
     address[] public allAdmins; // An array to store all admins
 
