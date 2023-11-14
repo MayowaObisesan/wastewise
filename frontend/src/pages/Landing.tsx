@@ -102,11 +102,11 @@ const Landing = (props: Props) => {
         <div className="bg-green-100 opacity-30 blur-3xl w-[1036px] h-[600px] dark:bg-green-900 dark:opacity-20"></div>
         <div className="bg-base-200 opacity-90 blur-3xl w-[577px] h-[300px] transform translate-y-32 dark:bg-base-800/60"></div>
       </div> */}
-      <div className="hero">
-        <div className="hero-content text-left w-full min-w-full flex flex-col lg:flex-row lg:space-x-8">
+      <div className="hero relative">
+        <div className="hero-content text-left w-full min-w-full flex flex-col lg:flex-row lg:space-x-8 before:-hue-rotate-90 before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element-dark.svg')] dark:before:opacity-30">
           <div className="w-full px-12 py-40">
             <div className="min-w-6/12">
-              <h1 className="w-8/12 text-4xl font-bold pr-8 lg:text-7xl before:-hue-rotate-90 before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element-dark.svg')] dark:before:opacity-30">
+              <h1 className="relative w-8/12 text-4xl font-bold pr-8 lg:text-7xl">
                 {" "}
                 Why waste when you can{" "}
                 <span className="bg-gradient-to-r from-[#2C8258] to-[#FFDE52] inline-block text-transparent text-9xl bg-clip-text py-4">

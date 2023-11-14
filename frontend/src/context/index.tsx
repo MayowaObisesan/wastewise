@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 import { useAccount, useContractRead } from "wagmi";
-import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../utils";
+import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
 
 type contextType = {
   wastewiseStore: any;
@@ -20,6 +20,22 @@ type contextType = {
   setNotifications: any;
 };
 
+type userDataType = {
+  approvalCount: number;
+  country: string;
+  email: string;
+  gender: number;
+  id: number;
+  isAdmin: boolean;
+  name: string;
+  phoneNo: number;
+  referral: string;
+  role: number;
+  timeJoined: number;
+  tokenQty: number;
+  userAddr: string;
+};
+
 const WastewiseContext = createContext<contextType>();
 
 const WastewiseProvider = ({ children }) => {
@@ -29,7 +45,7 @@ const WastewiseProvider = ({ children }) => {
 
   const { address, isConnected } = useAccount();
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState<userDataType | {}>({});
   const [notifCount, setNotifCount] = useState(0);
   const [notifications, setNotifications] = useState([]);
 
@@ -70,7 +86,7 @@ const WastewiseProvider = ({ children }) => {
 
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
-    abi: WASTEWISE_ABI,
+    abi: WasteWiseABI,
     functionName: "getUser",
     account: address,
   });

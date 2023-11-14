@@ -1,25 +1,128 @@
 [
   {
     "inputs": [
-      { "internalType": "address", "name": "tokenAddress", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "tokenAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_admins",
+        "type": "address[]"
+      }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
-  { "inputs": [], "name": "UserAccountAlreadyExist", "type": "error" },
-  { "inputs": [], "name": "UserAcctNotCreated", "type": "error" },
-  { "inputs": [], "name": "ZeroAmountNotAllow", "type": "error" },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      }
+    ],
+    "name": "AdminAlreadyApproved",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ExpectNonAdmin",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "OnlyTheVerifiersCanCallThisFunction",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TheAddressIsNotInTheAdminArray",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UserAccountAlreadyExist",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UserAcctNotCreated",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "UserDoesNotExist",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ZeroAmountNotAllow",
+    "type": "error"
+  },
   {
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
+        "internalType": "address",
+        "name": "newAdmin",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "admins",
+        "type": "address"
+      }
+    ],
+    "name": "AdminAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "adminAddress",
+        "type": "address"
+      }
+    ],
+    "name": "AdminSeeded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newAdmin",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "admins",
+        "type": "address"
+      }
+    ],
+    "name": "NewAdminApproved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
         "internalType": "address",
         "name": "depositor",
         "type": "address"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "_qtyrecycled",
         "type": "uint256"
@@ -31,7 +134,7 @@
         "type": "uint256"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "tokenQty",
         "type": "uint256"
@@ -44,7 +147,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "uint256",
         "name": "userId",
         "type": "uint256"
@@ -74,13 +177,13 @@
         "type": "uint256"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "string",
         "name": "_email",
         "type": "string"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "address",
         "name": "user",
         "type": "address"
@@ -99,19 +202,19 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "string",
         "name": "name",
         "type": "string"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "string",
         "name": "country",
         "type": "string"
       },
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "string",
         "name": "email",
         "type": "string"
@@ -119,7 +222,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "phone_no",
+        "name": "phoneNo",
         "type": "uint256"
       },
       {
@@ -129,20 +232,160 @@
         "type": "uint8"
       }
     ],
-    "name": "UserEditted",
+    "name": "UserEdited",
     "type": "event"
   },
   {
     "inputs": [
-      { "internalType": "string", "name": "_name", "type": "string" },
-      { "internalType": "string", "name": "_country", "type": "string" },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "UserMap",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "userAddr",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "country",
+        "type": "string"
+      },
+      {
+        "internalType": "enum WasteWise.Gender",
+        "name": "gender",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "phoneNo",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "timeJoined",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "referral",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenQty",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isAdmin",
+        "type": "bool"
+      },
+      {
+        "internalType": "enum WasteWise.Role",
+        "name": "role",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "approvalCount",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      }
+    ],
+    "name": "addAdmins",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "allAdmins",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      }
+    ],
+    "name": "approveNewAdmin",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_country",
+        "type": "string"
+      },
       {
         "internalType": "enum WasteWise.Gender",
         "name": "_gender",
         "type": "uint8"
       },
-      { "internalType": "uint256", "name": "_phone", "type": "uint256" },
-      { "internalType": "string", "name": "_email", "type": "string" }
+      {
+        "internalType": "uint256",
+        "name": "_phone",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_email",
+        "type": "string"
+      }
     ],
     "name": "createUserAcct",
     "outputs": [],
@@ -151,7 +394,16 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_qtyrecycled", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "_qtyrecycled",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_userId",
+        "type": "uint256"
+      }
     ],
     "name": "depositPlastic",
     "outputs": [],
@@ -162,24 +414,71 @@
     "inputs": [
       {
         "components": [
-          { "internalType": "uint256", "name": "Id", "type": "uint256" },
-          { "internalType": "address", "name": "userAddr", "type": "address" },
-          { "internalType": "string", "name": "name", "type": "string" },
-          { "internalType": "string", "name": "country", "type": "string" },
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "userAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "country",
+            "type": "string"
+          },
           {
             "internalType": "enum WasteWise.Gender",
             "name": "gender",
             "type": "uint8"
           },
-          { "internalType": "uint256", "name": "phone_no", "type": "uint256" },
-          { "internalType": "string", "name": "email", "type": "string" },
+          {
+            "internalType": "uint256",
+            "name": "phoneNo",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "email",
+            "type": "string"
+          },
           {
             "internalType": "uint256",
             "name": "timeJoined",
             "type": "uint256"
           },
-          { "internalType": "address", "name": "referral", "type": "address" },
-          { "internalType": "uint256", "name": "tokenQty", "type": "uint256" }
+          {
+            "internalType": "address",
+            "name": "referral",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenQty",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isAdmin",
+            "type": "bool"
+          },
+          {
+            "internalType": "enum WasteWise.Role",
+            "name": "role",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "approvalCount",
+            "type": "uint256"
+          }
         ],
         "internalType": "struct WasteWise.User",
         "name": "_user",
@@ -193,7 +492,20 @@
   },
   {
     "inputs": [],
-    "name": "getAllUserTransaction",
+    "name": "getAdmins",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllUserRecycles",
     "outputs": [
       {
         "components": [
@@ -222,24 +534,71 @@
     "outputs": [
       {
         "components": [
-          { "internalType": "uint256", "name": "Id", "type": "uint256" },
-          { "internalType": "address", "name": "userAddr", "type": "address" },
-          { "internalType": "string", "name": "name", "type": "string" },
-          { "internalType": "string", "name": "country", "type": "string" },
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "userAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "country",
+            "type": "string"
+          },
           {
             "internalType": "enum WasteWise.Gender",
             "name": "gender",
             "type": "uint8"
           },
-          { "internalType": "uint256", "name": "phone_no", "type": "uint256" },
-          { "internalType": "string", "name": "email", "type": "string" },
+          {
+            "internalType": "uint256",
+            "name": "phoneNo",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "email",
+            "type": "string"
+          },
           {
             "internalType": "uint256",
             "name": "timeJoined",
             "type": "uint256"
           },
-          { "internalType": "address", "name": "referral", "type": "address" },
-          { "internalType": "uint256", "name": "tokenQty", "type": "uint256" }
+          {
+            "internalType": "address",
+            "name": "referral",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenQty",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isAdmin",
+            "type": "bool"
+          },
+          {
+            "internalType": "enum WasteWise.Role",
+            "name": "role",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "approvalCount",
+            "type": "uint256"
+          }
         ],
         "internalType": "struct WasteWise.User[]",
         "name": "",
@@ -255,24 +614,157 @@
     "outputs": [
       {
         "components": [
-          { "internalType": "uint256", "name": "Id", "type": "uint256" },
-          { "internalType": "address", "name": "userAddr", "type": "address" },
-          { "internalType": "string", "name": "name", "type": "string" },
-          { "internalType": "string", "name": "country", "type": "string" },
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "userAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "country",
+            "type": "string"
+          },
           {
             "internalType": "enum WasteWise.Gender",
             "name": "gender",
             "type": "uint8"
           },
-          { "internalType": "uint256", "name": "phone_no", "type": "uint256" },
-          { "internalType": "string", "name": "email", "type": "string" },
+          {
+            "internalType": "uint256",
+            "name": "phoneNo",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "email",
+            "type": "string"
+          },
           {
             "internalType": "uint256",
             "name": "timeJoined",
             "type": "uint256"
           },
-          { "internalType": "address", "name": "referral", "type": "address" },
-          { "internalType": "uint256", "name": "tokenQty", "type": "uint256" }
+          {
+            "internalType": "address",
+            "name": "referral",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenQty",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isAdmin",
+            "type": "bool"
+          },
+          {
+            "internalType": "enum WasteWise.Role",
+            "name": "role",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "approvalCount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct WasteWise.User",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_userId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getUserById",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "userAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "country",
+            "type": "string"
+          },
+          {
+            "internalType": "enum WasteWise.Gender",
+            "name": "gender",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "phoneNo",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "email",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "timeJoined",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "referral",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenQty",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isAdmin",
+            "type": "bool"
+          },
+          {
+            "internalType": "enum WasteWise.Role",
+            "name": "role",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "approvalCount",
+            "type": "uint256"
+          }
         ],
         "internalType": "struct WasteWise.User",
         "name": "",
@@ -284,8 +776,74 @@
   },
   {
     "inputs": [],
+    "name": "getUserRecycles",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "timeRecycled",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "qtyRecycled",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct WasteWise.Recycled[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getUserTransactions",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "date",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum WasteWise.Type",
+            "name": "typeOfTransaction",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "numberOfTokens",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum WasteWise.TxStatus",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct WasteWise.Transaction[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "userId",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   }
