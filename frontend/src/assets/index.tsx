@@ -12,6 +12,10 @@ import community from "./community.svg";
 import tr1 from "./transparent_recycle1.png";
 import tr1hd from "./transparent_recycle1_hd.png";
 import tr2 from "./transparent_recycle2.png";
+import plasticOnLand from "./plastic_on_beach.jpeg";
+import wasteOnLand from "./waste_on_land.jpeg";
+import plasticOnEarth from "./plasticDestructionEarth.jpeg";
+import plasticOnWater from "./plasticDestructionWater.jpeg";
 
 export {
   profileAvatar,
@@ -28,4 +32,8 @@ export {
   tr1,
   tr1hd,
   tr2,
+  plasticOnLand,
+  wasteOnLand,
+  plasticOnEarth,
+  plasticOnWater,
 };

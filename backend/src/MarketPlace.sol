@@ -1,11 +1,16 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {RwasteWise} from "./RwasteWise.sol";
+import {WasteWise} from "./Wastewise.sol";
 
-/// @title MarketPlace: A smart contract for managing item listings in a marketplace.
+/**
+ * @title MarketPlace: A smart contract for managing item listings in a marketplace.
+ * @author Marcellus Ifeanyi, Mayowa Obisesan, Biliqis Onikoyi, Isaac Wanger, konyeri Joshua
+ * @dev This MarketPlace contract allows users who have recycled their pet Bottles to easily redeem their receipt tokens.
+ */
 contract MarketPlace {
     /// @dev Structure to represent information about an item listing.
     struct ItemInfo {
@@ -52,13 +57,28 @@ contract MarketPlace {
     error ListingExpired();
     error PriceMismatch(uint256 originalPrice);
     error NoImageUrl();
+    error NotAdmin();
+    error NotEnoughToken();
 
     /* EVENTS */
 
     RwasteWise rwasteWise;
+    WasteWise wasteWise;
 
-    constructor(address tokenAddress) {
+    constructor(address tokenAddress, address wasteWiseAddr) {
         rwasteWise = RwasteWise(tokenAddress);
+        wasteWise = WasteWise(wasteWiseAddr);
+    }
+
+    modifier onlyAdmins() {
+        bool isAdmin;
+        for (uint i = 0; i < wasteWise.getAdmins().length; i++) {
+            if (wasteWise.getAdmins()[i] == msg.sender) {
+                isAdmin = true;
+            }
+        }
+        require(isAdmin, "Not Admin");
+        _;
     }
 
     function createListing(
@@ -67,7 +87,7 @@ contract MarketPlace {
         string calldata _image,
         uint _price,
         uint _deadline
-    ) public {
+    ) public onlyAdmins {
         if (_price < 0.01 ether) revert MinPriceTooLow();
         if (block.timestamp + _deadline <= block.timestamp)
             revert DeadlineTooSoon();
@@ -88,65 +108,58 @@ contract MarketPlace {
         newItemInfo.itemId = listingId;
     }
 
-    /// @dev Redeem receipt tokens for a transaction.
-    function redeemReciptToken() public payable {}
-
     /// @dev Buy an item from the marketplace.
     /// @param _listingId The unique identifier of the item listing to buy.
-    function buyListing(uint256 _listingId, uint256 _amountToPay) public {
-        // if(itemInfoToId[_listingId] != listingId) revert ListingDoesNotExist();
-        // Check if the listingId exists
-        // Check if the user has our token at all
-        // Take in the number of listing to buy, not the amount
-        // Check if the user has enough of our token to make the purchase.
-        // Kindly make use of Custom errors for these checks.
+    function buyListing(uint256 _listingId, uint256 quantity) public {
+        ItemInfo memory newItemInfo = itemInfoToId[_listingId];
+        if (newItemInfo.itemId != _listingId) revert ListingDoesNotExist();
+        if (block.timestamp > newItemInfo.deadline) revert ListingNotActive();
 
-        // Get the Listing
-        ItemInfo storage item = itemInfoToId[_listingId];
-
-        // Check if the listing is active
-        if (block.timestamp > item.deadline) revert ListingNotActive();
-
-        // Check if the price matches
-        if (_amountToPay != item.price) revert PriceMismatch(item.price);
+        uint256 totalPrice = newItemInfo.price * quantity;
+        if (rwasteWise.balanceOf(msg.sender) < totalPrice)
+            revert NotEnoughToken();
 
         // transfer tokens from buyer to seller
-        rwasteWise.transferFrom(msg.sender, address(this), _amountToPay);
+        rwasteWise.transferFrom(msg.sender, address(this), totalPrice);
 
         // burn the tokens collected
-        rwasteWise.burnReceipt(address(this), _amountToPay);
+        rwasteWise.burnReceipt(address(this), totalPrice);
 
         // Create a new transaction
         Transaction memory transaction;
         transaction.date = block.timestamp;
         transaction.typeOfTransaction = Type.Purchase;
-        transaction.amountOfTokens = _amountToPay;
+        transaction.amountOfTokens = totalPrice;
 
         // Store the transaction
         transactions[msg.sender] = transaction;
     }
 
-    /// @dev Update the information of an existing item listing.
-    /// @param _name The new name of the item.
-    /// @param _description New description of the item.
-    /// @param _listingId The unique identifier of the item listing to update.
-    /// @param _newPrice New price for the item.
+    /**
+     * @dev Update the information of an existing item listing.
+     * @param _name  The new name of the item.
+     * @param _description New description of the item.
+     * @param _listingId The unique identifier of the item listing to update.
+     * @param _newPrice New price for the item.
+     */
     function updateListing(
         string calldata _name,
         string calldata _description,
         uint256 _listingId,
         uint256 _newPrice
-    ) public {
-        // if(listingId[_listingId] == 0) revert ListingDoesNotExist();
+    ) public onlyAdmins {
+        if (_listingId != listingId) revert ListingDoesNotExist();
         ItemInfo storage itemInfo = itemInfoToId[_listingId];
         itemInfo.name = _name;
         itemInfo.description = _description;
         itemInfo.price = _newPrice;
     }
 
-    /// @dev Get information about an item listing by its unique identifier.
-    /// @param _listingId The unique identifier of the item listing.
-    /// @return ItemInfo The information about the item listing.
+    /**
+     * @dev Get information about an item listing by its unique identifier.
+     * @param _listingId The unique identifier of the item listing.
+     * @return ItemInfo The information about the item listing.
+     */
     function getItemInfo(
         uint256 _listingId
     ) public view returns (ItemInfo memory) {

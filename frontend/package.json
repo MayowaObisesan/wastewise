@@ -44,7 +44,7 @@
     "@types/react-dom": "^18.0.3",
     "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.16",
-    "daisyui": "^3.9.4",
+    "daisyui": "^4.0.3",
     "file-loader": "^6.2.0",
     "postcss": "^8.4.31",
     "react-router-dom": "^6.18.0",
