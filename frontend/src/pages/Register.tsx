@@ -12,12 +12,13 @@ import {
 
 import { WasteWise } from "../components/WasteWise";
 import Button from "../components/Button";
-import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../utils";
+// import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../utils";
 import { useWasteWiseContext } from "../context";
 import { toast } from "sonner";
 import SignUpButton from "../components/SignUpButton";
 import { Link } from "react-router-dom";
 import Logo from "../components/Logo";
+import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
 
 const Register = () => {
   const { address, isConnected } = useAccount();
@@ -30,7 +31,7 @@ const Register = () => {
 
   const { config } = usePrepareContractWrite({
     address: WASTEWISE_ADDRESS,
-    abi: WASTEWISE_ABI,
+    abi: WasteWiseABI,
     args: [name, country, gender, number, email],
     functionName: "createUserAcct",
   });
