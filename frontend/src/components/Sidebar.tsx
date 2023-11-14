@@ -65,7 +65,10 @@ const Sidebar = (props: Props) => {
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                   />
                 </svg>
-                <h2 className="text-lg" style={{ isActive }}>
+                <h2
+                  className="text-lg"
+                  style={{ isActive }}
+                >
                   {" "}
                   Dashboard
                 </h2>
@@ -78,7 +81,10 @@ const Sidebar = (props: Props) => {
                 className="items-center"
                 style={isActive === "wallet" ? activeLinkStyle : {}}
               >
-                <img src={wallet} alt="wallet-Icon" />
+                <img
+                  src={wallet}
+                  alt="wallet-Icon"
+                />
                 <h2 className="text-lg">Wallet</h2>
               </Link>
             </li>
@@ -88,7 +94,10 @@ const Sidebar = (props: Props) => {
                 className="flex flex-row gap-2 items-center"
                 style={isActive === "recycle" ? activeLinkStyle : {}}
               >
-                <img src={settings} alt="recycle-Icon" />
+                <img
+                  src={settings}
+                  alt="recycle-Icon"
+                />
                 <h2 className="text-lg">Recycle</h2>
               </Link>
             </li>
@@ -159,6 +168,29 @@ const Sidebar = (props: Props) => {
                   />
                 </svg>
                 <h2 className="text-lg">My Events</h2>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/dashboard/createAdmin"
+                className="flex flex-row gap-2 items-center"
+                style={isActive === "campaign" ? activeLinkStyle : {}}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+                <h2 className="text-lg">Create Admin</h2>
               </Link>
             </li>
           </ul>
