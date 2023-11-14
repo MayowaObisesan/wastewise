@@ -83,6 +83,7 @@ contract WasteWise {
 
     User[] allUsers; // An array to store all user data.
     User[] allAdmins; // An array to store all admins
+    User[] verifiers;
     uint public userId; // A counter to track the number of users in the system.
 
     // Custom Errors
@@ -93,6 +94,8 @@ contract WasteWise {
     error ExpectNonAdmin();
     error AdminAlreadyApproved(address _addr);
     error TheAddressIsNotInTheAdminArray();
+    error VerifierAlreadyExist();
+    error UserIsNotVerifier();
 
     // Events
     event UserAccountCreated(
@@ -124,6 +127,8 @@ contract WasteWise {
     event AdminSeeded(address indexed adminAddress);
     event AdminAdded(address indexed newAdmin, address indexed admins);
     event NewAdminApproved(address indexed newAdmin, address indexed admins);
+    event VerifierAdded(address indexed verifier, address indexed admins);
+    event VerifierRemoved(address indexed verifier, address indexed admins);
 
     error OnlyTheVerifiersCanCallThisFunction();
 
@@ -366,5 +371,44 @@ contract WasteWise {
         user.approvalCount++;
 
         emit NewAdminApproved(_addr, msg.sender);
+    }
+
+    function addVerifiers(address _addr) public onlyAdmins {
+        if (_addr != UserMap[_addr].userAddr) {
+            revert UserDoesNotExist();
+        }
+
+        if (UserMap[_addr].role == Role.VERIFIERS) {
+            revert VerifierAlreadyExist();
+        }
+
+        UserMap[_addr].role = Role.VERIFIERS;
+        verifiers.push(UserMap[_addr]);
+
+        emit VerifierAdded(_addr, msg.sender);
+    }
+
+    function removeVerifiers(address _addr) public onlyAdmins {
+        if (_addr != UserMap[_addr].userAddr) {
+            revert UserDoesNotExist();
+        }
+
+        if (UserMap[_addr].role != Role.VERIFIERS) {
+            revert UserIsNotVerifier();
+        }
+
+        // Remove the user from the verifiers array
+        for (uint i = 0; i < verifiers.length; i++) {
+            if (verifiers[i].userAddr == _addr) {
+                verifiers[i] = verifiers[verifiers.length - 1];
+                verifiers.pop();
+                break;
+            }
+        }
+
+        // Update the user's role
+        UserMap[_addr].role = Role.VERIFIERS;
+
+        emit VerifierRemoved(_addr, msg.sender);
     }
 }
