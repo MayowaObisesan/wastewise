@@ -88,6 +88,6 @@ The smart contracts are released under the UNLICENSED and MIT licenses, allowing
 https://sepolia.etherscan.io/address/0xf42c1fa0240af972bd59e1c585aefc0dd87d30a5
 
 - MarketPlace:
-0x6f2fe8f96a0a61966e9e92c9aeb98e4c62f024b6
+0x9a4ec2fc0b9ba3c84205d5d9e587d290bf32a50a
 
-https://sepolia.etherscan.io/address/0x6f2fe8f96a0a61966e9e92c9aeb98e4c62f024b6
+https://sepolia.etherscan.io/address/0x9a4ec2fc0b9ba3c84205d5d9e587d290bf32a50a
