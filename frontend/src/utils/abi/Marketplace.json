@@ -1,7 +1,8 @@
 [
   {
     "inputs": [
-      { "internalType": "address", "name": "tokenAddress", "type": "address" }
+      { "internalType": "address", "name": "tokenAddress", "type": "address" },
+      { "internalType": "address", "name": "wasteWiseAddr", "type": "address" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
@@ -14,6 +15,8 @@
   { "inputs": [], "name": "MinDurationNotMet", "type": "error" },
   { "inputs": [], "name": "MinPriceTooLow", "type": "error" },
   { "inputs": [], "name": "NoImageUrl", "type": "error" },
+  { "inputs": [], "name": "NotAdmin", "type": "error" },
+  { "inputs": [], "name": "NotEnoughToken", "type": "error" },
   {
     "inputs": [
       { "internalType": "uint256", "name": "originalPrice", "type": "uint256" }
@@ -38,7 +41,7 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "_listingId", "type": "uint256" },
-      { "internalType": "uint256", "name": "_amountToPay", "type": "uint256" }
+      { "internalType": "uint256", "name": "quantity", "type": "uint256" }
     ],
     "name": "buyListing",
     "outputs": [],
@@ -124,13 +127,6 @@
     "name": "listingId",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "redeemReciptToken",
-    "outputs": [],
-    "stateMutability": "payable",
     "type": "function"
   },
   {
