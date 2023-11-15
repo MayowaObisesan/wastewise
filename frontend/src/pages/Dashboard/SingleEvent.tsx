@@ -7,14 +7,14 @@ import {
 } from "wagmi";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatUnits } from "viem";
-import {
-  MARKETPLACE_ABI,
-  MARKETPLACE_ADDRESS,
-  RWASTEWISE_ABI,
-  RWASTEWISE_ADDRESS,
-  formatDate,
-} from "../../utils";
+import { formatDate } from "../../utils";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import {
+  MARKETPLACE_ADDRESS,
+  MarketPlaceABI,
+  TokenABI,
+  WASTEWISE_TOKEN_ADDRESS,
+} from "../../../constants";
 
 const SingleEvent = () => {
   let { id } = useParams();
@@ -24,7 +24,7 @@ const SingleEvent = () => {
   const navigate = useNavigate();
   const { isLoading } = useContractRead({
     address: MARKETPLACE_ADDRESS,
-    abi: MARKETPLACE_ABI,
+    abi: MarketPlaceABI,
     functionName: "getItemInfo",
     args: [id],
     onError(data: any) {
@@ -47,7 +47,7 @@ const SingleEvent = () => {
 
   const { config: buyListingConfig } = usePrepareContractWrite({
     address: MARKETPLACE_ADDRESS,
-    abi: MARKETPLACE_ABI,
+    abi: MarketPlaceABI,
     functionName: "buyListing",
     args: [listing?.itemId, listing?.price],
     onError(data: any) {
@@ -57,8 +57,8 @@ const SingleEvent = () => {
   const { data: payData, write } = useContractWrite(buyListingConfig);
 
   const { config: approveListing } = usePrepareContractWrite({
-    address: RWASTEWISE_ADDRESS,
-    abi: RWASTEWISE_ABI,
+    address: WASTEWISE_TOKEN_ADDRESS,
+    abi: TokenABI,
     functionName: "approve",
     args: [MARKETPLACE_ADDRESS, listing?.price],
     onError(data: any) {

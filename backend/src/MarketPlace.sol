@@ -137,11 +137,9 @@ contract MarketPlace {
         transactions[msg.sender].push(transaction);
 
         WasteWise.Statistics memory _stats;
-        // Increase the minted statistics, recycled and transactions
-        // _stats.totalMinted = _stats.totalMinted + _qtyrecycled;
-        // _stats.totalRecycled = _stats.totalRecycled + _qtyrecycled;
-        ++_stats.totalTransactions;
-        statistics = _stats;
+        // Increase the transactions
+        stats.totalTransactions = statistics.totalTransactions + 1;
+        statistics.totalTransactions = _stats.totalTransactions;
     }
 
     /**
