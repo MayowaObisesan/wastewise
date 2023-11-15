@@ -1,4 +1,8 @@
+import { useAccount } from "wagmi";
+
 const CardThree = () => {
+  const { address } = useAccount();
+
   return (
     <div className="rounded-xl border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4">
@@ -26,7 +30,7 @@ const CardThree = () => {
           <h4 className="text-title-md font-bold text-black dark:text-white">
             2.450
           </h4>
-          <span className="text-sm font-medium">Total Product</span>
+          <span className="text-sm font-medium">Total Recycled plastics</span>
         </div>
 
         <span className="flex items-center gap-1 text-sm font-medium text-meta-3">

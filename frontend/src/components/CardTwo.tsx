@@ -1,5 +1,14 @@
+import { useAccount, useContractRead } from "wagmi";
+import { MARKETPLACE_ADDRESS, MarketPlaceABI } from "../../constants";
+import { useWasteWiseContext } from "../context";
+
 const CardTwo = () => {
   // Items in the marketplace
+  const { data } = useContractRead({
+    address: MARKETPLACE_ADDRESS,
+    abi: MarketPlaceABI,
+    functionName: "listingId",
+  });
 
   return (
     <div className="rounded-xl border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -30,9 +39,9 @@ const CardTwo = () => {
       <div className="mt-4 flex items-end justify-between">
         <div>
           <h4 className="text-title-md font-bold text-black dark:text-white">
-            $45,2K
+            {Number(data)}
           </h4>
-          <span className="text-sm font-medium">Total Profit</span>
+          <span className="text-sm font-medium">Total Marketplace Events</span>
         </div>
 
         <span className="flex items-center gap-1 text-sm font-medium text-meta-3">

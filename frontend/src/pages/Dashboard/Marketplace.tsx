@@ -4,7 +4,8 @@ import { useContractRead } from "wagmi";
 import { formatUnits } from "viem";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
-import { MARKETPLACE_ABI, MARKETPLACE_ADDRESS, formatDate } from "../../utils";
+import { formatDate } from "../../utils";
+import { MARKETPLACE_ADDRESS, MarketPlaceABI } from "../../../constants";
 
 type Props = {};
 
@@ -14,7 +15,7 @@ const Marketplace = (props: Props) => {
 
   const { isLoading } = useContractRead({
     address: MARKETPLACE_ADDRESS,
-    abi: MARKETPLACE_ABI,
+    abi: MarketPlaceABI,
     functionName: "getAllItemInfo",
     onError(data: any) {
       console.log(data);
