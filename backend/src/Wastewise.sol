@@ -377,7 +377,7 @@ contract WasteWise {
         if (_addr != UserMap[_addr].userAddr) {
             revert UserDoesNotExist();
         }
-        if (!UserMap[_addr].isAdmin) {
+        if (UserMap[_addr].isAdmin) {
             revert ExpectNonAdmin();
         }
         // Create a Request for that user to add as admin

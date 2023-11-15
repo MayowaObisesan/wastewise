@@ -183,7 +183,7 @@ contract MarketPlace {
         return allItemInfo;
     }
 
-    function getAllActiveItemInfo() private view returns (ItemInfo[] memory) {
+    function getAllActiveItemInfo() public view returns (ItemInfo[] memory) {
         uint activeItemsLength;
         for (uint i = 0; i < listingId; i++) {
             ItemInfo memory itemInfo = itemInfoToId[i + 1];
