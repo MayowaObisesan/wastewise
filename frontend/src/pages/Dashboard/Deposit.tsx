@@ -2,7 +2,8 @@ import { Toaster, toast } from "sonner";
 import Button from "../../components/Button";
 import { useRef, useState, useEffect } from "react";
 import localforage from "localforage";
-import { WasteWise_ADDRESS, WasteWiseABI } from "../../../constants/index";
+import WASTEWISE_ABI from "../../../constants/wasteWiseABI.json";
+import { WasteWise_ADDRESS } from "../../../constants/wasteWiseAddress";
 
 import {
   useAccount,
@@ -10,17 +11,18 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../../utils";
+// import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../../utils";
 
 const Recycle = () => {
   const { address } = useAccount();
   const [numPlastic, setNumPlastic] = useState<number>();
+  const [userId, setUserId] = useState<number>();
 
   const { config: depositPlasticConfig } = usePrepareContractWrite({
-    address: WASTEWISE_ADDRESS,
+    address: WasteWise_ADDRESS,
     abi: WASTEWISE_ABI,
     functionName: "depositPlastic",
-    args: [numPlastic],
+    args: [numPlastic, userId],
   });
 
   const {
@@ -71,9 +73,16 @@ const Recycle = () => {
               d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             ></path>
           </svg>
-          <dialog id="my_modal_4" className="modal" ref={sdgModal}>
+          <dialog
+            id="my_modal_4"
+            className="modal"
+            ref={sdgModal}
+          >
             <div className="modal-box w-11/12 max-w-5xl">
-              <form method="dialog" className="modal-backdrop">
+              <form
+                method="dialog"
+                className="modal-backdrop"
+              >
                 <div className="modal-action">
                   {/* if there is a button, it will close the modal */}
                   <button className="btn btn-md btn-rounded btn-ghost absolute right-8 top-8 text-base-content font-black">
@@ -148,7 +157,10 @@ const Recycle = () => {
       </div>
 
       <div className="flex flex-col w-full mx-auto my-8 space-y-8 lg:my-12 lg:w-7/12">
-        <form action="" onSubmit={handleDepositPlastic}>
+        <form
+          action=""
+          onSubmit={handleDepositPlastic}
+        >
           <div className="form-control w-full">
             <label className="label">
               <span className="label-text">No of Plastics</span>
@@ -164,8 +176,26 @@ const Recycle = () => {
             <label className="label">
               <span className="label-text-alt">You will get 15 tokens</span>
             </label>
+            <label className="label">
+              <span className="label-text">User Id</span>
+            </label>
+            <input
+              value={userId}
+              onChange={(e: any) => setUserId(e.target.value)}
+              type="number"
+              id="number"
+              placeholder="Number of plastics"
+              className="input input-lg input-bordered w-full placeholder:text-base"
+            />
+            <label className="label">
+              <span className="label-text-alt">Enter User Id</span>
+            </label>
           </div>
-          <Button name="Recycle" size="block" customStyle="w-full" />
+          <Button
+            name="Recycle"
+            size="block"
+            customStyle="w-full"
+          />
         </form>
       </div>
 
