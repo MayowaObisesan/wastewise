@@ -19,6 +19,7 @@ const Marketplace = (props: Props) => {
     functionName: "getAllActiveItemInfo",
     onError(data: any) {
       console.log(data);
+      setLoading(false);
     },
     onSuccess(data: any) {
       setListings(data);
@@ -34,6 +35,11 @@ const Marketplace = (props: Props) => {
 
   return (
     <div className="my-8">
+      {listings.length == 0 && (
+        <p className="text-lg font-semibold text-center">
+          No Items Available To Purchase
+        </p>
+      )}
       <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
         {loading
           ? [1, 2, 3, 4].map((item, index) => {
