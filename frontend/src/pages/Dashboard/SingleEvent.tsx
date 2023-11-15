@@ -8,14 +8,14 @@ import {
 } from "wagmi";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatEther, formatUnits, parseEther } from "viem";
-import {
-  MARKETPLACE_ABI,
-  MARKETPLACE_ADDRESS,
-  RWASTEWISE_ABI,
-  RWASTEWISE_ADDRESS,
-  formatDate,
-} from "../../utils";
+import { formatDate } from "../../utils";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import {
+  MARKETPLACE_ADDRESS,
+  MarketPlaceABI,
+  TokenABI,
+  WASTEWISE_TOKEN_ADDRESS,
+} from "../../../constants";
 
 const SingleEvent = () => {
   let { id } = useParams();
@@ -45,173 +45,8 @@ const SingleEvent = () => {
   };
 
   const { isLoading } = useContractRead({
-    address: "0x869c0cD069aF5dE232D6cBd5c3458d014B6E1c4b",
-    abi: [
-      {
-        inputs: [
-          { internalType: "address", name: "tokenAddress", type: "address" },
-          { internalType: "address", name: "wasteWiseAddr", type: "address" },
-        ],
-        stateMutability: "nonpayable",
-        type: "constructor",
-      },
-      { inputs: [], name: "DeadlineTooSoon", type: "error" },
-      { inputs: [], name: "InvalidSignature", type: "error" },
-      { inputs: [], name: "ListingDoesNotExist", type: "error" },
-      { inputs: [], name: "ListingExpired", type: "error" },
-      { inputs: [], name: "ListingNotActive", type: "error" },
-      { inputs: [], name: "MinDurationNotMet", type: "error" },
-      { inputs: [], name: "MinPriceTooLow", type: "error" },
-      { inputs: [], name: "NoImageUrl", type: "error" },
-      { inputs: [], name: "NotAdmin", type: "error" },
-      { inputs: [], name: "NotEnoughToken", type: "error" },
-      {
-        inputs: [
-          { internalType: "uint256", name: "originalPrice", type: "uint256" },
-        ],
-        name: "PriceMismatch",
-        type: "error",
-      },
-      {
-        inputs: [
-          { internalType: "int256", name: "difference", type: "int256" },
-        ],
-        name: "PriceNotMet",
-        type: "error",
-      },
-      {
-        inputs: [],
-        name: "admin",
-        outputs: [{ internalType: "address", name: "", type: "address" }],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [
-          { internalType: "uint256", name: "_listingId", type: "uint256" },
-          { internalType: "uint256", name: "quantity", type: "uint256" },
-        ],
-        name: "buyListing",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [
-          { internalType: "string", name: "_name", type: "string" },
-          { internalType: "string", name: "_description", type: "string" },
-          { internalType: "string", name: "_image", type: "string" },
-          { internalType: "uint256", name: "_price", type: "uint256" },
-          { internalType: "uint256", name: "_deadline", type: "uint256" },
-        ],
-        name: "createListing",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "getAllActiveItemInfo",
-        outputs: [
-          {
-            components: [
-              { internalType: "string", name: "name", type: "string" },
-              { internalType: "string", name: "description", type: "string" },
-              { internalType: "string", name: "image", type: "string" },
-              { internalType: "uint256", name: "price", type: "uint256" },
-              { internalType: "uint256", name: "deadline", type: "uint256" },
-              { internalType: "address", name: "lister", type: "address" },
-              { internalType: "uint256", name: "itemId", type: "uint256" },
-            ],
-            internalType: "struct MarketPlace.ItemInfo[]",
-            name: "",
-            type: "tuple[]",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "getAllItemInfo",
-        outputs: [
-          {
-            components: [
-              { internalType: "string", name: "name", type: "string" },
-              { internalType: "string", name: "description", type: "string" },
-              { internalType: "string", name: "image", type: "string" },
-              { internalType: "uint256", name: "price", type: "uint256" },
-              { internalType: "uint256", name: "deadline", type: "uint256" },
-              { internalType: "address", name: "lister", type: "address" },
-              { internalType: "uint256", name: "itemId", type: "uint256" },
-            ],
-            internalType: "struct MarketPlace.ItemInfo[]",
-            name: "",
-            type: "tuple[]",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [
-          { internalType: "uint256", name: "_listingId", type: "uint256" },
-        ],
-        name: "getItemInfo",
-        outputs: [
-          {
-            components: [
-              { internalType: "string", name: "name", type: "string" },
-              { internalType: "string", name: "description", type: "string" },
-              { internalType: "string", name: "image", type: "string" },
-              { internalType: "uint256", name: "price", type: "uint256" },
-              { internalType: "uint256", name: "deadline", type: "uint256" },
-              { internalType: "address", name: "lister", type: "address" },
-              { internalType: "uint256", name: "itemId", type: "uint256" },
-            ],
-            internalType: "struct MarketPlace.ItemInfo",
-            name: "",
-            type: "tuple",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        name: "itemInfoToId",
-        outputs: [
-          { internalType: "string", name: "name", type: "string" },
-          { internalType: "string", name: "description", type: "string" },
-          { internalType: "string", name: "image", type: "string" },
-          { internalType: "uint256", name: "price", type: "uint256" },
-          { internalType: "uint256", name: "deadline", type: "uint256" },
-          { internalType: "address", name: "lister", type: "address" },
-          { internalType: "uint256", name: "itemId", type: "uint256" },
-        ],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [],
-        name: "listingId",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        inputs: [
-          { internalType: "string", name: "_name", type: "string" },
-          { internalType: "string", name: "_description", type: "string" },
-          { internalType: "uint256", name: "_listingId", type: "uint256" },
-          { internalType: "uint256", name: "_newPrice", type: "uint256" },
-        ],
-        name: "updateListing",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-    ],
+    address: MARKETPLACE_ADDRESS,
+    abi: MarketPlaceABI,
     functionName: "getItemInfo",
     args: [id],
     onError(data: any) {
@@ -248,7 +83,7 @@ const SingleEvent = () => {
 
   const { config: buyListingConfig } = usePrepareContractWrite({
     address: MARKETPLACE_ADDRESS,
-    abi: MARKETPLACE_ABI,
+    abi: MarketPlaceABI,
     functionName: "buyListing",
     args: [listing?.itemId, amount],
     onError(data: any) {
@@ -258,8 +93,8 @@ const SingleEvent = () => {
   const { data: payData, write } = useContractWrite(buyListingConfig);
 
   const { config: approveListing } = usePrepareContractWrite({
-    address: RWASTEWISE_ADDRESS,
-    abi: RWASTEWISE_ABI,
+    address: WASTEWISE_TOKEN_ADDRESS,
+    abi: TokenABI,
     functionName: "approve",
     args: ["0x869c0cD069aF5dE232D6cBd5c3458d014B6E1c4b", parseEther(`${1}`)],
     onError(data: any) {

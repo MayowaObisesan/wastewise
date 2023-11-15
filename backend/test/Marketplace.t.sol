@@ -23,9 +23,9 @@ contract MarketPlaceTest is Helpers {
     uint pKeyB;
 
     WasteWise.User uObject;
+    address[] admins = new address[](2);
 
     function setUp() public {
-        address[] memory admins = new address[](2);
         admins[0] = address(0x3333);
         admins[1] = address(0x4444);
         wasteToken = new RwasteWise();
@@ -115,6 +115,8 @@ contract MarketPlaceTest is Helpers {
     }
 
     function testDepositPlastic() public {
+        vm.prank(admins[0]);
+        wasteWise.addVerifiers(address(6));
         vm.startPrank(address(6));
         wasteWise.depositPlastic(2, 1);
         wasteToken.approve(
