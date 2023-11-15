@@ -126,7 +126,7 @@ contract MarketPlace {
         rwasteWise.burnReceipt(address(this), totalPrice);
 
         // Create a new transaction
-        Transaction memory transaction;
+        WasteWise.Transaction memory transaction;
         transaction.date = block.timestamp;
         transaction.typeOfTransaction = Type.Purchase;
         transaction.amountOfTokens = totalPrice;
