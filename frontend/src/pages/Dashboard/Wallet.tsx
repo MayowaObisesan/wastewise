@@ -356,6 +356,24 @@ const Wallet = () => {
               </tr>
             </thead>
             <tbody>
+              {data?.map((eachTx, index) => {
+                <tr className="h-16">
+                  <th>{eachTx.date}</th>
+                  <td>{eachTx.typeOfTransaction}</td>
+                  <td>{eachTx.numberOfTokens}</td>
+                  <td>
+                    {eachTx.typeOfTransaction === 0 ? (
+                      <span className="badge badge-success badge-sm">
+                        Credit
+                      </span>
+                    ) : (
+                      <span className="badge badge-success badge-sm">
+                        Debit
+                      </span>
+                    )}
+                  </td>
+                </tr>;
+              })}
               {/* row 1 */}
               <tr className="h-16">
                 <th>7-Nov-2023</th>
