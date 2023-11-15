@@ -25,6 +25,7 @@ import { Toaster } from "sonner";
 import CreateEvent from "./pages/Dashboard/CreateEvent";
 import MyEvents from "./pages/Dashboard/MyEvents";
 import SingleEvent from "./pages/Dashboard/SingleEvent";
+import CreateAdmin from "./pages/Dashboard/CreateAdmin";
 
 export function App() {
   return (
@@ -40,21 +41,55 @@ export function App() {
           element={<Layout />}
           errorElement={<ErrorPage />}
         >
-          <Route path="" element={<Home />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="wallet" element={<Wallet />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="recycle" element={<Recycle />} />
-          <Route path="marketplace" element={<Marketplace />} />
-          <Route path="createEvent" element={<CreateEvent />} />
-          <Route path="myEvents" element={<MyEvents />} />
-          <Route path="marketplace/event/:id" element={<SingleEvent />} />
+          <Route
+            path=""
+            element={<Home />}
+          />
+          <Route
+            path="profile"
+            element={<Profile />}
+          />
+          <Route
+            path="wallet"
+            element={<Wallet />}
+          />
+          <Route
+            path="settings"
+            element={<Settings />}
+          />
+          <Route
+            path="recycle"
+            element={<Recycle />}
+          />
+          <Route
+            path="marketplace"
+            element={<Marketplace />}
+          />
+          <Route
+            path="createEvent"
+            element={<CreateEvent />}
+          />
+          <Route
+            path="myEvents"
+            element={<MyEvents />}
+          />
+          <Route
+            path="createAdmin"
+            element={<CreateAdmin />}
+          />
+          <Route
+            path="marketplace/event/:id"
+            element={<SingleEvent />}
+          />
         </Route>
         {/* <Route
           path="/Login"
           element={<Login />}
         ></Route> */}
-        <Route path="/Register" element={<Register />}></Route>
+        <Route
+          path="/Register"
+          element={<Register />}
+        ></Route>
       </Routes>
       <div className="relative">
         <Toaster

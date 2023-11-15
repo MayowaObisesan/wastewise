@@ -58,6 +58,16 @@
   },
   {
     "inputs": [],
+    "name": "UserIsNotVerifier",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "VerifierAlreadyExist",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "ZeroAmountNotAllow",
     "type": "error"
   },
@@ -236,6 +246,44 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "verifier",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "admins",
+        "type": "address"
+      }
+    ],
+    "name": "VerifierAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "verifier",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "admins",
+        "type": "address"
+      }
+    ],
+    "name": "VerifierRemoved",
+    "type": "event"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -323,6 +371,19 @@
       }
     ],
     "name": "addAdmins",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      }
+    ],
+    "name": "addVerifiers",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -829,6 +890,111 @@
         "internalType": "struct WasteWise.Transaction[]",
         "name": "",
         "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      }
+    ],
+    "name": "removeVerifiers",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "statistics",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "totalUsers",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalAdmins",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalVerifiers",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalRecycled",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalTransactions",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalMarketplaceEvents",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalExpiredMarketplaceEvents",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalMinted",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalSupply",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "transactionsMap",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "date",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum WasteWise.Type",
+        "name": "typeOfTransaction",
+        "type": "uint8"
+      },
+      {
+        "internalType": "uint256",
+        "name": "numberOfTokens",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum WasteWise.TxStatus",
+        "name": "status",
+        "type": "uint8"
       }
     ],
     "stateMutability": "view",

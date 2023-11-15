@@ -34,7 +34,7 @@ contract MarketPlace {
         Purchase
     }
 
-    mapping(address => Transaction) transactions;
+    mapping(address => Transaction[]) transactions;
 
     /// @dev Mapping to store item information by their unique listing ID.
     mapping(uint256 => ItemInfo) public itemInfoToId;
@@ -64,6 +64,8 @@ contract MarketPlace {
 
     RwasteWise rwasteWise;
     WasteWise wasteWise;
+
+    WasteWise.Statistics statistics;
 
     constructor(address tokenAddress, address wasteWiseAddr) {
         rwasteWise = RwasteWise(tokenAddress);
@@ -132,7 +134,14 @@ contract MarketPlace {
         transaction.amountOfTokens = totalPrice;
 
         // Store the transaction
-        transactions[msg.sender] = transaction;
+        transactions[msg.sender].push(transaction);
+
+        WasteWise.Statistics memory _stats;
+        // Increase the minted statistics, recycled and transactions
+        // _stats.totalMinted = _stats.totalMinted + _qtyrecycled;
+        // _stats.totalRecycled = _stats.totalRecycled + _qtyrecycled;
+        ++_stats.totalTransactions;
+        statistics = _stats;
     }
 
     /**

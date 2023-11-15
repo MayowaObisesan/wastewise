@@ -10,6 +10,19 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract WasteWise {
     RwasteWise rwasteWise; // An instance of RwasteWise contract.
 
+    // Create state variables that will be used for statistics
+    struct Statistics {
+        uint totalUsers;
+        uint totalAdmins;
+        uint totalVerifiers;
+        uint totalRecycled;
+        uint totalTransactions;
+        uint totalMarketplaceEvents;
+        uint totalExpiredMarketplaceEvents;
+        uint totalMinted;
+        uint totalSupply;
+    }
+
     enum Role {
         ADMINS,
         VERIFIERS,
@@ -53,7 +66,8 @@ contract WasteWise {
 
     enum Type {
         Recycle,
-        Purchase
+        Purchase,
+        User
     }
 
     /// @dev Structure to represent a recycling transaction.
@@ -70,7 +84,7 @@ contract WasteWise {
     /// @dev Mapping to track recycling transactions for each user.
     mapping(address => Recycled[]) RecycledMap;
 
-    mapping(address => Transaction[]) transactionsMap;
+    mapping(address => Transaction[]) public transactionsMap;
 
     /// @dev Mapping to store user data.
     mapping(address => User) public UserMap;
@@ -78,6 +92,8 @@ contract WasteWise {
     mapping(uint => AdminRequest) adminRequest;
     mapping(address => mapping(address => bool)) hasApprovedAdmin;
     mapping(uint => address) IdToAddress;
+
+    Statistics public statistics;
 
     uint adminReqId;
 
@@ -161,6 +177,11 @@ contract WasteWise {
             // User storage newAdmin;
             allAdmins.push(_admins[i]);
         }
+
+        Statistics memory _stats;
+        _stats.totalAdmins = _stats.totalAdmins + _admins.length;
+        _stats.totalUsers = _stats.totalUsers + _admins.length;
+        statistics = _stats;
     }
 
     function createUserAcct(
@@ -198,6 +219,10 @@ contract WasteWise {
             block.timestamp
         );
         allUsers.push(user);
+
+        Statistics memory _stats;
+        ++_stats.totalUsers;
+        statistics = _stats;
     }
 
     /**
@@ -241,6 +266,13 @@ contract WasteWise {
 
         // Mint receiptTokens of the same amount, `_qtyrecycled`, to the user upon successful recycling
         rwasteWise.mintReceipt(_userAddr, _qtyrecycled * 10 ** 18);
+
+        Statistics memory _stats;
+        // Increase the minted statistics, recycled and transactions
+        _stats.totalMinted = _stats.totalMinted + _qtyrecycled;
+        _stats.totalRecycled = _stats.totalRecycled + _qtyrecycled;
+        ++_stats.totalTransactions;
+        statistics = _stats;
 
         emit PlasticDeposited(
             _userAddr,
@@ -294,6 +326,18 @@ contract WasteWise {
         user.phoneNo = _user.phoneNo;
         user.gender = _user.gender;
 
+        // Create a new transaction
+        Transaction memory transaction;
+        transaction.date = block.timestamp;
+        transaction.typeOfTransaction = Type.User;
+
+        // Store the transaction for the user
+        transactionsMap[msg.sender].push(transaction);
+
+        Statistics memory _stats;
+        ++_stats.totalTransactions;
+        statistics = _stats;
+
         emit UserEdited(
             user.name,
             user.country,
@@ -333,7 +377,7 @@ contract WasteWise {
         if (_addr != UserMap[_addr].userAddr) {
             revert UserDoesNotExist();
         }
-        if (!UserMap[_addr].isAdmin) {
+        if (UserMap[_addr].isAdmin) {
             revert ExpectNonAdmin();
         }
         // Create a Request for that user to add as admin
@@ -379,6 +423,10 @@ contract WasteWise {
         User storage user = UserMap[_addr];
         user.approvalCount++;
 
+        Statistics memory _stats;
+        ++_stats.totalAdmins;
+        statistics = _stats;
+
         emit NewAdminApproved(_addr, msg.sender);
     }
 
@@ -393,6 +441,11 @@ contract WasteWise {
 
         UserMap[_addr].role = Role.VERIFIERS;
         verifiers.push(UserMap[_addr]);
+
+        Statistics memory _stats;
+        // Increase the minted statistics, recycled and transactions
+        ++_stats.totalTransactions;
+        statistics = _stats;
 
         emit VerifierAdded(_addr, msg.sender);
     }
@@ -417,6 +470,11 @@ contract WasteWise {
 
         // Update the user's role
         UserMap[_addr].role = Role.VERIFIERS;
+
+        Statistics memory _stats;
+        // Increase the minted statistics, recycled and transactions
+        ++_stats.totalTransactions;
+        statistics = _stats;
 
         emit VerifierRemoved(_addr, msg.sender);
     }
