@@ -6,33 +6,21 @@ import { WasteWise_ADDRESS } from "../../../constants/wasteWiseAddress";
 
 type Props = {};
 
-const CreateEvent = (props: Props) => {
-  const [name, setName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [imagePath, setImagePath] = useState(null);
-  const [image, setImage] = useState<string>("");
-  const [price, setPrice] = useState<number>(0);
-  const [deadline, setDeadline] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
+const CreateAdmin = (props: Props) => {
+  const [address, setAddress] = useState<string>();
 
-  const toTimeStamp = (strDate: string) => {
-    const dt = Date.parse(strDate);
-    const dts = dt / 1000;
-    setDeadline(dts);
-  };
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
-    const imgUrl = await pinFileToIPFS(imagePath);
-    if (imgUrl) setImage(imgUrl);
   };
 
   const { write, isLoading, data } = useContractWrite({
     address: WasteWise_ADDRESS,
     abi: WASTEWISE_ABI,
-    functionName: "createListing",
-    args: [name, description, image, price, deadline],
+    functionName: "addAdmins",
+    args: [address],
     onError() {
       setLoading(false);
     },
@@ -49,75 +37,23 @@ const CreateEvent = (props: Props) => {
   });
 
   useEffect(() => {
-    if (image != "") {
-      write?.();
-    }
-  }, [image, name, description, deadline, price]);
+    write?.();
+  }, [address]);
 
   const navigate = useNavigate();
 
   return (
     <div className="mb-8">
       <div className="card w-[95%] mx-auto bg-base-100 shadow-xl lg:shadow-2xl pt-4">
-        <h3 className="uppercase text-xl text-center font-bold">
-          Post your event
-        </h3>
+        <h3 className="uppercase text-xl text-center font-bold">Add Admin</h3>
         <div className="card-body">
           <form onSubmit={handleSubmit}>
-            <div className="md:grid md:grid-cols-2 gap-x-5 sm:justify-center">
-              <div className="form-control mb-3 w-full max-w-xs sm:max-w-md md:max-w-xl mx-auto">
-                <label className="label">
-                  <span className="label-text">Event Name</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter name"
-                  className="input input-bordered w-full"
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </div>
-              <div className="form-control mb-3 w-full max-w-xs sm:max-w-md md:max-w-xl mx-auto">
-                <label className="label">
-                  <span className="label-text">Event Description</span>
-                </label>
-                <textarea
-                  className="textarea textarea-bordered"
-                  placeholder="Enter description"
-                  onChange={(e) => setDescription(e.target.value)}
-                ></textarea>
-              </div>
-              <div className="form-control mb-3 w-full max-w-xs sm:max-w-md md:max-w-xl mx-auto">
-                <label className="label">
-                  <span className="label-text">Event Banner</span>
-                </label>
-                <input
-                  type="file"
-                  className="file-input file-input-bordered w-full"
-                  onChange={(e) => setImagePath(e.target.files)}
-                />
-              </div>
-              <div className="form-control mb-3 w-full max-w-xs sm:max-w-md md:max-w-xl mx-auto">
-                <label className="label">
-                  <span className="label-text">Event Price</span>
-                </label>
-                <input
-                  type="number"
-                  placeholder="Enter price"
-                  className="input input-bordered w-full"
-                  onChange={(e) => setPrice(Number(e.target.value))}
-                />
-              </div>
-              <div className="form-control mb-3 w-full max-w-xs sm:max-w-md md:max-w-xl mx-auto">
-                <label className="label">
-                  <span className="label-text">Event Deadline</span>
-                </label>
-                <input
-                  type="datetime-local"
-                  className="input input-bordered w-full"
-                  onChange={(e) => toTimeStamp(e.target.value)}
-                />
-              </div>
-            </div>
+            <input
+              type="text"
+              placeholder="Type here"
+              className="input input-bordered input-error w-full max-w-xs"
+              onChange={(e) => setAddress(e.target.value)}
+            />
             <div className="card-actions">
               <button className="btn w-full max-w-xs sm:max-w-md mx-auto md:max-w-2xl btn-primary">
                 {loading ? (
@@ -134,4 +70,4 @@ const CreateEvent = (props: Props) => {
   );
 };
 
-export default CreateEvent;
+export default CreateAdmin;
