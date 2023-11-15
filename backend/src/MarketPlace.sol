@@ -138,7 +138,7 @@ contract MarketPlace {
 
         WasteWise.Statistics memory _stats;
         // Increase the transactions
-        stats.totalTransactions = statistics.totalTransactions + 1;
+        _stats.totalTransactions = statistics.totalTransactions + 1;
         statistics.totalTransactions = _stats.totalTransactions;
     }
 

@@ -2,9 +2,9 @@
 
 ## Overview
 
-**WasteWise** protocol is a green chain, sustainable environment-first (Waste to Wealth) blockchain-powered platform designed to incentivize recycling and responsible waste disposal, contributing significantly to the creation of cleaner, more sustainable urban environments. 
+**WasteWise** protocol is a green chain, sustainable environment-first (Waste to Wealth) blockchain-powered platform designed to incentivize recycling and responsible waste disposal, contributing significantly to the creation of cleaner, more sustainable urban environments.
 
-*WasteWise plays a pivotal role in advancing Sustainable Development Goal 11 - "Sustainable Cities and Communities.*
+_WasteWise plays a pivotal role in advancing Sustainable Development Goal 11 - "Sustainable Cities and Communities._
 
 The WasteWise Protocol is a comprehensive blockchain-based solution comprising three core contracts: `WasteWise`, `RwasteWise`, and `MarketPlace`. This integrated system is designed to promote environmental sustainability by rewarding users for recycling efforts through the issuance of receipt tokens (RWISE) and enabling the trade of items in a marketplace.
 
@@ -83,11 +83,11 @@ The smart contracts are released under the UNLICENSED and MIT licenses, allowing
 # Deployed contract Address
 
 - Wastewise:
-0x72da846323b1c699abfe1a31e1e8fd9bc5543310
+  0xd29B50714eAb7eA64A3cF2E31B8bEb777bE6764c
 
-https://sepolia.etherscan.io/address/0x72da846323b1c699abfe1a31e1e8fd9bc5543310
+https://sepolia.etherscan.io/address/0xd29B50714eAb7eA64A3cF2E31B8bEb777bE6764c
 
 - MarketPlace:
-0x9bbffd17a9aa253d335a4e4c86de197344b1ba05
+  0x59dA18B6289203A6ed11F9a1e33D351C9e7c21D1
 
-https://sepolia.etherscan.io/address/0x9bbffd17a9aa253d335a4e4c86de197344b1ba05
+https://sepolia.etherscan.io/address/0x59dA18B6289203A6ed11F9a1e33D351C9e7c21D1
