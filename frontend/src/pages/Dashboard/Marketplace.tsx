@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useContractRead } from "wagmi";
-
 import { formatUnits } from "viem";
 import { Link } from "react-router-dom";
-import Button from "../../components/Button";
 import { MARKETPLACE_ABI, MARKETPLACE_ADDRESS, formatDate } from "../../utils";
 
 type Props = {};
@@ -15,7 +13,7 @@ const Marketplace = (props: Props) => {
   const { isLoading } = useContractRead({
     address: MARKETPLACE_ADDRESS,
     abi: MARKETPLACE_ABI,
-    functionName: "getAllItemInfo",
+    functionName: "getAllActiveItemInfo",
     onError(data: any) {
       console.log(data);
     },
@@ -69,8 +67,7 @@ const Marketplace = (props: Props) => {
                       <p>{item.description}</p>
                       <p>Ends: {formatDate(Number(item.deadline))}</p>
                       <div className="card-actions justify-between items-center mt-3">
-                        {/* <Button name="Pay Now" /> */}
-                        <button className="btn btn-primary">Pay Now</button>
+                        <p className="text-lg text-[#026937]">Available</p>
                         <h3 className="font-bold text-lg">
                           {formatUnits(item.price, 18)} <span>CHIX</span>
                         </h3>

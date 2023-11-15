@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+  useAccount,
   useContractRead,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
 import { useNavigate, useParams } from "react-router-dom";
-import { formatUnits } from "viem";
+import { formatEther, formatUnits, parseEther } from "viem";
 import {
   MARKETPLACE_ABI,
   MARKETPLACE_ADDRESS,
@@ -18,13 +19,199 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 
 const SingleEvent = () => {
   let { id } = useParams();
+  const { address } = useAccount();
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [disablePay, setDisablePay] = useState<boolean>(false);
+  const [amount, setAmount] = useState<number>(1);
+  const [total, settotal] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
+  const [allowance, setAllowance] = useState<number>(0);
+  const [allowanceAmount, setAllowanceAmount] = useState<number>(0);
+  const allowanceAmountRef = useRef(0);
+
   const navigate = useNavigate();
+
+  const increase = () => {
+    setAmount(amount + 1);
+  };
+
+  const decrease = () => {
+    if (amount == 1) {
+      setAmount(1);
+    } else {
+      setAmount(amount - 1);
+    }
+  };
+
   const { isLoading } = useContractRead({
-    address: MARKETPLACE_ADDRESS,
-    abi: MARKETPLACE_ABI,
+    address: "0x869c0cD069aF5dE232D6cBd5c3458d014B6E1c4b",
+    abi: [
+      {
+        inputs: [
+          { internalType: "address", name: "tokenAddress", type: "address" },
+          { internalType: "address", name: "wasteWiseAddr", type: "address" },
+        ],
+        stateMutability: "nonpayable",
+        type: "constructor",
+      },
+      { inputs: [], name: "DeadlineTooSoon", type: "error" },
+      { inputs: [], name: "InvalidSignature", type: "error" },
+      { inputs: [], name: "ListingDoesNotExist", type: "error" },
+      { inputs: [], name: "ListingExpired", type: "error" },
+      { inputs: [], name: "ListingNotActive", type: "error" },
+      { inputs: [], name: "MinDurationNotMet", type: "error" },
+      { inputs: [], name: "MinPriceTooLow", type: "error" },
+      { inputs: [], name: "NoImageUrl", type: "error" },
+      { inputs: [], name: "NotAdmin", type: "error" },
+      { inputs: [], name: "NotEnoughToken", type: "error" },
+      {
+        inputs: [
+          { internalType: "uint256", name: "originalPrice", type: "uint256" },
+        ],
+        name: "PriceMismatch",
+        type: "error",
+      },
+      {
+        inputs: [
+          { internalType: "int256", name: "difference", type: "int256" },
+        ],
+        name: "PriceNotMet",
+        type: "error",
+      },
+      {
+        inputs: [],
+        name: "admin",
+        outputs: [{ internalType: "address", name: "", type: "address" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "_listingId", type: "uint256" },
+          { internalType: "uint256", name: "quantity", type: "uint256" },
+        ],
+        name: "buyListing",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "string", name: "_name", type: "string" },
+          { internalType: "string", name: "_description", type: "string" },
+          { internalType: "string", name: "_image", type: "string" },
+          { internalType: "uint256", name: "_price", type: "uint256" },
+          { internalType: "uint256", name: "_deadline", type: "uint256" },
+        ],
+        name: "createListing",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "getAllActiveItemInfo",
+        outputs: [
+          {
+            components: [
+              { internalType: "string", name: "name", type: "string" },
+              { internalType: "string", name: "description", type: "string" },
+              { internalType: "string", name: "image", type: "string" },
+              { internalType: "uint256", name: "price", type: "uint256" },
+              { internalType: "uint256", name: "deadline", type: "uint256" },
+              { internalType: "address", name: "lister", type: "address" },
+              { internalType: "uint256", name: "itemId", type: "uint256" },
+            ],
+            internalType: "struct MarketPlace.ItemInfo[]",
+            name: "",
+            type: "tuple[]",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "getAllItemInfo",
+        outputs: [
+          {
+            components: [
+              { internalType: "string", name: "name", type: "string" },
+              { internalType: "string", name: "description", type: "string" },
+              { internalType: "string", name: "image", type: "string" },
+              { internalType: "uint256", name: "price", type: "uint256" },
+              { internalType: "uint256", name: "deadline", type: "uint256" },
+              { internalType: "address", name: "lister", type: "address" },
+              { internalType: "uint256", name: "itemId", type: "uint256" },
+            ],
+            internalType: "struct MarketPlace.ItemInfo[]",
+            name: "",
+            type: "tuple[]",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "uint256", name: "_listingId", type: "uint256" },
+        ],
+        name: "getItemInfo",
+        outputs: [
+          {
+            components: [
+              { internalType: "string", name: "name", type: "string" },
+              { internalType: "string", name: "description", type: "string" },
+              { internalType: "string", name: "image", type: "string" },
+              { internalType: "uint256", name: "price", type: "uint256" },
+              { internalType: "uint256", name: "deadline", type: "uint256" },
+              { internalType: "address", name: "lister", type: "address" },
+              { internalType: "uint256", name: "itemId", type: "uint256" },
+            ],
+            internalType: "struct MarketPlace.ItemInfo",
+            name: "",
+            type: "tuple",
+          },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        name: "itemInfoToId",
+        outputs: [
+          { internalType: "string", name: "name", type: "string" },
+          { internalType: "string", name: "description", type: "string" },
+          { internalType: "string", name: "image", type: "string" },
+          { internalType: "uint256", name: "price", type: "uint256" },
+          { internalType: "uint256", name: "deadline", type: "uint256" },
+          { internalType: "address", name: "lister", type: "address" },
+          { internalType: "uint256", name: "itemId", type: "uint256" },
+        ],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [],
+        name: "listingId",
+        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        inputs: [
+          { internalType: "string", name: "_name", type: "string" },
+          { internalType: "string", name: "_description", type: "string" },
+          { internalType: "uint256", name: "_listingId", type: "uint256" },
+          { internalType: "uint256", name: "_newPrice", type: "uint256" },
+        ],
+        name: "updateListing",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+    ],
     functionName: "getItemInfo",
     args: [id],
     onError(data: any) {
@@ -33,9 +220,23 @@ const SingleEvent = () => {
     onSuccess(data: any) {
       setListing(data);
       setLoading(false);
+      setPrice(formatUnits(data.price, 18));
+      settotal(amount * formatUnits(data.price, 18));
     },
   });
 
+  const { data: allowanceData, isLoading: loading1 } = useContractRead({
+    address: RWASTEWISE_ADDRESS,
+    abi: RWASTEWISE_ABI,
+    functionName: "allowance",
+    args: [address, MARKETPLACE_ADDRESS],
+    onError(data: any) {
+      console.log(data);
+    },
+    onSuccess(data: any) {
+      setAllowance(data);
+    },
+  });
   const handleDisable = () => {
     let dateNow = Math.floor(Date.now() / 1000);
     if (listing?.deadline < dateNow) {
@@ -49,7 +250,7 @@ const SingleEvent = () => {
     address: MARKETPLACE_ADDRESS,
     abi: MARKETPLACE_ABI,
     functionName: "buyListing",
-    args: [listing?.itemId, listing?.price],
+    args: [listing?.itemId, amount],
     onError(data: any) {
       console.log(data);
     },
@@ -60,7 +261,7 @@ const SingleEvent = () => {
     address: RWASTEWISE_ADDRESS,
     abi: RWASTEWISE_ABI,
     functionName: "approve",
-    args: [MARKETPLACE_ADDRESS, listing?.price],
+    args: ["0x869c0cD069aF5dE232D6cBd5c3458d014B6E1c4b", parseEther(`${1}`)],
     onError(data: any) {
       console.log(data);
     },
@@ -71,8 +272,9 @@ const SingleEvent = () => {
     hash: approveData?.hash,
     onSettled(data, error) {
       if (data?.blockHash) {
-        console.log("he don enter");
-        write?.();
+        console.log("he don approve");
+        setLoading(false);
+        // write?.();
       }
     },
   });
@@ -80,23 +282,35 @@ const SingleEvent = () => {
     hash: payData?.hash,
     onSettled(data, error) {
       if (data?.blockHash) {
+        console.log("he don pay");
         setLoading(false);
         navigate("/dashboard/marketplace");
       }
     },
   });
+
+  const handleApprove = (e) => {
+    e.preventDefault();
+    // const value = allowanceAmountRef.current.value;
+    // setAllowanceAmount(value);
+    setLoading(true);
+    write2?.();
+  };
   const handlePay = async () => {
     setLoading(true);
     console.log(true);
-    write2?.();
+    // write2?.();
+    write?.();
   };
-
   useEffect(() => {
     if (isLoading) {
       setLoading(true);
     }
   }, []);
-
+  useEffect(() => {
+    settotal(amount * price);
+  }, [amount]);
+  useEffect(() => {}, [allowanceAmount]);
   return (
     <div className="mb-8">
       <div className="flex justify-between items-start gap-x-8">
@@ -113,11 +327,11 @@ const SingleEvent = () => {
             <p>Ends: {formatDate(Number(listing?.deadline))}</p>
             <div className="card-actions justify-between items-center mt-5">
               <div className="grid grid-cols-3 gap-x-5 items-center">
-                <button className="">
+                <button className="" onClick={decrease}>
                   <FaMinus />
                 </button>
-                <h2 className="text-center text-lg font-semibold">3</h2>
-                <button className="">
+                <h2 className="text-center text-lg font-semibold">{amount}</h2>
+                <button className="" onClick={increase}>
                   <FaPlus />
                 </button>
               </div>
@@ -141,17 +355,23 @@ const SingleEvent = () => {
                 <tbody>
                   {/* row 1 */}
                   <tr>
-                    <td>101</td>
-                    <td>5 CHIX</td>
-                    <td>3</td>
-                    <td>15 CHIX</td>
+                    <td>{listing ? Number(listing.itemId) : "-"}</td>
+                    <td>
+                      {listing ? formatUnits(listing?.price, 18) : 0} CHIX
+                    </td>
+                    <td>{amount}</td>
+                    <td>{total} CHIX</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <button
               className="btn btn-primary"
-              onClick={handlePay}
+              onClick={
+                allowance < parseEther(`${total}`)
+                  ? () => document.getElementById("my_modal_2").showModal()
+                  : handlePay
+              }
               disabled={handleDisable()}
             >
               {loading ? (
@@ -250,6 +470,36 @@ const SingleEvent = () => {
           </section>
         </div>
       </div>
+      <dialog id="my_modal_2" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          <h3 className="font-bold text-lg">Set Approval</h3>
+          <p className="py-4">
+            Your approval should be more than{" "}
+            <span className="font-bold">{total} CHIX</span>.
+          </p>
+          <form onSubmit={handleApprove}>
+            {/* <input
+              type="number"
+              placeholder="Enter Allowance"
+              className="input input-bordered w-full mb-4"
+              ref={allowanceAmountRef}
+            /> */}
+            <button className="btn btn-primary w-full" type="submit">
+              {loading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                "Approve"
+              )}
+            </button>
+          </form>
+        </div>
+      </dialog>
     </div>
   );
 };
