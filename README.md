@@ -83,11 +83,11 @@ The smart contracts are released under the UNLICENSED and MIT licenses, allowing
 # Deployed contract Address
 
 - Wastewise:
-0x72da846323b1c699abfe1a31e1e8fd9bc5543310
+0xcc107a74341326ab70169645313683fd6d809220
 
-https://sepolia.etherscan.io/address/0x72da846323b1c699abfe1a31e1e8fd9bc5543310
+https://sepolia.etherscan.io/address/0xcc107a74341326ab70169645313683fd6d809220
 
 - MarketPlace:
-0x9bbffd17a9aa253d335a4e4c86de197344b1ba05
+0x463d28d51276be17adb449f84df2d6b5b13aebec
 
-https://sepolia.etherscan.io/address/0x9bbffd17a9aa253d335a4e4c86de197344b1ba05
+https://sepolia.etherscan.io/address/0x463d28d51276be17adb449f84df2d6b5b13aebec
