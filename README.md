@@ -80,5 +80,14 @@ The WasteWise Protocol smart contract system is designed to create a sustainable
 
 The smart contracts are released under the UNLICENSED and MIT licenses, allowing for open use, modification, and distribution. However, ensure a clear understanding of the code and its functionality before deploying it in a production environment.
 
+# Deployed contract Address
 
+- Wastewise:
+0x72da846323b1c699abfe1a31e1e8fd9bc5543310
 
+https://sepolia.etherscan.io/address/0x72da846323b1c699abfe1a31e1e8fd9bc5543310
+
+- MarketPlace:
+0x9bbffd17a9aa253d335a4e4c86de197344b1ba05
+
+https://sepolia.etherscan.io/address/0x9bbffd17a9aa253d335a4e4c86de197344b1ba05
