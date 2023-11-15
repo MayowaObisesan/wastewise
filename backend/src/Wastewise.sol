@@ -337,7 +337,7 @@ contract WasteWise {
 
         // Check that this user has not already approved this user before.
 
-        if (!hasApprovedAdmin[_addr][msg.sender]) {
+        if (hasApprovedAdmin[_addr][msg.sender]) {
             revert AdminAlreadyApproved(_addr);
         }
 
