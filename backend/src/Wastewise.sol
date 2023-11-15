@@ -66,7 +66,8 @@ contract WasteWise {
 
     enum Type {
         Recycle,
-        Purchase
+        Purchase,
+        User
     }
 
     /// @dev Structure to represent a recycling transaction.
@@ -83,7 +84,7 @@ contract WasteWise {
     /// @dev Mapping to track recycling transactions for each user.
     mapping(address => Recycled[]) RecycledMap;
 
-    mapping(address => Transaction[]) transactionsMap;
+    mapping(address => Transaction[]) public transactionsMap;
 
     /// @dev Mapping to store user data.
     mapping(address => User) public UserMap;
@@ -92,7 +93,7 @@ contract WasteWise {
     mapping(address => mapping(address => bool)) hasApprovedAdmin;
     mapping(uint => address) IdToAddress;
 
-    Statistics statistics;
+    Statistics public statistics;
 
     uint adminReqId;
 
@@ -325,6 +326,14 @@ contract WasteWise {
         user.phoneNo = _user.phoneNo;
         user.gender = _user.gender;
 
+        // Create a new transaction
+        Transaction memory transaction;
+        transaction.date = block.timestamp;
+        transaction.typeOfTransaction = Type.User;
+
+        // Store the transaction for the user
+        transactionsMap[msg.sender].push(transaction);
+
         Statistics memory _stats;
         ++_stats.totalTransactions;
         statistics = _stats;
@@ -433,6 +442,11 @@ contract WasteWise {
         UserMap[_addr].role = Role.VERIFIERS;
         verifiers.push(UserMap[_addr]);
 
+        Statistics memory _stats;
+        // Increase the minted statistics, recycled and transactions
+        ++_stats.totalTransactions;
+        statistics = _stats;
+
         emit VerifierAdded(_addr, msg.sender);
     }
 
@@ -456,6 +470,11 @@ contract WasteWise {
 
         // Update the user's role
         UserMap[_addr].role = Role.VERIFIERS;
+
+        Statistics memory _stats;
+        // Increase the minted statistics, recycled and transactions
+        ++_stats.totalTransactions;
+        statistics = _stats;
 
         emit VerifierRemoved(_addr, msg.sender);
     }
