@@ -3,7 +3,7 @@ const CardOne = () => {
     <div className="border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-0 dark:shadow-md dark:bg-base-300 rounded-xl">
       <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-[#026937]">
         <svg
-          className="fill-primary dark:fill-white"
+          className="fill-success dark:fill-white"
           width="22"
           height="16"
           viewBox="0 0 22 16"
