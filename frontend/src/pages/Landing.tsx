@@ -335,10 +335,12 @@ const Landing = (props: Props) => {
                   <div className="timeline-end mb-10 md:text-start">
                     <time className="font-mono italic">March - April 2024</time>
                     <div className="text-lg font-black">
-                      Onboard Ambassadors
+                      Onboard Ambassadors and Launch Discord Server
                     </div>
                     From the first quarter of 2024, wastewise aims to onboard
-                    ambassadors. This ambassadors will help
+                    ambassadors. This ambassadors will help with the discord
+                    community and also help raise more awareness about the
+                    environment. Wastewise is all about the environment.
                   </div>
                   <hr />
                 </li>
