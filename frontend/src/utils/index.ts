@@ -68,62 +68,63 @@ export const ToastElem = (props: toastProp) => {
 };
 
 export const formatDate = (time: number) => {
-    // Convert the timestamp to milliseconds by multiplying it by 1000
-    const date = new Date(time * 1000);
+  // Convert the timestamp to milliseconds by multiplying it by 1000
+  const date = new Date(time * 1000);
 
-    // Get the year, month, and day components
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Months are zero-based, so add 1 to get the correct month
-    const day = date.getDate();
-    const hrs = date.getHours();
-    const mins = date.getMinutes();
+  // Get the year, month, and day components
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // Months are zero-based, so add 1 to get the correct month
+  const day = date.getDate();
+  const hrs = date.getHours();
+  const mins = date.getMinutes();
 
-    // Create an array of month names to map the numeric month to its name
-    const monthNames = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-    ];
+  // Create an array of month names to map the numeric month to its name
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
-    // Get the month name using the month value as an index in the monthNames array
-    const monthName = monthNames[month - 1];
+  // Get the month name using the month value as an index in the monthNames array
+  const monthName = monthNames[month - 1];
 
-    const formattedDate = `${monthName} ${day}, ${year} ${hrs}:${mins}`;
+  const formattedDate = `${monthName} ${day}, ${year} ${hrs}:${mins}`;
 
-    return formattedDate;
+  return formattedDate;
 };
 
 export const pinFileToIPFS = async (files: any) => {
-    try {
-        let data = new FormData();
-        data.append("file", files[0]);
-        data.append("pinataOptions", '{"cidVersion": 0}');
-        data.append("pinataMetadata", '{"name": "seda"}');
-
-        const res = await axios.post(
-            "https://api.pinata.cloud/pinning/pinFileToIPFS",
-            data,
-            {
-                headers: {
-                    Authorization: `Bearer ${import.meta.env.VITE_PINATA_JWT}`,
-                },
-            }
-        );
-        console.log(res.data);
-        console.log(
-            `View the file here: https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`
-        );
-        return `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    let data = new FormData();
+    data.append("file", files[0]);
+    data.append("pinataOptions", '{"cidVersion": 0}');
+    data.append("pinataMetadata", '{"name": "seda"}');
+    toast.info("Uploading event image to IPFS .....");
+    const res = await axios.post(
+      "https://api.pinata.cloud/pinning/pinFileToIPFS",
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${import.meta.env.VITE_PINATA_JWT}`,
+        },
+      }
+    );
+    console.log(res.data);
+    console.log(
+      `View the file here: https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`
+    );
+    toast.success("Event Image upload complete");
+    return `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
+  } catch (error) {
+    console.log(error);
+  }
 };

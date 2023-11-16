@@ -1,6 +1,7 @@
 import WasteWiseABI from "./wasteWiseABI.json";
 import MarketPlaceABI from "./marketPlaceABI.json";
 import TokenABI from "./tokenABI.json";
+import WASTEWISE_TOKEN_ABI from "./WASTEWISE_TOKEN_ABI.json";
 
 const WASTEWISE_ADDRESS = "0xd29B50714eAb7eA64A3cF2E31B8bEb777bE6764c";
 const WASTEWISE_TOKEN_ADDRESS = "0xBf736eE6FB80a99DB71D6d1665E3e3c1B78a01b2";
@@ -13,4 +14,5 @@ export {
   WasteWiseABI,
   MarketPlaceABI,
   TokenABI,
+  WASTEWISE_TOKEN_ABI,
 };

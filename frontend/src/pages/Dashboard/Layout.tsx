@@ -14,7 +14,7 @@ export const Layout = (props: Props) => {
       <div className="drawer flex flex-col lg:drawer-open lg:grid">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-start">
-          <Toaster />
+          <Toaster position="bottom-right" richColors />
           <DashboardNav title={search} />
           {/* Page content here */}
           {/* <label

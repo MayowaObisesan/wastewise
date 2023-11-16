@@ -3,6 +3,8 @@ import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import { MARKETPLACE_ADDRESS, MarketPlaceABI } from "../../../constants";
 import { pinFileToIPFS } from "../../utils";
+import { toast } from "sonner";
+import { parseEther } from "viem";
 
 type Props = {};
 
@@ -23,17 +25,29 @@ const CreateEvent = (props: Props) => {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    setLoading(true);
-    const imgUrl = await pinFileToIPFS(imagePath);
-    if (imgUrl) setImage(imgUrl);
+    if (
+      name == "" ||
+      description == "" ||
+      imagePath == null ||
+      price == 0 ||
+      deadline == 0
+    ) {
+      console.log(name, description, imagePath, price, deadline);
+      toast.error("No field should be empty");
+    } else {
+      setLoading(true);
+      const imgUrl = await pinFileToIPFS(imagePath);
+      if (imgUrl) setImage(imgUrl);
+    }
   };
 
   const { write, isLoading, data } = useContractWrite({
     address: MARKETPLACE_ADDRESS,
     abi: MarketPlaceABI,
     functionName: "createListing",
-    args: [name, description, image, price, deadline],
+    args: [name, description, image, parseEther(`${price}`), deadline],
     onError() {
+      toast.error("!Failed to create an event.");
       setLoading(false);
     },
   });
@@ -42,6 +56,7 @@ const CreateEvent = (props: Props) => {
     hash: data?.hash,
     onSettled(data, error) {
       if (data?.blockHash) {
+        toast.success("Event successfully created");
         setLoading(false);
         navigate("/dashboard/marketplace");
       }

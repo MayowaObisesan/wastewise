@@ -14,7 +14,6 @@ const Sidebar = (props: Props) => {
   const location = useLocation();
   const { address } = useAccount();
   const { currentUser } = useWasteWiseContext();
-  console.log(currentUser);
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
@@ -77,10 +76,7 @@ const Sidebar = (props: Props) => {
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                   />
                 </svg>
-                <h2
-                  className="text-lg"
-                  style={{ isActive }}
-                >
+                <h2 className="text-lg" style={{ isActive }}>
                   {" "}
                   Dashboard
                 </h2>
@@ -93,10 +89,7 @@ const Sidebar = (props: Props) => {
                 className="items-center"
                 style={isActive === "wallet" ? activeLinkStyle : {}}
               >
-                <img
-                  src={wallet}
-                  alt="wallet-Icon"
-                />
+                <img src={wallet} alt="wallet-Icon" />
                 <h2 className="text-lg">Wallet</h2>
               </Link>
             </li>
@@ -106,10 +99,7 @@ const Sidebar = (props: Props) => {
                 className="flex flex-row gap-2 items-center"
                 style={isActive === "recycle" ? activeLinkStyle : {}}
               >
-                <img
-                  src={settings}
-                  alt="recycle-Icon"
-                />
+                <img src={settings} alt="recycle-Icon" />
                 <h2 className="text-lg">Recycle</h2>
               </Link>
             </li>
