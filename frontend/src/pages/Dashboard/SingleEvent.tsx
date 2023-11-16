@@ -18,7 +18,7 @@ import {
 
 const SingleEvent = () => {
   let { id } = useParams();
-  const [listing, setListing] = useState(null);
+  const [listing, setListing] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const [disablePay, setDisablePay] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -65,6 +65,7 @@ const SingleEvent = () => {
       console.log(data);
     },
   });
+
   const { data: approveData, write: write2 } = useContractWrite(approveListing);
 
   useWaitForTransaction({

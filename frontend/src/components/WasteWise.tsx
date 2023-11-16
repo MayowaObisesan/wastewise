@@ -32,10 +32,10 @@ export function WasteWise() {
     return (
       <div className="flex justify-between lg:w-1/3">
         <div className="my-auto  text-[#026937] lg:block hidden">
-          {shortenAddress(address)}
+          {shortenAddress(address as string)}
         </div>
 
-        <button className="btn m-1 text-[#026937]" onClick={disconnect}>
+        <button className="btn m-1 text-[#026937]" onClick={disconnect as any}>
           Disconnect {connector?.name}
         </button>
       </div>

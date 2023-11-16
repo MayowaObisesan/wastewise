@@ -29,7 +29,7 @@ export const ToastElem = (props: toastProp) => {
                             datetime: new Date(),
                             type: t.type,
                         })
-                        .then(function (_) {
+                        .then(function (_: any) {
                             setNotifCount(notificationCount);
                         });
                 },
@@ -46,7 +46,7 @@ export const ToastElem = (props: toastProp) => {
                             datetime: new Date(),
                             type: t.type,
                         })
-                        .then(function (_) {
+                        .then(function (_: any) {
                             setNotifCount(notificationCount);
                         });
                 },
@@ -66,7 +66,7 @@ export const ToastElem = (props: toastProp) => {
                             datetime: new Date(),
                             type: t.type,
                         })
-                        .then(function (_) {
+                        .then(function (_: any) {
                             setNotifCount(notificationCount);
                         });
                 },

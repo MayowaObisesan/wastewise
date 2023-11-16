@@ -45,7 +45,7 @@ const TableOne = () => {
             </thead>
             <tbody>
               {/* row 1 */}
-              {data?.map((eachUser) => (
+              {(data as any[])?.map((eachUser) => (
                 <tr className="h-16">
                   {/* <th>
                     <label>

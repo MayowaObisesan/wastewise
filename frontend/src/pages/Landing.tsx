@@ -19,8 +19,6 @@ import {
   wasteOnLand,
 } from "../assets";
 import { Link } from "react-router-dom";
-import CarouselComponent from "../components/Carousel";
-import FeatureNav from "../components/FeatureNav";
 import SDG from "../components/SDG";
 
 type Props = {};
