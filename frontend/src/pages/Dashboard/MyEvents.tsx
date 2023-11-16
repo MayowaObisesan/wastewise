@@ -8,98 +8,43 @@ type Props = {};
 
 const MyEvents = (props: Props) => {
   return (
-    <div className="my-8">
-      <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image1} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Merchandise Drop</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                5.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image2} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Web3 Conference</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                10.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image3} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">INTMAX Buffer</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                2.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image4} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Base Street Party</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                1.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image5} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Solana Tradefair</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                3.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image1} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Merchandise Drop</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                5.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
+    <div className="my-8 w-10/12">
+      <div className="font-bold text-2xl">Transactions</div>
+      <div className="overflow-x-auto">
+        <table className="table table-xs lg:table-md">
+          {/* head */}
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Job</th>
+              <th>Favorite Color</th>
+            </tr>
+          </thead>
+          <tbody>
+            {/* row 1 */}
+            <tr>
+              <th>1</th>
+              <td>Cy Ganderton</td>
+              <td>Quality Control Specialist</td>
+              <td>Blue</td>
+            </tr>
+            {/* row 2 */}
+            <tr>
+              <th>2</th>
+              <td>Hart Hagerty</td>
+              <td>Desktop Support Technician</td>
+              <td>Purple</td>
+            </tr>
+            {/* row 3 */}
+            <tr>
+              <th>3</th>
+              <td>Brice Swyre</td>
+              <td>Tax Accountant</td>
+              <td>Red</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );

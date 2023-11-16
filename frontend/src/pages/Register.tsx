@@ -38,8 +38,13 @@ const Register = () => {
     functionName: "createUserAcct",
   });
 
-  const { data, write } = useContractWrite(config);
-  const { isError, isLoading, isSuccess, error } = useWaitForTransaction({
+  const { data, write, isLoading } = useContractWrite(config);
+  const {
+    isError,
+    isSuccess,
+    isLoading: settling,
+    error,
+  } = useWaitForTransaction({
     hash: data?.hash,
   });
 
@@ -296,7 +301,7 @@ const Register = () => {
                 disabled={!write || isLoading}
                 onClick={handleSubmit}
               >
-                {/* {isLoading && <span className="loading"></span>} */}
+                {(isLoading || settling) && <span className="loading"></span>}
               </Button>
               {/* 
               <button

@@ -442,8 +442,7 @@ contract WasteWise {
         // Create a new transaction
         Transaction memory transaction;
         transaction.date = block.timestamp;
-        transaction.typeOfTransaction = Type.Recycle;
-        transaction.numberOfTokens = _qtyrecycled;
+        transaction.typeOfTransaction = Type.User;
 
         // Store the transaction for the user
         transactionsMap[msg.sender].push(transaction);
