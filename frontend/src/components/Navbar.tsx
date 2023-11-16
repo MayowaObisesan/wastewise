@@ -17,10 +17,10 @@ const Navbar = () => {
         <div className="navbar-start flex-1">
           <Logo />
         </div>
-        <div className={"navbar-end gap-2"}>
+        <div className={"navbar-end gap-2 space-x-4"}>
           <div className="flex-none">
             <ul className="menu menu-horizontal px-1">
-              <li>
+              {/* <li>
                 <label className="hidden lg:flex cursor-pointer gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ const Navbar = () => {
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                   </svg>
                 </label>
-              </li>
+              </li> */}
               <li>
                 <Link to="/dashboard/profile">Dashboard</Link>
               </li>
