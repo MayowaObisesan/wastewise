@@ -10,11 +10,13 @@ import {
 } from "wagmi";
 
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
+import { useNavigate } from "react-router-dom";
 
 const Recycle = () => {
   const { address } = useAccount();
   const [numPlastic, setNumPlastic] = useState<number>();
   const [userId, setUserId] = useState<number>();
+  const navigate = useNavigate();
 
   const { config: depositPlasticConfig } = usePrepareContractWrite({
     address: WASTEWISE_ADDRESS,
@@ -26,12 +28,20 @@ const Recycle = () => {
   const {
     data: depositPlasticData,
     isError: isDepositPlasticError,
+    error,
     write: depositPlasticWrite,
+    isLoading,
   } = useContractWrite(depositPlasticConfig);
 
   const { isLoading: isDepositingPlastic, isSuccess: isPlasticDeposited } =
     useWaitForTransaction({
       hash: depositPlasticData?.hash,
+      onSettled(data, error) {
+        if (data?.blockHash) {
+          setNumPlastic(0);
+          setUserId(0);
+        }
+      },
     });
 
   // useEffect(() => {
@@ -44,9 +54,27 @@ const Recycle = () => {
 
   const handleDepositPlastic = async (e: any) => {
     e.preventDefault();
-    console.log(true);
+    // console.log(true);
     depositPlasticWrite?.();
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Approving Recycled item(s)", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isPlasticDeposited) {
+      toast.success("Successfully Approved Recycled item(s)", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [isPlasticDeposited]);
 
   const sdgModal = useRef<HTMLDialogElement>(null);
   return (
@@ -179,7 +207,11 @@ const Recycle = () => {
               <span className="label-text-alt">Enter User Id</span>
             </label>
           </div>
-          <Button name="Recycle" size="block" customStyle="w-full" />
+          <Button name="Recycle" size="block" customStyle="w-full">
+            {(isLoading || isDepositingPlastic) && (
+              <span className="loading"></span>
+            )}
+          </Button>
         </form>
       </div>
 

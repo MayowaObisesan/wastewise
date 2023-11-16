@@ -15,13 +15,16 @@ import {
   MarketPlaceABI,
   TokenABI,
   WASTEWISE_TOKEN_ADDRESS,
+  WASTEWISE_TOKEN_ABI,
 } from "../../../constants";
+import { toast } from "sonner";
 
 const SingleEvent = () => {
   let { id } = useParams();
   const [listing, setListing] = useState<any>();
   const { address } = useAccount();
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingA, setLoadingA] = useState<boolean>(false);
   const [disablePay, setDisablePay] = useState<boolean>(false);
   const [amount, setAmount] = useState<number>(1);
   const [total, settotal] = useState<number>(0);
@@ -62,7 +65,7 @@ const SingleEvent = () => {
 
   const { data: allowanceData, isLoading: loading1 } = useContractRead({
     address: WASTEWISE_TOKEN_ADDRESS,
-    abi: TokenABI,
+    abi: WASTEWISE_TOKEN_ABI,
     functionName: "allowance",
     args: [address, MARKETPLACE_ADDRESS],
     onError(data: any) {
@@ -88,6 +91,8 @@ const SingleEvent = () => {
     args: [listing?.itemId, amount],
     onError(data: any) {
       console.log(data);
+      toast.error("!Failed to purchase item");
+      setLoading(false);
     },
   });
   const { data: payData, write } = useContractWrite(buyListingConfig);
@@ -99,6 +104,8 @@ const SingleEvent = () => {
     args: ["0x869c0cD069aF5dE232D6cBd5c3458d014B6E1c4b", parseEther(`${1}`)],
     onError(data: any) {
       console.log(data);
+      toast.error("Approval failed");
+      setLoadingA(false);
     },
   });
 
@@ -108,8 +115,9 @@ const SingleEvent = () => {
     hash: approveData?.hash,
     onSettled(data, error) {
       if (data?.blockHash) {
+        toast.success("Approval successful");
         console.log("he don approve");
-        setLoading(false);
+        setLoadingA(false);
         // write?.();
       }
     },
@@ -119,6 +127,7 @@ const SingleEvent = () => {
     onSettled(data, error) {
       if (data?.blockHash) {
         console.log("he don pay");
+        toast.success("Item successfully purchased");
         setLoading(false);
         navigate("/dashboard/marketplace");
       }
@@ -129,7 +138,7 @@ const SingleEvent = () => {
     e.preventDefault();
     // const value = allowanceAmountRef.current.value;
     // setAllowanceAmount(value);
-    setLoading(true);
+    setLoadingA(true);
     write2?.();
   };
   const handlePay = async () => {
@@ -332,7 +341,7 @@ const SingleEvent = () => {
               ref={allowanceAmountRef}
             /> */}
             <button className="btn btn-primary w-full" type="submit">
-              {loading ? (
+              {loadingA ? (
                 <span className="loading loading-spinner loading-sm"></span>
               ) : (
                 "Approve"
