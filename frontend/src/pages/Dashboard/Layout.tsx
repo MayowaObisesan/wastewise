@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import DashboardNav from "../../components/DashboardNav";
 import Sidebar from "../../components/Sidebar";
 import { useLocation } from "react-router-dom";
+import { Toaster } from "sonner";
 
 type Props = {};
 
@@ -12,7 +13,8 @@ export const Layout = (props: Props) => {
     <section className="flex flex-row">
       <div className="drawer flex flex-col lg:drawer-open lg:grid">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col items-center justify-start">
+        <div className="drawer-content flex flex-col items-center justify-start max-w-full overflow-x-auto">
+          <Toaster />
           <DashboardNav title={search} />
           {/* Page content here */}
           {/* <label
@@ -44,6 +46,14 @@ export const Layout = (props: Props) => {
       </div>
       {/* <div className="flex flex-col flex-1 bg-base-100">
         <div>Header</div>
+    <div className=" flex flex-row">
+      <div className="">
+        <Sidebar />
+      </div>
+      <div>
+        <div>
+          <Header />
+        </div>
         <div>
           <Outlet />
         </div>

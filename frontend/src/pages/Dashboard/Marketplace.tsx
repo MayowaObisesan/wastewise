@@ -1,124 +1,90 @@
-import React from "react";
-import image1 from "/will-breen-BZ5ek7LSoYY-unsplash.jpg";
-import image2 from "/evangeline-shaw-nwLTVwb7DbU-unsplash.jpg";
-import image3 from "/chuttersnap-aEnH4hJ_Mrs-unsplash.jpg";
-import image4 from "/samantha-gades-fIHozNWfcvs-unsplash.jpg";
-import image5 from "/delaney-van-JYVKaxAlp4A-unsplash.jpg";
+import React, { useEffect, useState } from "react";
+import { useContractRead } from "wagmi";
+import { formatUnits } from "viem";
+import { Link } from "react-router-dom";
+import Button from "../../components/Button";
+import { formatDate } from "../../utils";
+import { MARKETPLACE_ADDRESS, MarketPlaceABI } from "../../../constants";
 
 type Props = {};
 
 const Marketplace = (props: Props) => {
+  const [listings, setListings] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const { isLoading } = useContractRead({
+    address: MARKETPLACE_ADDRESS,
+    abi: MarketPlaceABI,
+    functionName: "getAllActiveItemInfo",
+    onError(data: any) {
+      console.log(data);
+      setLoading(false);
+    },
+    onSuccess(data: any) {
+      setListings(data);
+      setLoading(false);
+    },
+  });
+
+  useEffect(() => {
+    if (isLoading) {
+      setLoading(true);
+    }
+  }, []);
+
   return (
     <div className="my-8">
+      {listings.length == 0 && (
+        <p className="text-lg font-semibold text-center">
+          No Items Available To Purchase
+        </p>
+      )}
       <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image1} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Merchandise Drop
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
-              <h3 className="font-bold text-lg">
-                5.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image2} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Web3 Conference
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
-              <h3 className="font-bold text-lg">
-                10.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image3} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              INTMAX Buffer
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
-              <h3 className="font-bold text-lg">
-                2.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image4} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Base Street Party
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
-              <h3 className="font-bold text-lg">
-                1.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image5} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Solana Tradefair
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
-              <h3 className="font-bold text-lg">
-                3.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image1} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">
-              Merchandise Drop
-              <div className="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-primary">Pay Now</button>
-              <h3 className="font-bold text-lg">
-                5.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
+        {loading
+          ? [1, 2, 3, 4].map((item, index) => {
+              return (
+                <div
+                  className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl animate-pulse"
+                  key={index}
+                >
+                  <div className="h-32 bg-gray-200 rounded-md dark:bg-gray-700"></div>
+                  <div className="card-body">
+                    <h2 className="card-title h-4 bg-gray-200 rounded-md dark:bg-gray-700"></h2>
+                    <p className="h-4 bg-gray-200 rounded-md dark:bg-gray-700"></p>
+                    <p className="h-4 bg-gray-200 rounded-md dark:bg-gray-700"></p>
+                    <div className="flex justify-between items-center mt-3">
+                      <div className="h-4 bg-gray-200 rounded-md dark:bg-gray-700 w-10"></div>
+                      <h3 className="h-4 bg-gray-200 rounded-md dark:bg-gray-700 w-10"></h3>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          : listings.map((item, index) => {
+              return (
+                <Link to={`event/${item?.itemId}`} key={index}>
+                  <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
+                    <figure>
+                      <img src={item?.image} alt="Shoes" />
+                    </figure>
+                    <div className="card-body">
+                      <h2 className="card-title">
+                        {item?.name}
+                        <div className="badge badge-secondary">NEW</div>
+                      </h2>
+                      <p>{item?.description}</p>
+                      <p>Ends: {formatDate(Number(item?.deadline))}</p>
+                      <div className="card-actions justify-between items-center mt-3">
+                        <p className="text-lg text-[#026937]">Available</p>
+                        <h3 className="font-bold text-lg">
+                          {formatUnits(item?.price, 18)} <span>CHIX</span>
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })}
       </div>
     </div>
   );

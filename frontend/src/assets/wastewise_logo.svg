@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="36.972046mm"
+   height="47.023773mm"
+   viewBox="0 0 36.972046 47.023773"
+   version="1.1"
+   id="svg5"
+   inkscape:export-filename="wastewise_logo.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-109.7059,-162.77845)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:67.0417px;font-family:MathJax_Typewriter;-inkscape-font-specification:MathJax_Typewriter;opacity:1;fill:#008000;stroke-width:0.157128"
+       x="98.660789"
+       y="228.47501"
+       id="text1324"
+       transform="scale(1.1029566,0.90665401)"
+       inkscape:export-filename="wastewise_logo.svg"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         id="tspan1322"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:MathJax_Typewriter;-inkscape-font-specification:MathJax_Typewriter;stroke-width:0.157128"
+         x="98.660789"
+         y="228.47501">W</tspan></text>
+    <g
+       id="g1498"
+       transform="matrix(0.65501331,0,0,0.65126298,60.711191,74.100048)">
+      <g
+         id="g1436"
+         transform="translate(-34.264914,-1.8521575)">
+        <circle
+           style="opacity:1;fill:#000000;stroke-width:0.228966"
+           id="path1378"
+           cx="126.10105"
+           cy="203.27429"
+           r="6.945591" />
+        <circle
+           style="opacity:1;fill:#ffffff;stroke-width:0.192332"
+           id="path1432"
+           cx="126.10105"
+           cy="203.27429"
+           r="2.80495" />
+      </g>
+      <circle
+         style="opacity:1;fill:#000000;stroke-width:0.264583"
+         id="path1492"
+         cx="91.838951"
+         cy="201.49767"
+         r="1.5434647" />
+    </g>
+    <g
+       id="g1508"
+       transform="matrix(0.65501331,0,0,0.65126298,75.118716,74.100048)">
+      <g
+         id="g1504"
+         transform="translate(-34.264914,-1.8521575)">
+        <circle
+           style="opacity:1;fill:#000000;stroke-width:0.228966"
+           id="circle1500"
+           cx="126.10105"
+           cy="203.27429"
+           r="6.945591" />
+        <circle
+           style="opacity:1;fill:#ffffff;stroke-width:0.192332"
+           id="circle1502"
+           cx="126.10105"
+           cy="203.27429"
+           r="2.80495" />
+      </g>
+      <circle
+         style="opacity:1;fill:#000000;stroke-width:0.264583"
+         id="circle1506"
+         cx="91.838951"
+         cy="201.49767"
+         r="1.5434647" />
+    </g>
+    <g
+       id="g1517"
+       transform="matrix(0.65501331,0,0,0.65126298,37.847074,81.852522)">
+      <rect
+         style="opacity:1;fill:#000000;stroke-width:0.182236"
+         id="rect1510"
+         width="55.83358"
+         height="3.1761613"
+         x="109.82834"
+         y="130.38982"
+         ry="1.5880806" />
+      <path
+         id="rect1512"
+         style="opacity:1;stroke-width:0.264583"
+         d="m 125.62556,124.25999 h 24.23913 c 0.8798,0 1.58808,0.70828 1.58808,1.58808 v 4.68066 c 0,0.87979 -0.70828,1.58808 -1.58808,1.58808 h -5.26574 l -1.83882,-4.012 h -4.34633 -4.68066 l -2.5075,4.012 h -5.60008 c -0.87979,0 -1.58808,-0.70829 -1.58808,-1.58808 v -4.68066 c 0,-0.8798 0.70829,-1.58808 1.58808,-1.58808 z"
+         sodipodi:nodetypes="ssssscccccssss" />
+    </g>
+  </g>
+</svg>
