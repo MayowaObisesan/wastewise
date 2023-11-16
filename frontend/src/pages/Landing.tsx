@@ -37,7 +37,7 @@ const Landing = (props: Props) => {
         <div className="hero-content text-left w-full min-w-full flex flex-col lg:flex-row lg:space-x-8">
           <div className="w-full px-2 pt-12 lg:px-12 lg:py-40">
             <div className="min-w-6/12">
-              <h1 className="relative w-full text-center text-4xl font-bold lg:pr-8 lg:w-8/12 lg:text-7xl lg:text-left">
+              <h1 className="relative w-full text-center text-4xl font-bold lg:pr-4 lg:w-8/12 lg:text-6xl lg:text-left">
                 <div className="w-11/12 mx-auto">Why waste when you can</div>
                 <span className="bg-gradient-to-r from-[#2C8258] to-[#FFDE52] inline-block text-transparent text-[5rem] leading-[1.4] lg:text-9xl bg-clip-text lg:py-4">
                   Recycle
@@ -65,15 +65,15 @@ const Landing = (props: Props) => {
       <section className="mt-20 lg:m-0">
         <div className="text-center">Be wise, Dispose your waste properly</div>
         <div className="text-center text-4xl font-bold px-2 py-5">
-          Do your part to save the planet
+          Do your part to save the planet from plastics
         </div>
-        <div className="text-center">
+        {/* <div className="text-center">
           Work with the
           <br />
           UN Sustainable Development Goals
           <br />
           SDG(3, 6, 11, 14 and 15)
-        </div>
+        </div> */}
 
         <SDG
           title="Impact on the Ocean"
@@ -274,9 +274,9 @@ const Landing = (props: Props) => {
                       />
                     </svg>
                   </div>
-                  <div className="timeline-end mb-10">
-                    <time className="font-mono italic">1998</time>
-                    <div className="text-lg font-black">iMac</div>
+                  <div className="timeline-end md:text-start mb-10">
+                    <time className="font-mono italic">December 2023</time>
+                    <div className="text-lg font-black">Launch Wastewise</div>
                     iMac is a family of all-in-one Mac desktop computers
                     designed and built by Apple Inc. It has been the primary
                     part of Apple's consumer desktop offerings since its debut
@@ -330,7 +330,7 @@ const Landing = (props: Props) => {
                       />
                     </svg>
                   </div>
-                  <div className="timeline-end mb-10">
+                  <div className="timeline-end mb-10 md:text-start">
                     <time className="font-mono italic">2007</time>
                     <div className="text-lg font-black">iPhone</div>
                     iPhone is a line of smartphones produced by Apple Inc. that
