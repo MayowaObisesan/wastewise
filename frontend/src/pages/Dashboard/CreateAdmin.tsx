@@ -8,6 +8,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import WASTEWISE_ABI from "../../../constants/wasteWiseABI.json";
 import { WasteWise_ADDRESS } from "../../../constants/wasteWiseAddress";
+import Button from "../../components/Button";
 
 type Props = {};
 
@@ -142,10 +143,7 @@ const CreateAdmin = (props: Props) => {
               // onChange={(e) => console.log(e.target)}
               onChange={(e) => setRole(e.target.value)}
             >
-              <option
-                disabled
-                value=""
-              >
+              <option disabled value="">
                 Submit to Add Admin / Verifier
               </option>
 
@@ -179,6 +177,7 @@ const CreateAdmin = (props: Props) => {
             >
               submit
             </button>
+            {/* <Button name="Submit" size="btn btn-block" /> */}
           </form>
         </div>
       </div>

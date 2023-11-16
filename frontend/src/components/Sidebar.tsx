@@ -99,16 +99,18 @@ const Sidebar = (props: Props) => {
                 <h2 className="text-lg">Wallet</h2>
               </Link>
             </li>
-            <li>
-              <Link
-                to="/dashboard/recycle"
-                className="flex flex-row gap-2 items-center"
-                style={isActive === "recycle" ? activeLinkStyle : {}}
-              >
-                <img src={settings} alt="recycle-Icon" />
-                <h2 className="text-lg">Recycle</h2>
-              </Link>
-            </li>
+            {currentUser?.role == 2 && (
+              <li>
+                <Link
+                  to="/dashboard/recycle"
+                  className="flex flex-row gap-2 items-center"
+                  style={isActive === "recycle" ? activeLinkStyle : {}}
+                >
+                  <img src={settings} alt="recycle-Icon" />
+                  <h2 className="text-lg">Recycle</h2>
+                </Link>
+              </li>
+            )}
             <li>
               <Link
                 to="/dashboard/marketplace"
