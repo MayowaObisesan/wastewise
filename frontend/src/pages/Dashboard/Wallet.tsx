@@ -1,6 +1,6 @@
 import { useAccount, useContractRead } from "wagmi";
 import { useWasteWiseContext } from "../../context";
-import { shortenAddress } from "../../utils";
+import { formatDate, shortenAddress } from "../../utils";
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
 import ReactApexChart from "react-apexcharts";
 import { useState } from "react";
@@ -129,13 +129,21 @@ interface ChartWalletState {
 
 const Wallet = () => {
   const { address } = useAccount();
-  const { currentUser } = useWasteWiseContext();
+  const { currentUser, statistics } = useWasteWiseContext();
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
     functionName: "getUserTransactions",
     account: address,
   });
+
+  const recycledData = useContractRead({
+    address: WASTEWISE_ADDRESS,
+    abi: WasteWiseABI,
+    functionName: "getUserRecycles",
+    account: address,
+  });
+
   const [state, setState] = useState<ChartWalletState>({
     options: ChartOptions,
     series: [
@@ -150,42 +158,72 @@ const Wallet = () => {
       // },
     ],
   });
-  console.log(data);
+  console.log(recycledData?.data);
+
+  const roleEIA = (role: number) => {
+    if (role === 2) {
+      return <div className="badge badge-primary py-3">Verifier</div>;
+    } else if (role === 1) {
+      return <div className="badge badge-warning py-3">Admin</div>;
+    }
+    return <div className="badge badge-warning py-3">Caretaker</div>;
+  };
 
   return (
     <section className="relative flex w-full p-4 space-y-12 lg:py-8 lg:flex lg:flex-col">
       <section className="w-full bg-base-100 flex flex-col space-y-4 lg:flex-row p-4 rounded-xl lg:space-x-3 lg:space-y-0 overflow-x-auto">
-        <section className="relative flex-1 h-100 px-8 py-6 rounded-2xl bg-gradient-to-br from-yellow-500/10 to-emerald-500/40 lg:px-3 lg:py-0">
+        <section className="relative w-6/12 h-100 px-8 py-6 rounded-2xl bg-gradient-to-br from-yellow-500/10 to-emerald-500/40 lg:px-3 lg:py-0">
           <section className="h-70 flex flex-col">
             <div className="w-full flex flex-row py-6 px-8">
-              <div className="flex-1">
-                <div className="font-medium text-2xl lg:text-2xl">
-                  Hi, {currentUser?.name}
-                </div>
+              <div className="flex-1 flex flex-row items-center">
+                {/* {currentUser && (
+                  <div className="font-medium text-2xl lg:text-2xl">
+                    Hi, {currentUser?.name}
+                  </div>
+                )} */}
+                {roleEIA(currentUser?.role)}
               </div>
-              <div className="flex flex-col justify-center">
+              <div className="flex flex-row justify-center items-center space-x-4">
+                <div className="flex flex-col text-sm">
+                  <span className="text-xs">Registered: </span>
+                  {new Date(
+                    formatDate(Number(currentUser?.timeJoined))
+                  ).toDateString()}
+                </div>
+                <div className="divider divider-horizontal divider-neutral"></div>
                 <span className="text-2xl">🇳🇬</span>
               </div>
             </div>
             <div className="flex flex-row p-8 space-x-24">
-              <div className="flex-1">
-                <div>Address</div>
-                <div className="font-bold text-5xl">
-                  {shortenAddress(currentUser?.userAddr)}
+              <div className="flex-1 space-y-2">
+                <div className="flex-1 flex flex-row items-center">
+                  {currentUser && (
+                    <div className="font-bold text-xl lg:text-2xl">
+                      <span>{currentUser?.name}</span>
+                    </div>
+                  )}
                 </div>
+                <section>
+                  {/* <div>Address</div> */}
+                  {currentUser && (
+                    <div className="font-medium text-4xl">
+                      {shortenAddress(currentUser?.userAddr)}
+                    </div>
+                  )}
+                </section>
               </div>
               <div className="text-center">
                 <div>User ID</div>
                 <div className="font-black text-6xl">
-                  {Number(currentUser?.id)}
+                  {Number(currentUser?.id) || 0}
                 </div>
               </div>
-              <div className="text-center">
+              {/* <div className="text-center">
                 <div>Token</div>
                 <div className="font-black text-6xl">
-                  {Number(currentUser?.tokenQty)}
+                  {Number(currentUser?.tokenQty) || 0}
                 </div>
-              </div>
+              </div> */}
             </div>
             {/* <div className="flex-1 p-4">
               <div className="flex flex-row">
@@ -229,35 +267,44 @@ const Wallet = () => {
             </div> */}
           </section>
           <div className="bottom-card h-30">
-            <div className="stats w-full bg-base-100/60 text-center">
+            <div className="stats w-full bg-base-100/40 text-center">
               <div className="stat">
-                <div className="stat-title">No of Transactions</div>
-                <div className="stat-value font-medium text-neutral/90 text-2xl">
-                  12
+                <div className="stat-title">Token</div>
+                <div className="stat-value font-bold text-neutral/90 text-4xl">
+                  {currentUser ? Number(currentUser?.tokenQty) : 0}
                 </div>
-                <div className="stat-desc">Jan 1st - Feb 1st</div>
+                <div className="stat-desc">
+                  {new Date(
+                    formatDate(Number(currentUser?.timeJoined))
+                  ).toDateString()}{" "}
+                  - Feb 1st
+                </div>
               </div>
 
               <div className="stat">
-                <div className="stat-title">Last Recycled Plastic</div>
+                <div className="stat-title">Plastic Recycled</div>
                 <div className="stat-value font-medium text-neutral/90 text-2xl">
-                  3
-                </div>
-                <div className="stat-desc">↗︎ Nov. 7, 2023</div>
-              </div>
-
-              <div className="stat">
-                <div className="stat-title">Total Recycles</div>
-                <div className="stat-value font-medium text-neutral/90 text-2xl">
-                  4,200
+                  {recycledData?.data && !!recycledData?.data.length
+                    ? Number(recycledData?.data?.length)
+                    : 0}
                 </div>
                 <div className="stat-desc">↗︎ 400 (22%)</div>
               </div>
 
               <div className="stat">
-                <div className="stat-title">Total No of Purchases</div>
+                <div className="stat-title">Last Recycled Plastic</div>
                 <div className="stat-value font-medium text-neutral/90 text-2xl">
-                  1,200
+                  {recycledData?.data && !!recycledData?.data.length
+                    ? formatDate(recycledData?.data.length?.timeRecycled)
+                    : "-"}
+                </div>
+                <div className="stat-desc">↗︎ Nov. 7, 2023</div>
+              </div>
+
+              <div className="stat">
+                <div className="stat-title">Token Spent</div>
+                <div className="stat-value font-medium text-neutral/90 text-2xl">
+                  -
                 </div>
                 <div className="stat-desc">↘︎ 90 (14%)</div>
               </div>
@@ -318,7 +365,7 @@ const Wallet = () => {
               </div>
               <div className="stat-title">Plastic Recycled</div>
               <div className="stat-value">
-                {Number(currentUser?.tokenQty) ?? "-"}
+                {Number(currentUser?.tokenQty) || "-"}
               </div>
               <div className="stat-desc">Jan 1st - Feb 1st</div>
             </div>
@@ -340,7 +387,9 @@ const Wallet = () => {
                 </svg>
               </div>
               <div className="stat-title">Highest Daily Recycled</div>
-              <div className="stat-value">{Number(currentUser?.tokenQty)}</div>
+              <div className="stat-value">
+                {Number(currentUser?.tokenQty) || "-"}
+              </div>
               <div className="stat-desc">↗︎ 400 (22%)</div>
             </div>
 
@@ -361,7 +410,9 @@ const Wallet = () => {
                 </svg>
               </div>
               <div className="stat-title">Total Transactions</div>
-              <div className="stat-value">1,200</div>
+              <div className="stat-value">
+                {(data && Number(data?.length)) || "-"}
+              </div>
               <div className="stat-desc">↘︎ 90 (14%)</div>
             </div>
           </div>

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import CaurusImg from "../assets/Carus L1 1.png";
 import "react-phone-number-input/style.css";
 import { CountryDropdown } from "react-country-region-selector";
 import {
@@ -19,15 +18,17 @@ import SignUpButton from "../components/SignUpButton";
 import { Link } from "react-router-dom";
 import Logo from "../components/Logo";
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
+import useNotificationCount from "../hooks/useNotificationCount";
 
 const Register = () => {
   const { address, isConnected } = useAccount();
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState();
   const [country, setCountry] = useState("");
   const [gender, setGender] = useState(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const { currentUser } = useWasteWiseContext();
+  const notificationCount = useNotificationCount();
+  const { currentUser, wastewiseStore, setNotifCount } = useWasteWiseContext();
 
   const { config } = usePrepareContractWrite({
     address: WASTEWISE_ADDRESS,
@@ -37,9 +38,56 @@ const Register = () => {
   });
 
   const { data, write } = useContractWrite(config);
-  const { isLoading, isSuccess } = useWaitForTransaction({
+  const { isError, isLoading, isSuccess, error } = useWaitForTransaction({
     hash: data?.hash,
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success("Registration successful", {
+        onAutoClose: (t) => {
+          wastewiseStore
+            .setItem(t.id.toString(), {
+              id: t.id,
+              title: t.title,
+              datetime: new Date(),
+              type: t.type,
+            })
+            .then(function (_: any) {
+              setNotifCount(notificationCount);
+            });
+        },
+      });
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(<div>{error?.message}</div>, {
+        // onAutoClose: (t) => {
+        //   wastewiseStore
+        //     .setItem(t.id.toString(), {
+        //       id: t.id,
+        //       title: t.title,
+        //       datetime: new Date(),
+        //       type: t.type,
+        //     })
+        //     .then(function (_: any) {
+        //       setNotifCount(notificationCount);
+        //     });
+        // },
+      });
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Registering your information. Kindly hold", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [isLoading]);
 
   const handleGenderChange = (event: any) => {
     if (event.target.value === "female") {
@@ -90,8 +138,8 @@ const Register = () => {
         </div>
       </section>
 
-      <div className="flex h-screen">
-        <div className="lg:w-1/2 lg:mx-28 mx-1 lg:pl-8 ">
+      <div className="flex h-full">
+        <div className="flex flex-col justify-center items-center lg:w-1/2 lg:mx-28 mx-1 lg:pl-8">
           <h1 className="text-3xl font-black leading-8 mb-8">
             Register An Account!
           </h1>
@@ -163,7 +211,7 @@ const Register = () => {
                   value={country}
                   // defaultOptionLabel="---"
                   onChange={(val) => selectCountry(val)}
-                  classes="select select-bordered join-item bg-base-200 focus:outline-0 focus:bg-base-300"
+                  classes="select select-bordered join-item bg-base-200 focus:outline-0 focus:bg-base-300 w-4/12"
                 />
                 <div className="form-control w-full">
                   <div>
@@ -225,7 +273,7 @@ const Register = () => {
               <div className="join">
                 {["female", "male"].map((eachGender) => (
                   <input
-                    className="join-item btn checked:bg-success flex-1"
+                    className="join-item btn checked:btn-green-600 flex-1 capitalize"
                     type="radio"
                     name="options"
                     value={eachGender}
@@ -272,22 +320,22 @@ const Register = () => {
             {/* Submit button */}
             <div className="form-control px-4 py-8 mx-auto">
               <Button
-                name={isLoading ? "Loading" : "Sign up"}
+                name={isLoading ? "Loading..." : "Sign up"}
                 size="btn btn-block lg:btn-wide"
                 disabled={!write || isLoading}
                 onClick={handleSubmit}
               >
-                {/* <span className="loading"></span> */}
+                {/* {isLoading && <span className="loading"></span>} */}
               </Button>
+              {/* 
+              <button
+                className="btn btn-block lg:btn-wide"
+                onClick={handleSubmit}
+                disabled={!write || isLoading}
+              >
+                {isLoading ? <span className="loading"></span> : "Signup"}
+              </button> */}
             </div>
-
-            {/* <button
-              className="btn btn-success"
-              onClick={handleSubmit}
-              disabled={!write || isLoading}
-            >
-              Signup
-            </button> */}
 
             {isSuccess && (
               <div>
@@ -299,20 +347,32 @@ const Register = () => {
                 </div>
               </div>
             )}
+            {isError && <div>{error?.message} - Error occurred</div>}
           </form>
         </div>
-        <div className="bg-gradient-to-t from-[#CBE5D8] to-[#FFFFFF] dark:bg-gradient-to-t dark:from-yellow-500/10 dark:to-emerald-500/40 w-1/2 px-16 hidden lg:block dark:bg-transparent">
-          <h1
+        <div className="bg-gradient-to-t from-[#CBE5D8] to-[#FFFFFF] dark:bg-gradient-to-t dark:from-yellow-500/10 dark:to-emerald-500/40 w-1/2 px-16 hidden lg:flex lg:flex-col lg:justify-center dark:bg-transparent">
+          {/* <h1
             className="light:text-[#02582E] text-2xl font-extrabold mb-3
 "
           >
             Register an Account
-          </h1>
-          <p className="text-xl font-normal light:text-[#02582E] ">
-            Register an account as an individual or business to access all the
-            feature of Carus. Join our community who are making a difference for
-            our planet. It’s quick, easy and free!
-          </p>
+          </h1> */}
+          <div className="w-10/12 text-xl font-normal light:text-[#02582E] leading-[3]">
+            <h1 className="text-2xl">Hello... 👋🏼</h1>
+            <br />
+            Welcome to Wastewise.
+            <br />
+            We'll like to know some of your information to personalize your
+            experience on Wastewise.
+            <br />
+            Join the community that makes saving the planet a rewarding
+            activity.
+            <br />
+            <br />
+            <strong className="text-lg">
+              It'll only take 37 seconds or less. <br /> We promise.
+            </strong>
+          </div>
         </div>
       </div>
     </>

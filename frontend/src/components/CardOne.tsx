@@ -42,7 +42,7 @@ const CardOne = () => {
       <div className="mt-4 flex items-end justify-between">
         <div>
           <h4 className="text-title-md font-bold text-black dark:text-white">
-            {data && formatEther(data as bigint)}
+            {(data && formatEther(data as bigint)) || 0}
           </h4>
           <span className="text-sm font-medium">Total WasteWise Tokens</span>
         </div>
