@@ -360,7 +360,7 @@ const Landing = (props: Props) => {
                       />
                     </svg>
                   </div>
-                  <div className="timeline-start mb-10">
+                  <div className="timeline-start mb-10 md:text-end">
                     <time className="font-mono italic">May 2024</time>
                     <div className="text-lg font-black">Feedback hub</div>
                     Feedback is key for the growth of any individual, group or

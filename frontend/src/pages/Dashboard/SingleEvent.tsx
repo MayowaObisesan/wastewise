@@ -91,7 +91,7 @@ const SingleEvent = () => {
     args: [listing?.itemId, amount],
     onError(data: any) {
       console.log(data);
-      toast.error("!Failed to purchase item");
+      // toast.error("!Failed to purchase item");
       setLoading(false);
     },
   });
