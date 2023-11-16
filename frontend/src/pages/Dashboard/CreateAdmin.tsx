@@ -37,7 +37,7 @@ const CreateAdmin = (props: Props) => {
   } = useContractWrite(addAdmin);
 
   const { config: addVerifier } = usePrepareContractWrite({
-    address: WasteWise_ADDRESS,
+    address: WASTEWISE_ADDRESS,
     abi: WASTEWISE_ABI,
     functionName: "addVerifiers",
     args: [address],
