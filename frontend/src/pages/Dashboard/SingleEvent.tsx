@@ -99,9 +99,9 @@ const SingleEvent = () => {
 
   const { config: approveListing } = usePrepareContractWrite({
     address: WASTEWISE_TOKEN_ADDRESS,
-    abi: TokenABI,
+    abi: WASTEWISE_TOKEN_ABI,
     functionName: "approve",
-    args: ["0x869c0cD069aF5dE232D6cBd5c3458d014B6E1c4b", parseEther(`${1}`)],
+    args: [MARKETPLACE_ADDRESS, parseEther(`${1}`)],
     onError(data: any) {
       console.log(data);
       toast.error("Approval failed");

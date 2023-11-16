@@ -52,6 +52,11 @@ export function WasteWise() {
           tabIndex={0}
           className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
         >
+          <li>
+            <div className="my-auto font-bold text-[#026937]">
+              {shortenAddress(address as string)}
+            </div>
+          </li>
           <li className="">
             <Link
               to="/dashboard/profile"
