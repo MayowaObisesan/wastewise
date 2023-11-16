@@ -9,7 +9,7 @@ import { MARKETPLACE_ADDRESS, MarketPlaceABI } from "../../../constants";
 type Props = {};
 
 const Marketplace = (props: Props) => {
-  const [listings, setListings] = useState([]);
+  const [listings, setListings] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   const { isLoading } = useContractRead({
@@ -62,22 +62,22 @@ const Marketplace = (props: Props) => {
             })
           : listings.map((item, index) => {
               return (
-                <Link to={`event/${item.itemId}`} key={index}>
+                <Link to={`event/${item?.itemId}`} key={index}>
                   <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
                     <figure>
-                      <img src={item.image} alt="Shoes" />
+                      <img src={item?.image} alt="Shoes" />
                     </figure>
                     <div className="card-body">
                       <h2 className="card-title">
-                        {item.name}
+                        {item?.name}
                         <div className="badge badge-secondary">NEW</div>
                       </h2>
-                      <p>{item.description}</p>
-                      <p>Ends: {formatDate(Number(item.deadline))}</p>
+                      <p>{item?.description}</p>
+                      <p>Ends: {formatDate(Number(item?.deadline))}</p>
                       <div className="card-actions justify-between items-center mt-3">
                         <p className="text-lg text-[#026937]">Available</p>
                         <h3 className="font-bold text-lg">
-                          {formatUnits(item.price, 18)} <span>CHIX</span>
+                          {formatUnits(item?.price, 18)} <span>CHIX</span>
                         </h3>
                       </div>
                     </div>

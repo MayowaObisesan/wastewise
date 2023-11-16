@@ -153,11 +153,41 @@ const Wallet = () => {
   console.log(data);
 
   return (
-    <section className="w-full p-4 space-y-12 lg:py-8">
-      <section className="w-full bg-base-100 flex flex-col space-y-4 lg:flex-row p-4 rounded-xl lg:space-x-3 lg:space-y-0">
+    <section className="relative flex w-full p-4 space-y-12 lg:py-8 lg:flex lg:flex-col">
+      <section className="w-full bg-base-100 flex flex-col space-y-4 lg:flex-row p-4 rounded-xl lg:space-x-3 lg:space-y-0 overflow-x-auto">
         <section className="relative flex-1 h-100 px-8 py-6 rounded-2xl bg-gradient-to-br from-yellow-500/10 to-emerald-500/40 lg:px-3 lg:py-0">
-          <section className="h-70 flex flex-row">
-            <div className="flex-1 p-4">
+          <section className="h-70 flex flex-col">
+            <div className="w-full flex flex-row py-6 px-8">
+              <div className="flex-1">
+                <div className="font-medium text-2xl lg:text-2xl">
+                  Hi, {currentUser?.name}
+                </div>
+              </div>
+              <div className="flex flex-col justify-center">
+                <span className="text-2xl">🇳🇬</span>
+              </div>
+            </div>
+            <div className="flex flex-row p-8 space-x-24">
+              <div className="flex-1">
+                <div>Address</div>
+                <div className="font-bold text-5xl">
+                  {shortenAddress(currentUser?.userAddr)}
+                </div>
+              </div>
+              <div className="text-center">
+                <div>User ID</div>
+                <div className="font-black text-6xl">
+                  {Number(currentUser?.id)}
+                </div>
+              </div>
+              <div className="text-center">
+                <div>Token</div>
+                <div className="font-black text-6xl">
+                  {Number(currentUser?.tokenQty)}
+                </div>
+              </div>
+            </div>
+            {/* <div className="flex-1 p-4">
               <div className="flex flex-row">
                 <span>🇳🇬</span>
                 <span className="divider divider-horizontal"></span>
@@ -166,7 +196,7 @@ const Wallet = () => {
                 <div>{Number(currentUser?.id)}</div>
               </div>
               <div className="text-sm">
-                {/* <div className="text-lg font-bold px-2">Hi,</div> */}
+                <div className="text-lg font-bold px-2">Hi,</div>
                 <div className="font-bold text-3xl lg:text-5xl">
                   {currentUser?.name}
                 </div>
@@ -186,7 +216,7 @@ const Wallet = () => {
                   <div className="stat-value">
                     {Number(currentUser?.tokenQty)}
                   </div>
-                  {/* <div className="stat-desc">↗︎ 400 (22%)</div> */}
+                  <div className="stat-desc">↗︎ 400 (22%)</div>
                 </div>
               </div>
               <div className="stats stats-vertical">
@@ -196,31 +226,39 @@ const Wallet = () => {
                   <div className="stat-desc">↘︎ 90 (14%)</div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </section>
           <div className="bottom-card h-30">
-            <div className="stats w-full bg-base-100/60">
+            <div className="stats w-full bg-base-100/60 text-center">
               <div className="stat">
                 <div className="stat-title">No of Transactions</div>
-                <div className="stat-value">12</div>
+                <div className="stat-value font-medium text-neutral/90 text-2xl">
+                  12
+                </div>
                 <div className="stat-desc">Jan 1st - Feb 1st</div>
               </div>
 
               <div className="stat">
                 <div className="stat-title">Last Recycled Plastic</div>
-                <div className="stat-value">3</div>
+                <div className="stat-value font-medium text-neutral/90 text-2xl">
+                  3
+                </div>
                 <div className="stat-desc">↗︎ Nov. 7, 2023</div>
               </div>
 
               <div className="stat">
                 <div className="stat-title">Total Recycles</div>
-                <div className="stat-value">4,200</div>
+                <div className="stat-value font-medium text-neutral/90 text-2xl">
+                  4,200
+                </div>
                 <div className="stat-desc">↗︎ 400 (22%)</div>
               </div>
 
               <div className="stat">
                 <div className="stat-title">Total No of Purchases</div>
-                <div className="stat-value">1,200</div>
+                <div className="stat-value font-medium text-neutral/90 text-2xl">
+                  1,200
+                </div>
                 <div className="stat-desc">↘︎ 90 (14%)</div>
               </div>
             </div>
@@ -260,7 +298,7 @@ const Wallet = () => {
             </div>
           </div> */}
         </section>
-        <section className="bg-base-100 flex-1 rounded-2xl shadow-2 p-2 lg:w-5/12 lg:flex-none">
+        <section className="bg-base-100 flex-1 rounded-2xl shadow-2 p-2 lg:w-6/12 lg:flex-none">
           <div className="stats text-success-content shadow mx-auto w-full">
             <div className="stat text-base-content">
               <div className="stat-figure text-base-content">
@@ -341,9 +379,9 @@ const Wallet = () => {
 
       <section className="p-2 lg:p-8">
         <div className="font-bold text-2xl">Transactions</div>
-        {data?.map((eachTx, index) => {
-          <div>{eachTx}</div>;
-        })}
+        {(data as any[])?.map((eachTx, index) => (
+          <div>{eachTx}</div>
+        ))}
         <div className="overflow-x-auto my-4">
           <table className="table table-xs lg:table-md">
             {/* head */}
@@ -356,7 +394,7 @@ const Wallet = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((eachTx, index) => {
+              {(data as any[])?.map((eachTx, index) => (
                 <tr className="h-16">
                   <th>{eachTx.date}</th>
                   <td>{eachTx.typeOfTransaction}</td>
@@ -372,8 +410,8 @@ const Wallet = () => {
                       </span>
                     )}
                   </td>
-                </tr>;
-              })}
+                </tr>
+              ))}
               {/* row 1 */}
               <tr className="h-16">
                 <th>7-Nov-2023</th>

@@ -108,7 +108,8 @@ const CreateEvent = (props: Props) => {
                 <input
                   type="file"
                   className="file-input file-input-bordered w-full"
-                  onChange={(e) => setImagePath(e.target.files)}
+                  onChange={(e) => setImagePath(e.target.files as any)}
+                  title="file"
                 />
               </div>
               <div className="form-control mb-3 w-full max-w-xs sm:max-w-md md:max-w-xl mx-auto">
@@ -130,6 +131,7 @@ const CreateEvent = (props: Props) => {
                   type="datetime-local"
                   className="input input-bordered w-full"
                   onChange={(e) => toTimeStamp(e.target.value)}
+                  title="time"
                 />
               </div>
             </div>

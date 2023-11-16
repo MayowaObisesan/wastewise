@@ -1,8 +1,6 @@
 import Button from "../../components/Button";
 import { useWasteWiseContext } from "../../context";
 
-
-
 const Profile = () => {
   const { currentUser } = useWasteWiseContext();
 
@@ -173,7 +171,10 @@ const Profile = () => {
                 className="select select-bordered join-item bg-base-200 focus:outline-0 focus:bg-base-300"
                 title="Phone Country select"
               >
-                <option disabled selected>
+                <option
+                  disabled
+                  selected
+                >
                   GLB
                 </option>
                 <option value="">NGN</option>
@@ -206,14 +207,26 @@ const Profile = () => {
               <span className="label-text">Select Gender</span>
               {/* <span className="label-text-alt">Alt label</span> */}
             </label>
-            <select className="select select-bordered" title="Gender">
-              <option disabled selected>
+            <select
+              className="select select-bordered"
+              title="Gender"
+            >
+              <option
+                disabled
+                selected
+              >
                 Gender
               </option>
-              <option value={1} selected={currentUser?.gender === 1}>
+              <option
+                value={1}
+                selected={currentUser?.gender === 1}
+              >
                 Male
               </option>
-              <option value={0} selected={currentUser?.gender === 0}>
+              <option
+                value={0}
+                selected={currentUser?.gender === 0}
+              >
                 Female
               </option>
             </select>
@@ -228,7 +241,10 @@ const Profile = () => {
 
       {/* Submit button */}
       <div className="form-control px-4 py-8 mx-auto">
-        <Button name="Update" size="btn btn-block lg:btn-wide" />
+        <Button
+          name="Update"
+          size="btn btn-block lg:btn-wide"
+        />
       </div>
     </section>
   );

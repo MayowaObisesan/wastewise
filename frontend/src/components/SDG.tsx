@@ -1,4 +1,10 @@
-const SDG = (props) => {
+type Props = {
+  content: string;
+  children: any;
+  reverse?: boolean;
+};
+
+const SDG = (props: Props) => {
   const SContent = () => {
     return (
       <>

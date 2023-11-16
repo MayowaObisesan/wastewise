@@ -21,8 +21,8 @@ import { toast } from "sonner";
 
 const SingleEvent = () => {
   let { id } = useParams();
+  const [listing, setListing] = useState<any>();
   const { address } = useAccount();
-  const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingA, setLoadingA] = useState<boolean>(false);
   const [disablePay, setDisablePay] = useState<boolean>(false);
@@ -108,6 +108,7 @@ const SingleEvent = () => {
       setLoadingA(false);
     },
   });
+
   const { data: approveData, write: write2 } = useContractWrite(approveListing);
 
   useWaitForTransaction({
