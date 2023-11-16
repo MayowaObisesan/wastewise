@@ -34,7 +34,7 @@ contract MarketPlace {
         Purchase
     }
 
-    mapping(address => Transaction) transactions;
+    mapping(address => Transaction[]) transactions;
 
     /// @dev Mapping to store item information by their unique listing ID.
     mapping(uint256 => ItemInfo) public itemInfoToId;
@@ -64,6 +64,8 @@ contract MarketPlace {
 
     RwasteWise rwasteWise;
     WasteWise wasteWise;
+
+    WasteWise.Statistics statistics;
 
     constructor(address tokenAddress, address wasteWiseAddr) {
         rwasteWise = RwasteWise(tokenAddress);
@@ -126,13 +128,18 @@ contract MarketPlace {
         rwasteWise.burnReceipt(address(this), totalPrice);
 
         // Create a new transaction
-        WasteWise.Transaction memory transaction;
+        Transaction memory transaction;
         transaction.date = block.timestamp;
         transaction.typeOfTransaction = Type.Purchase;
         transaction.amountOfTokens = totalPrice;
 
         // Store the transaction
-        transactions[msg.sender] = transaction;
+        transactions[msg.sender].push(transaction);
+
+        WasteWise.Statistics memory _stats;
+        // Increase the transactions
+        _stats.totalTransactions = statistics.totalTransactions + 1;
+        statistics.totalTransactions = _stats.totalTransactions;
     }
 
     /**
@@ -174,7 +181,7 @@ contract MarketPlace {
         return allItemInfo;
     }
 
-    function getAllActiveItemInfo() private view returns (ItemInfo[] memory) {
+    function getAllActiveItemInfo() public view returns (ItemInfo[] memory) {
         uint activeItemsLength;
         for (uint i = 0; i < listingId; i++) {
             ItemInfo memory itemInfo = itemInfoToId[i + 1];

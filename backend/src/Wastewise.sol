@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 import {RwasteWise} from "./RwasteWise.sol";
+import {console2} from "forge-std/Test.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 /**
@@ -24,9 +25,9 @@ contract WasteWise {
     }
 
     enum Role {
+        USERS,
         ADMINS,
-        VERIFIERS,
-        USERS
+        VERIFIERS
     }
 
     /// @dev Structure to represent a user in the system.
@@ -43,7 +44,7 @@ contract WasteWise {
         uint tokenQty;
         bool isAdmin;
         Role role;
-        uint approvalCount;
+        // uint approvalCount;
     }
 
     struct Transaction {
@@ -66,7 +67,8 @@ contract WasteWise {
 
     enum Type {
         Recycle,
-        Purchase
+        Purchase,
+        User
     }
 
     /// @dev Structure to represent a recycling transaction.
@@ -83,7 +85,7 @@ contract WasteWise {
     /// @dev Mapping to track recycling transactions for each user.
     mapping(address => Recycled[]) RecycledMap;
 
-    mapping(address => Transaction[]) transactionsMap;
+    mapping(address => Transaction[]) public transactionsMap;
 
     /// @dev Mapping to store user data.
     mapping(address => User) public UserMap;
@@ -92,7 +94,7 @@ contract WasteWise {
     mapping(address => mapping(address => bool)) hasApprovedAdmin;
     mapping(uint => address) IdToAddress;
 
-    Statistics statistics;
+    Statistics public statistics;
 
     uint adminReqId;
 
@@ -146,14 +148,14 @@ contract WasteWise {
     event NewAdminApproved(address indexed newAdmin, address indexed admins);
     event VerifierAdded(address indexed verifier, address indexed admins);
     event VerifierRemoved(address indexed verifier, address indexed admins);
+    event StatisticsUpdated(Statistics _statistics);
 
     error OnlyTheVerifiersCanCallThisFunction();
 
     // MODIFIERS
     modifier onlyVerifiers() {
         require(
-            UserMap[msg.sender].role == Role.VERIFIERS ||
-                UserMap[msg.sender].role == Role.ADMINS,
+            UserMap[msg.sender].role == Role.VERIFIERS,
             "Only the verifiers can call this function"
         );
         _;
@@ -161,7 +163,8 @@ contract WasteWise {
 
     modifier onlyAdmins() {
         require(
-            UserMap[msg.sender].role == Role.ADMINS,
+            UserMap[msg.sender].role == Role.ADMINS &&
+                UserMap[msg.sender].isAdmin,
             "Only the Admin can call this function"
         );
         _;
@@ -173,14 +176,16 @@ contract WasteWise {
         for (uint i = 0; i < _admins.length; i++) {
             User storage user = UserMap[_admins[i]];
             user.isAdmin = true;
+            user.role = Role.ADMINS;
             // User storage newAdmin;
             allAdmins.push(_admins[i]);
         }
 
         Statistics memory _stats;
-        _stats.totalAdmins = _stats.totalAdmins + _admins.length;
-        _stats.totalUsers = _stats.totalUsers + _admins.length;
-        statistics = _stats;
+        _stats.totalAdmins = statistics.totalAdmins + _admins.length;
+        _stats.totalUsers = statistics.totalUsers + _admins.length;
+        statistics.totalAdmins = _stats.totalAdmins;
+        statistics.totalUsers = _stats.totalUsers;
     }
 
     function createUserAcct(
@@ -189,13 +194,16 @@ contract WasteWise {
         Gender _gender,
         uint _phone,
         string memory _email
-    ) public {
+    ) public returns (User memory) {
         userId++;
 
         if (UserMap[msg.sender].userAddr == msg.sender) {
             revert UserAccountAlreadyExist();
         }
         User storage user = UserMap[msg.sender];
+
+        // TODO: Email should be unique.
+        // TODO: Implement the test as well
 
         user.id = userId;
         user.name = _name;
@@ -207,6 +215,13 @@ contract WasteWise {
         user.timeJoined = block.timestamp;
         IdToAddress[userId] = msg.sender;
 
+        allUsers.push(user);
+
+        // Avoid reading and updating Statistics from state directly.
+        Statistics memory _stats;
+        _stats.totalUsers = statistics.totalUsers + 1;
+        statistics.totalUsers = _stats.totalUsers;
+
         emit UserAccountCreated(
             userId,
             _name,
@@ -217,11 +232,9 @@ contract WasteWise {
             msg.sender,
             block.timestamp
         );
-        allUsers.push(user);
+        emit StatisticsUpdated(statistics);
 
-        Statistics memory _stats;
-        ++_stats.totalUsers;
-        statistics = _stats;
+        return user;
     }
 
     /**
@@ -240,8 +253,6 @@ contract WasteWise {
         }
 
         User storage user = UserMap[_userAddr];
-
-        user.userAddr = _userAddr;
 
         if (_qtyrecycled == 0) revert ZeroAmountNotAllow();
 
@@ -266,12 +277,15 @@ contract WasteWise {
         // Mint receiptTokens of the same amount, `_qtyrecycled`, to the user upon successful recycling
         rwasteWise.mintReceipt(_userAddr, _qtyrecycled * 10 ** 18);
 
+        // Avoid updating Statistics from state directly.
         Statistics memory _stats;
         // Increase the minted statistics, recycled and transactions
-        _stats.totalMinted = _stats.totalMinted + _qtyrecycled;
-        _stats.totalRecycled = _stats.totalRecycled + _qtyrecycled;
-        ++_stats.totalTransactions;
-        statistics = _stats;
+        _stats.totalMinted = statistics.totalMinted + _qtyrecycled;
+        _stats.totalRecycled = statistics.totalRecycled + _qtyrecycled;
+        _stats.totalTransactions = statistics.totalTransactions + 1;
+        statistics.totalMinted = _stats.totalMinted;
+        statistics.totalRecycled = _stats.totalRecycled;
+        statistics.totalTransactions = _stats.totalTransactions;
 
         emit PlasticDeposited(
             _userAddr,
@@ -287,23 +301,6 @@ contract WasteWise {
      */
     function getUserRecycles() public view returns (Recycled[] memory) {
         return RecycledMap[msg.sender];
-    }
-
-    /**
-     * @dev Get all recycling transactions for the user.
-     * @return An array of recycling transactions for the user.
-     */
-    function getAllUserRecycles() public view returns (Recycled[] memory) {
-        User[] memory _users = allUsers;
-        Recycled[] memory allRecycled;
-        for (uint i = 0; i < _users.length; ) {
-            // Recycled[] memory myRecycled = RecycledMap[_users[i].userAddr];
-            // for (uint j = 0; j < myRecycled.length; ) {
-            //     allRecycled.push(myRecycled[j]);
-            // }
-            // i++;
-        }
-        return allRecycled;
     }
 
     function getUserTransactions() public view returns (Transaction[] memory) {
@@ -325,9 +322,18 @@ contract WasteWise {
         user.phoneNo = _user.phoneNo;
         user.gender = _user.gender;
 
+        // Create a new transaction
+        Transaction memory transaction;
+        transaction.date = block.timestamp;
+        transaction.typeOfTransaction = Type.User;
+
+        // Store the transaction for the user
+        transactionsMap[msg.sender].push(transaction);
+
+        // Avoid updating Statistics from state directly.
         Statistics memory _stats;
-        ++_stats.totalTransactions;
-        statistics = _stats;
+        _stats.totalTransactions = statistics.totalTransactions + 1;
+        statistics.totalTransactions = _stats.totalTransactions;
 
         emit UserEdited(
             user.name,
@@ -344,6 +350,14 @@ contract WasteWise {
      */
     function getAllUsers() public view returns (User[] memory) {
         return allUsers;
+    }
+
+    /**
+     * @dev Get all user data.
+     * @return An array of all verifiers' data.
+     */
+    function getVerifiers() public view returns (User[] memory) {
+        return verifiers;
     }
 
     /**
@@ -364,59 +378,51 @@ contract WasteWise {
     }
 
     function addAdmins(address _addr) public onlyAdmins {
-        // checks that `addr` is not already an Admin, before adding it to the admins
+        // Check that the User has been created
         if (_addr != UserMap[_addr].userAddr) {
             revert UserDoesNotExist();
         }
-        if (!UserMap[_addr].isAdmin) {
+        // checks that `address of the user` is not already an Admin, before adding it to the admin list
+        if (UserMap[_addr].isAdmin) {
             revert ExpectNonAdmin();
         }
-        // Create a Request for that user to add as admin
 
+        // Create a Request for that user to add as admin
         ++adminReqId;
         AdminRequest storage _adminReq = adminRequest[adminReqId];
         _adminReq.requestStatus = false;
 
-        // Check that this user has not already approved this user before.
+        // Emit an event for when that user is enlisted as an admin
+        emit AdminAdded(_addr, msg.sender);
 
-        if (!hasApprovedAdmin[_addr][msg.sender]) {
+        // Automatically approve the user address as the admin being added
+        approveNewAdmin(_addr);
+    }
+
+    function approveNewAdmin(address _addr) public onlyAdmins {
+        // Check that this user has not already approved this user before.
+        if (hasApprovedAdmin[_addr][msg.sender]) {
             revert AdminAlreadyApproved(_addr);
         }
 
         hasApprovedAdmin[_addr][msg.sender] = true;
+
+        AdminRequest storage _adminReq = adminRequest[adminReqId];
         _adminReq.approvalCount += 1;
 
         // Get 2/3 of admins from allAdmins array.
         uint twoThirdAdmins = (2 * allAdmins.length) / 3;
-        if (twoThirdAdmins >= _adminReq.approvalCount) {
+        if (_adminReq.approvalCount >= twoThirdAdmins) {
             // Automatically add that user as an admin to the admin array
 
             UserMap[_addr].role = Role.ADMINS;
             allAdmins.push(_addr);
+            _adminReq.requestStatus = true;
+
+            Statistics memory _stats;
+            _stats.totalAdmins = statistics.totalAdmins + 1;
+            statistics.totalAdmins = _stats.totalAdmins;
         }
-
-        // Emit an event for when that user is enlisted as an admin
-        emit AdminAdded(_addr, msg.sender);
-    }
-
-    function approveNewAdmin(address _addr) public onlyAdmins {
-        // Checks that the address to be called is added to the admin array
-        bool isInArray = false;
-        for (uint i = 0; i < allAdmins.length; i++) {
-            if (allAdmins[i] == _addr) {
-                isInArray = true;
-                break;
-            }
-        }
-
-        if (!isInArray) revert TheAddressIsNotInTheAdminArray();
-
-        User storage user = UserMap[_addr];
-        user.approvalCount++;
-
-        Statistics memory _stats;
-        ++_stats.totalAdmins;
-        statistics = _stats;
 
         emit NewAdminApproved(_addr, msg.sender);
     }
@@ -432,6 +438,11 @@ contract WasteWise {
 
         UserMap[_addr].role = Role.VERIFIERS;
         verifiers.push(UserMap[_addr]);
+
+        Statistics memory _stats;
+        // Increase the transactions
+        _stats.totalTransactions = statistics.totalTransactions + 1;
+        statistics.totalTransactions = _stats.totalTransactions;
 
         emit VerifierAdded(_addr, msg.sender);
     }
@@ -457,6 +468,21 @@ contract WasteWise {
         // Update the user's role
         UserMap[_addr].role = Role.VERIFIERS;
 
+        Statistics memory _stats;
+        // Increase the minted statistics, recycled and transactions
+        _stats.totalTransactions = statistics.totalTransactions - 1;
+        statistics.totalTransactions = _stats.totalTransactions;
+
         emit VerifierRemoved(_addr, msg.sender);
+    }
+
+    function getStatistics() public view returns (Statistics memory) {
+        return statistics;
+    }
+
+    function getAdminRequest(
+        uint id
+    ) public view returns (AdminRequest memory) {
+        return adminRequest[id];
     }
 }

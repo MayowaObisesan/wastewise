@@ -2,16 +2,14 @@ import { Toaster, toast } from "sonner";
 import Button from "../../components/Button";
 import { useRef, useState, useEffect } from "react";
 import localforage from "localforage";
-import WASTEWISE_ABI from "../../../constants/wasteWiseABI.json";
-import { WasteWise_ADDRESS } from "../../../constants/wasteWiseAddress";
-
 import {
   useAccount,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-// import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../../utils";
+
+import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
 
 const Recycle = () => {
   const { address } = useAccount();
@@ -19,8 +17,8 @@ const Recycle = () => {
   const [userId, setUserId] = useState<number>();
 
   const { config: depositPlasticConfig } = usePrepareContractWrite({
-    address: WasteWise_ADDRESS,
-    abi: WASTEWISE_ABI,
+    address: WASTEWISE_ADDRESS,
+    abi: WasteWiseABI,
     functionName: "depositPlastic",
     args: [numPlastic, userId],
   });

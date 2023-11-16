@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { useNavigate } from "react-router-dom";
-import {
-  MARKETPLACE_ABI,
-  MARKETPLACE_ADDRESS,
-  pinFileToIPFS,
-} from "../../utils";
+import { MARKETPLACE_ADDRESS, MarketPlaceABI } from "../../../constants";
+import { pinFileToIPFS } from "../../utils";
 
 type Props = {};
 
@@ -33,7 +30,7 @@ const CreateEvent = (props: Props) => {
 
   const { write, isLoading, data } = useContractWrite({
     address: MARKETPLACE_ADDRESS,
-    abi: MARKETPLACE_ABI,
+    abi: MarketPlaceABI,
     functionName: "createListing",
     args: [name, description, image, price, deadline],
     onError() {
