@@ -24,77 +24,9 @@ import SDG from "../components/SDG";
 type Props = {};
 
 const Landing = (props: Props) => {
-  const { isConnected } = useAccount();
-
   return (
     <section>
-      <section className="sticky top-0 z-10 px-2 py-2 lg:px-8 lg:py-4 bg-transparent backdrop-blur-3xl">
-        <div className="navbar bg-base-200 w-full mx-auto rounded-2xl dark:bg-base-300">
-          <div className="navbar-start flex-1">
-            <Logo />
-          </div>
-          <div className={"navbar-end gap-2"}>
-            <div className="flex-none">
-              <ul className="menu menu-horizontal px-1">
-                <li>
-                  <label className="hidden lg:flex cursor-pointer gap-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="12" cy="12" r="5" />
-                      <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-                    </svg>
-                    <input
-                      type="checkbox"
-                      value="dark"
-                      className="toggle theme-controller"
-                    />
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                  </label>
-                </li>
-                <li>
-                  <Link to="/dashboard/profile">Dashboard</Link>
-                </li>
-                {/* <li>
-                  <details>
-                    <summary>Parent</summary>
-                    <ul className="p-2 bg-base-100">
-                      <li>
-                        <a>Link</a>
-                      </li>
-                      <li>
-                        <a>Link 2</a>
-                      </li>
-                    </ul>
-                  </details>
-                </li> */}
-              </ul>
-            </div>
-            <WasteWise />
-            {isConnected && <SignUpButton />}
-          </div>
-        </div>
-      </section>
+      <Navbar />
       {/* <!-- Gradients --> */}
       {/* <div aria-hidden="true" className="flex absolute top-24 start-0 -z-[1]">
         <div className="bg-green-100 opacity-30 blur-3xl w-[1036px] h-[600px] dark:bg-green-900 dark:opacity-20"></div>
@@ -105,8 +37,7 @@ const Landing = (props: Props) => {
           <div className="w-full px-2 pt-12 lg:px-12 lg:py-40">
             <div className="min-w-6/12">
               <h1 className="relative w-full text-center text-4xl font-bold lg:pr-8 lg:w-8/12 lg:text-7xl lg:text-left">
-                {" "}
-                Why waste when you can{" "}
+                <div className="w-11/12 mx-auto">Why waste when you can</div>
                 <span className="bg-gradient-to-r from-[#2C8258] to-[#FFDE52] inline-block text-transparent text-[5rem] leading-[1.4] lg:text-9xl bg-clip-text lg:py-4">
                   Recycle
                 </span>
