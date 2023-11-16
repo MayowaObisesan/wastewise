@@ -14,6 +14,7 @@ import tr1hd from "./transparent_recycle1_hd.png";
 import tr2 from "./transparent_recycle2.png";
 import plasticOnLand from "./plastic_on_beach.jpeg";
 import wasteOnLand from "./waste_on_land.jpeg";
+import plasticInOcean from "./plasticDestructionOcean.jpeg";
 import plasticOnEarth from "./plasticDestructionEarth.jpeg";
 import plasticOnWater from "./plasticDestructionWater.jpeg";
 
@@ -34,6 +35,7 @@ export {
   tr2,
   plasticOnLand,
   wasteOnLand,
+  plasticInOcean,
   plasticOnEarth,
   plasticOnWater,
 };

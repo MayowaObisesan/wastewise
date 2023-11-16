@@ -15,13 +15,14 @@ import Button from "../components/Button";
 import { useWasteWiseContext } from "../context";
 import { toast } from "sonner";
 import SignUpButton from "../components/SignUpButton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
 import useNotificationCount from "../hooks/useNotificationCount";
 import Navbar from "../components/Navbar";
 
 const Register = () => {
+  const navigate = useNavigate();
   const { address, isConnected } = useAccount();
   const [number, setNumber] = useState<number>();
   const [country, setCountry] = useState("");
@@ -30,6 +31,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const notificationCount = useNotificationCount();
   const { currentUser, wastewiseStore, setNotifCount } = useWasteWiseContext();
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
 
   const { config } = usePrepareContractWrite({
     address: WASTEWISE_ADDRESS,
@@ -64,6 +66,11 @@ const Register = () => {
             });
         },
       });
+      // const redirectTo = "";
+      // if (currentUser.role === 1) {}
+      setTimeout(() => {
+        navigate("/dashboard/wallet");
+      }, 1200);
     }
   }, [isSuccess]);
 
@@ -105,6 +112,13 @@ const Register = () => {
   function selectCountry(val: any) {
     setCountry(val);
   }
+
+  function handleEmail(e: any) {
+    setEmail(e.target.value);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsEmailValid(emailRegex.test(e.target.value)); // true
+  }
+
   function handleSubmit(e: any) {
     e.preventDefault();
     write?.();
@@ -114,7 +128,7 @@ const Register = () => {
     <>
       <Navbar />
 
-      <div className="flex h-full px-4">
+      <div className="flex h-full px-4 lg:h-9/12">
         <div className="flex flex-col justify-center items-center lg:w-1/2 lg:mx-28 mx-1 lg:pl-8">
           <h1 className="text-3xl font-black leading-8 mb-8">
             Register An Account!
@@ -168,13 +182,15 @@ const Register = () => {
                 placeholder="your@email.com"
                 className="input input-bordered w-full"
                 defaultValue={currentUser?.email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmail}
               />
-              <label className="label">
-                <span className="label-text-alt text-error">
-                  Invalid Email Address
-                </span>
-              </label>
+              {email.length > 0 && !isEmailValid && (
+                <label className="label">
+                  <span className="label-text-alt text-error">
+                    Invalid Email Address
+                  </span>
+                </label>
+              )}
             </div>
 
             {/* Phone Number form input */}
@@ -194,7 +210,7 @@ const Register = () => {
                     <input
                       type="text"
                       className="input input-bordered join-item w-full focus:outline-0 focus:bg-base-100"
-                      placeholder="+234 913 158 1488"
+                      placeholder="234 913 158 1488"
                       defaultValue={number}
                       onChange={(e) => setNumber(parseInt(e.target.value))}
                     />

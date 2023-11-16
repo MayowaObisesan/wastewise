@@ -1,7 +1,12 @@
 import { useAccount, useContractRead } from "wagmi";
 import { useWasteWiseContext } from "../../context";
 import { formatDate, shortenAddress } from "../../utils";
-import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
+import {
+  WASTEWISE_ADDRESS,
+  WASTEWISE_TOKEN_ABI,
+  WASTEWISE_TOKEN_ADDRESS,
+  WasteWiseABI,
+} from "../../../constants";
 import ReactApexChart from "react-apexcharts";
 import { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
@@ -146,6 +151,13 @@ const Wallet = () => {
     account: address,
   });
 
+  const tokenData = useContractRead({
+    address: WASTEWISE_TOKEN_ADDRESS,
+    abi: WASTEWISE_TOKEN_ABI,
+    functionName: "balanceOf",
+  });
+  console.log(tokenData?.data);
+
   // useEffect(() => {
   //   recycledData?.data.map((transaction) => {
   //   setChartData([...chartData, transaction.numberOfTokens]);
@@ -184,8 +196,13 @@ const Wallet = () => {
       );
     }
     return (
-      <div className="badge badge-warning text-xs py-2 lg:text-base lg:py-3">
-        Caretaker
+      <div
+        className="tooltip tooltip-right"
+        data-tip="You are a Caretaker of nature"
+      >
+        <div className="badge badge-warning text-xs py-2 lg:text-base lg:py-3">
+          Caretaker
+        </div>
       </div>
     );
   };
@@ -304,8 +321,8 @@ const Wallet = () => {
             <div className="stats w-full bg-base-100/40 text-center">
               <div className="stat">
                 <div className="stat-title text-xs">Token</div>
-                <div className="stat-value font-bold text-neutral/90 text-2xl lg:text-4xl">
-                  {currentUser ? Number(currentUser?.tokenQty) : 0}
+                <div className="stat-value font-bold text-neutral/90 text-2xl lg:text-4xl dark:text-base-content">
+                  {tokenData?.data ? Number(tokenData?.data) : 0}
                 </div>
                 <div className="stat-desc">
                   {new Date(
@@ -319,7 +336,7 @@ const Wallet = () => {
                 <div className="stat-title text-xs lg:text-base">
                   Plastic Recycled
                 </div>
-                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl">
+                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl dark:text-base-content">
                   {recycledData?.data && !!(recycledData?.data as any).length
                     ? Number((recycledData?.data as any)?.length)
                     : "-"}
@@ -331,7 +348,7 @@ const Wallet = () => {
                 <div className="stat-title text-xs lg:text-base">
                   Last Recycled Date
                 </div>
-                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl">
+                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl dark:text-base-content">
                   {recycledData?.data && !!(recycledData?.data as any).length
                     ? new Date(
                         formatDate(
@@ -347,7 +364,7 @@ const Wallet = () => {
                 <div className="stat-title text-xs lg:text-base">
                   Token Spent
                 </div>
-                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl">
+                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl dark:text-base-content">
                   -
                 </div>
                 <div className="stat-desc">↘︎ 90 (14%)</div>
