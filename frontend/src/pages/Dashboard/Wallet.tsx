@@ -322,7 +322,8 @@ const Wallet = () => {
               <div className="stat">
                 <div className="stat-title text-xs">Token</div>
                 <div className="stat-value font-bold text-neutral/90 text-2xl lg:text-4xl dark:text-base-content">
-                  {tokenData?.data ? Number(tokenData?.data) : 0}
+                  {/* {tokenData?.data ? Number(tokenData?.data) : 0} */}
+                  {currentUser?.tokenQty ? Number(currentUser?.tokenQty) : 0}
                 </div>
                 <div className="stat-desc">
                   {new Date(
