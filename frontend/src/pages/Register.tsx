@@ -22,7 +22,7 @@ import useNotificationCount from "../hooks/useNotificationCount";
 
 const Register = () => {
   const { address, isConnected } = useAccount();
-  const [number, setNumber] = useState();
+  const [number, setNumber] = useState<number>();
   const [country, setCountry] = useState("");
   const [gender, setGender] = useState(1);
   const [name, setName] = useState("");
@@ -88,8 +88,8 @@ const Register = () => {
   useEffect(() => {
     if (isLoading) {
       toast.loading("Registering your information. Kindly hold", {
-        description: "My description",
-        duration: 5000,
+        // description: "My description",
+        duration: 15000,
       });
     }
   }, [isLoading]);

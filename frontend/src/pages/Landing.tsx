@@ -28,16 +28,16 @@ const Landing = (props: Props) => {
 
   return (
     <section>
-      <section className="sticky top-0 z-10 px-8 py-4 bg-transparent backdrop-blur-3xl">
+      <section className="sticky top-0 z-10 px-2 py-2 lg:px-8 lg:py-4 bg-transparent backdrop-blur-3xl">
         <div className="navbar bg-base-200 w-full mx-auto rounded-2xl dark:bg-base-300">
           <div className="navbar-start flex-1">
             <Logo />
           </div>
-          <div className={"navbar-end gap-8"}>
+          <div className={"navbar-end gap-2"}>
             <div className="flex-none">
               <ul className="menu menu-horizontal px-1">
                 <li>
-                  <label className="flex cursor-pointer gap-2">
+                  <label className="hidden lg:flex cursor-pointer gap-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -49,11 +49,7 @@ const Landing = (props: Props) => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="5"
-                      />
+                      <circle cx="12" cy="12" r="5" />
                       <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
                     </svg>
                     <input
@@ -104,20 +100,20 @@ const Landing = (props: Props) => {
         <div className="bg-green-100 opacity-30 blur-3xl w-[1036px] h-[600px] dark:bg-green-900 dark:opacity-20"></div>
         <div className="bg-base-200 opacity-90 blur-3xl w-[577px] h-[300px] transform translate-y-32 dark:bg-base-800/60"></div>
       </div> */}
-      <div className="hero relative">
-        <div className="hero-content text-left w-full min-w-full flex flex-col lg:flex-row lg:space-x-8 before:-hue-rotate-90 before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element-dark.svg')] dark:before:opacity-30">
-          <div className="w-full px-12 py-40">
+      <div className="hero before:scale-75 before:top-0 before:-hue-rotate-90 before:absolute lg:before:scale-100 lg:before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element-dark.svg')] dark:before:opacity-30">
+        <div className="hero-content text-left w-full min-w-full flex flex-col lg:flex-row lg:space-x-8">
+          <div className="w-full px-2 pt-12 lg:px-12 lg:py-40">
             <div className="min-w-6/12">
-              <h1 className="relative w-8/12 text-4xl font-bold pr-8 lg:text-7xl">
+              <h1 className="relative w-full text-center text-4xl font-bold lg:pr-8 lg:w-8/12 lg:text-7xl lg:text-left">
                 {" "}
                 Why waste when you can{" "}
-                <span className="bg-gradient-to-r from-[#2C8258] to-[#FFDE52] inline-block text-transparent text-9xl bg-clip-text py-4">
+                <span className="bg-gradient-to-r from-[#2C8258] to-[#FFDE52] inline-block text-transparent text-[5rem] leading-[1.4] lg:text-9xl bg-clip-text lg:py-4">
                   Recycle
                 </span>
               </h1>
-              <div className="w-8/12 py-6 text-2xl lg:py-12">
-                <p>We can save the planet one action at a time.</p>
-                <p className="text-2xl">
+              <div className="w-full py-6 text-2xl text-center lg:w-8/12 lg:text-2xl lg:text-left lg:py-12">
+                <p>We can save the planet one plastic at a time.</p>
+                <p className="text-2xl lg:text-2xl">
                   Let's work together to promote recycling, and create a greener
                   future.
                 </p>
@@ -128,20 +124,27 @@ const Landing = (props: Props) => {
           <div className="relative overflow-x-hidden self-stretch flex flex-col items-end justify-center w-full before:-hue-rotate-90 before:absolute before:top-0 before:right-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/component/squared-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-right before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/component/squared-bg-element-dark.svg')]">
             <img
               src={tr1hd}
-              alt="Image of people recycling"
-              className="w-11/12"
+              alt="Image of recycling"
+              className="w-full lg:w-11/12"
             />
           </div>
         </div>
       </div>
-      <section className="">
+      <section className="mt-20 lg:m-0">
         <div className="text-center">Be wise, Dispose your waste properly</div>
-        <div className="text-center text-4xl font-bold py-5">
+        <div className="text-center text-4xl font-bold px-2 py-5">
           Do your part to save the planet
         </div>
-        <div className="text-center">In line with SDG 3, 5, 11, 14 and 15</div>
+        <div className="text-center">
+          Work with the
+          <br />
+          UN Sustainable Development Goals
+          <br />
+          SDG(3, 6, 11, 14 and 15)
+        </div>
 
         <SDG
+          title="Impact on wildlife"
           content="Improper Recycling of Plastics can have a significant impact on
           the environment. When plastics are not recycled properly, they
           can end up in landfills, oceans, and other natural habitats,
@@ -155,6 +158,7 @@ const Landing = (props: Props) => {
         </SDG>
 
         <SDG
+          title="Impact on Land"
           content="Plastics that are not recycled can also release harmful chemicals
           into the environment, which can lead to air and water pollution. In addition, improper recycling of plastics can contribute to
           climate change. When plastics are burned, they release greenhouse
@@ -169,6 +173,7 @@ const Landing = (props: Props) => {
         </SDG>
 
         <SDG
+          title="Impact on the Environment"
           content="It is important to recycle plastics properly to reduce the negative
           impact on the environment. This can be done by following the recycling
           guidelines provided by your local waste management authority. You can
@@ -186,7 +191,7 @@ const Landing = (props: Props) => {
       <div className="w-full p-4 text-center mx-auto my-24 lg:w-8/12 lg:my-32">
         <blockquote className="relative">
           <svg
-            className="absolute top-0 start-0 transform -translate-x-8 -translate-y-4 h-24 w-24 text-gray-200 dark:text-gray-700"
+            className="absolute top-0 start-0 transform -translate-x-8 -translate-y-4 h-24 w-24 text-base-200 dark:text-gray-700"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -231,7 +236,7 @@ const Landing = (props: Props) => {
             <div className="mt-6 lg:mt-10">
               <p className="relative text-xl sm:text-2xl md:text-3xl md:leading-normal font-medium text-gray-800">
                 <svg
-                  className="absolute top-0 start-0 transform -translate-x-8 -translate-y-8 h-16 w-16 text-gray-200 sm:h-24 sm:w-24 dark:text-gray-700"
+                  className="absolute top-0 start-0 transform -translate-x-8 -translate-y-8 h-16 w-16 text-base-300 sm:h-24 sm:w-24 dark:text-gray-700"
                   width="16"
                   height="13"
                   viewBox="0 0 16 13"

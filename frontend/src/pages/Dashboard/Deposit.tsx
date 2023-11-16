@@ -182,7 +182,7 @@ const Recycle = () => {
               <span className="label-text">No of Plastics</span>
             </label>
             <input
-              value={numPlastic}
+              defaultValue={numPlastic}
               onChange={(e: any) => setNumPlastic(e.target.value)}
               type="number"
               id="number"
@@ -196,7 +196,7 @@ const Recycle = () => {
               <span className="label-text">User Id</span>
             </label>
             <input
-              value={userId}
+              defaultValue={userId}
               onChange={(e: any) => setUserId(e.target.value)}
               type="number"
               id="number"

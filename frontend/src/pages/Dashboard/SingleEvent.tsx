@@ -58,8 +58,8 @@ const SingleEvent = () => {
     onSuccess(data: any) {
       setListing(data);
       setLoading(false);
-      setPrice(formatUnits(data.price, 18));
-      settotal(amount * formatUnits(data.price, 18));
+      setPrice(Number(formatUnits(data.price, 18)));
+      settotal(amount * Number(formatUnits(data.price, 18)));
     },
   });
 
@@ -134,7 +134,7 @@ const SingleEvent = () => {
     },
   });
 
-  const handleApprove = (e) => {
+  const handleApprove = (e: any) => {
     e.preventDefault();
     // const value = allowanceAmountRef.current.value;
     // setAllowanceAmount(value);
@@ -214,7 +214,12 @@ const SingleEvent = () => {
               className="btn btn-primary"
               onClick={
                 allowance < parseEther(`${total}`)
-                  ? () => document.getElementById("my_modal_2").showModal()
+                  ? () =>
+                      (
+                        document.getElementById(
+                          "my_modal_2"
+                        ) as HTMLDialogElement
+                      )?.showModal()
                   : handlePay
               }
               disabled={handleDisable()}

@@ -10,6 +10,8 @@ import { ToastElem, shortenAddress } from "../utils";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { BaseError } from "viem";
+import { Link } from "react-router-dom";
+import { logout } from "../assets";
 
 export function WasteWise() {
   const { address, connector, isConnected } = useAccount();
@@ -30,15 +32,62 @@ export function WasteWise() {
 
   if (isConnected) {
     return (
-      <div className="flex justify-between lg:w-1/3">
-        <div className="my-auto  text-[#026937] lg:block hidden">
-          {shortenAddress(address as string)}
-        </div>
-
-        <button className="btn m-1 text-[#026937]" onClick={disconnect as any}>
-          Disconnect {connector?.name}
-        </button>
+      <div className="dropdown dropdown-end">
+        <label
+          tabIndex={0}
+          className="btn btn-ghost btn-circle avatar bg-green-200 hover:bg-green-100"
+        >
+          <div className="w-12 rounded-full">
+            {/* <img
+                  src="https://api.dicebear.com/7.x/adventurer/svg?seed=Coco"
+                  alt="avatar"
+                /> */}
+            <img
+              src="https://api.dicebear.com/7.x/adventurer/svg?seed=Daisy"
+              alt="avatar"
+            />
+          </div>
+        </label>
+        <ul
+          tabIndex={0}
+          className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+        >
+          <li className="">
+            <Link
+              to="/dashboard/profile"
+              className="h-12 leading-10 justify-between"
+            >
+              Profile
+              <span className="badge">New</span>
+            </Link>
+          </li>
+          <li>
+            <button
+              title={"disconnect button"}
+              type={"button"}
+              className="h-12 leading-10 justify-between"
+              onClick={() => disconnect()}
+            >
+              Logout
+              <img
+                src={logout}
+                alt="logout-Icon"
+                width="20"
+                className="rotate-180"
+              />
+            </button>
+          </li>
+        </ul>
       </div>
+      // <div className="dropdown flex justify-between lg:w-1/3">
+      //   <div className="my-auto text-[#026937] lg:block hidden">
+      //     {shortenAddress(address as string)}
+      //   </div>
+
+      //   <button className="btn m-1 text-[#026937]" onClick={disconnect as any}>
+      //     Disconnect {connector?.name}
+      //   </button>
+      // </div>
     );
   }
 
@@ -51,7 +100,11 @@ export function WasteWise() {
         >
           Connect Wallet
         </label> */}
-        <Button name="Connect Wallet" size="lg" />
+        <Button
+          name="Connect Wallet"
+          size="md"
+          customStyle="text-xs lg:text-base"
+        />
         <ul
           tabIndex={0}
           className="dropdown-content z-[1] menu bg-base-200 rounded-b-box flex flex-col"
