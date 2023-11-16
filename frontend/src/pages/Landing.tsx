@@ -65,7 +65,11 @@ const Landing = (props: Props) => {
       <section className="mt-20 lg:m-0">
         <div className="text-center">Be wise, Dispose your waste properly</div>
         <div className="text-center text-4xl font-bold px-2 py-5">
-          Do your part to save the planet from plastics
+          Do your part to save the planet from plastics pollution
+          <br />
+        </div>
+        <div className="text-center text-2xl pt-6">
+          Plastic pollution has the following impact on the environment
         </div>
         {/* <div className="text-center">
           Work with the
@@ -510,6 +514,7 @@ const Landing = (props: Props) => {
               >
                 <Logo />
               </a>
+              <div>Rewarding Responsibility</div>
             </div>
             {/* <!-- End Col --> */}
 
