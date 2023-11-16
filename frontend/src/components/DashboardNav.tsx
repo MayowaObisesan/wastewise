@@ -186,9 +186,6 @@ const DashboardNav = ({ title }: { title: string }) => {
                   </Link>
                 </li>
                 <li>
-                  <a className="h-12 leading-10 justify-between">Settings</a>
-                </li>
-                <li>
                   <button
                     title={"disconnect button"}
                     type={"button"}

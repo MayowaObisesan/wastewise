@@ -32,7 +32,7 @@ const Landing = (props: Props) => {
         <div className="bg-green-100 opacity-30 blur-3xl w-[1036px] h-[600px] dark:bg-green-900 dark:opacity-20"></div>
         <div className="bg-base-200 opacity-90 blur-3xl w-[577px] h-[300px] transform translate-y-32 dark:bg-base-800/60"></div>
       </div> */}
-      <div className="hero before:scale-75 before:top-0 before:-hue-rotate-90 before:absolute lg:before:scale-100 lg:before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element-dark.svg')] dark:before:opacity-30">
+      <div className="hero before:top-0 before:-hue-rotate-90 before:absolute lg:before:scale-100 lg:before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element-dark.svg')] dark:before:opacity-30">
         <div className="hero-content text-left w-full min-w-full flex flex-col lg:flex-row lg:space-x-8">
           <div className="w-full px-2 pt-12 lg:px-12 lg:py-40">
             <div className="min-w-6/12">

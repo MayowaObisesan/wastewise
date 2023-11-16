@@ -10,12 +10,16 @@ import {
 } from "wagmi";
 
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
+import { useWasteWiseContext } from "../../context";
+import useNotificationCount from "../../hooks/useNotificationCount";
 import { useNavigate } from "react-router-dom";
 
 const Recycle = () => {
   const { address } = useAccount();
   const [numPlastic, setNumPlastic] = useState<number>();
   const [userId, setUserId] = useState<number>();
+  const notificationCount = useNotificationCount();
+  const { currentUser, wastewiseStore, setNotifCount } = useWasteWiseContext();
   const navigate = useNavigate();
 
   const { config: depositPlasticConfig } = usePrepareContractWrite({
@@ -44,13 +48,14 @@ const Recycle = () => {
       },
     });
 
-  // useEffect(() => {
-  //   console.log("depositPlasticData:", depositPlasticData);
-  //   console.log("isDepositingPlastic:", isDepositingPlastic);
-  //   console.log("isPlasticDeposited", isPlasticDeposited);
-  //   console.log("isDepositPlasticError:", isDepositPlasticError);
-  //   console.log("======= Depositing Plastic =======");
-  // }, [depositPlasticData, isDepositingPlastic, isPlasticDeposited]);
+  useEffect(() => {
+    if (isDepositingPlastic) {
+      toast.loading("Depositing the Plastic. Kindly wait", {
+        // description: "My description",
+        duration: 10000,
+      });
+    }
+  }, [isDepositingPlastic]);
 
   const handleDepositPlastic = async (e: any) => {
     e.preventDefault();
