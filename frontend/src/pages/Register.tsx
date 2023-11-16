@@ -19,6 +19,7 @@ import { Link } from "react-router-dom";
 import Logo from "../components/Logo";
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
 import useNotificationCount from "../hooks/useNotificationCount";
+import Navbar from "../components/Navbar";
 
 const Register = () => {
   const { address, isConnected } = useAccount();
@@ -111,39 +112,9 @@ const Register = () => {
 
   return (
     <>
-      <section className="sticky top-0 z-10 px-8 py-4 bg-transparent backdrop-blur-3xl">
-        <div className="navbar bg-base-200 w-full mx-auto rounded-2xl">
-          <div className="navbar-start flex-1">
-            <Logo />
-          </div>
-          <div className={"navbar-end gap-8"}>
-            <div className="flex-none">
-              <ul className="menu menu-horizontal px-1">
-                <li>
-                  <Link to="/dashboard">Dashboard</Link>
-                </li>
-                {/* <li>
-                  <details>
-                    <summary>Parent</summary>
-                    <ul className="p-2 bg-base-100">
-                      <li>
-                        <a>Link</a>
-                      </li>
-                      <li>
-                        <a>Link 2</a>
-                      </li>
-                    </ul>
-                  </details>
-                </li> */}
-              </ul>
-            </div>
-            <WasteWise />
-            {isConnected && <SignUpButton />}
-          </div>
-        </div>
-      </section>
+      <Navbar />
 
-      <div className="flex h-full">
+      <div className="flex h-full px-4">
         <div className="flex flex-col justify-center items-center lg:w-1/2 lg:mx-28 mx-1 lg:pl-8">
           <h1 className="text-3xl font-black leading-8 mb-8">
             Register An Account!
@@ -326,7 +297,7 @@ const Register = () => {
             <div className="form-control px-4 py-8 mx-auto">
               <Button
                 name={isLoading ? "Loading..." : "Sign up"}
-                size="btn btn-block lg:btn-wide"
+                size="md btn-block lg:btn-wide"
                 disabled={!write || isLoading}
                 onClick={handleSubmit}
               >

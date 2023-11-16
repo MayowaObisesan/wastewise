@@ -13,7 +13,8 @@ export const Layout = (props: Props) => {
     <section className="flex flex-row">
       <div className="drawer flex flex-col lg:drawer-open lg:grid">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-        <div className="drawer-content flex flex-col items-center justify-start max-w-full overflow-x-auto">
+        <div className="drawer-content flex flex-col items-center justify-start max-w-full h-screen overflow-x-auto overflow-y-auto">
+          {/* <Toaster /> */}
           <DashboardNav title={search} />
           {/* Page content here */}
           {/* <label
