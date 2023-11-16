@@ -324,7 +324,7 @@
         "name": "gender",
         "type": "uint8"
       },
-      { "internalType": "uint256", "name": "approvalCount", "type": "uint256" }
+      { "internalType": "uint256", "name": "approvalCount", "type": "uint256" },
       { "internalType": "uint256", "name": "phoneNo", "type": "uint256" },
       { "internalType": "string", "name": "email", "type": "string" },
       { "internalType": "uint256", "name": "timeJoined", "type": "uint256" },
@@ -381,7 +381,6 @@
       },
       { "internalType": "uint256", "name": "_phone", "type": "uint256" },
       { "internalType": "string", "name": "_email", "type": "string" }
-
     ],
     "name": "createUserAcct",
     "outputs": [
