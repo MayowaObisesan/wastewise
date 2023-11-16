@@ -10,11 +10,15 @@ import {
 } from "wagmi";
 
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
+import { useWasteWiseContext } from "../../context";
+import useNotificationCount from "../../hooks/useNotificationCount";
 
 const Recycle = () => {
   const { address } = useAccount();
   const [numPlastic, setNumPlastic] = useState<number>();
   const [userId, setUserId] = useState<number>();
+  const notificationCount = useNotificationCount();
+  const { currentUser, wastewiseStore, setNotifCount } = useWasteWiseContext();
 
   const { config: depositPlasticConfig } = usePrepareContractWrite({
     address: WASTEWISE_ADDRESS,
@@ -29,18 +33,61 @@ const Recycle = () => {
     write: depositPlasticWrite,
   } = useContractWrite(depositPlasticConfig);
 
-  const { isLoading: isDepositingPlastic, isSuccess: isPlasticDeposited } =
-    useWaitForTransaction({
-      hash: depositPlasticData?.hash,
-    });
+  const {
+    error,
+    isError,
+    isLoading: isDepositingPlastic,
+    isSuccess: isPlasticDeposited,
+  } = useWaitForTransaction({
+    hash: depositPlasticData?.hash,
+  });
 
-  // useEffect(() => {
-  //   console.log("depositPlasticData:", depositPlasticData);
-  //   console.log("isDepositingPlastic:", isDepositingPlastic);
-  //   console.log("isPlasticDeposited", isPlasticDeposited);
-  //   console.log("isDepositPlasticError:", isDepositPlasticError);
-  //   console.log("======= Depositing Plastic =======");
-  // }, [depositPlasticData, isDepositingPlastic, isPlasticDeposited]);
+  useEffect(() => {
+    if (isPlasticDeposited) {
+      toast.success("Plastic recycle registered", {
+        onAutoClose: (t) => {
+          wastewiseStore
+            .setItem(t.id.toString(), {
+              id: t.id,
+              title: t.title,
+              datetime: new Date(),
+              type: t.type,
+            })
+            .then(function (_: any) {
+              setNotifCount(notificationCount);
+            });
+        },
+      });
+    }
+  }, [isPlasticDeposited]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(<div>{error?.message}</div>, {
+        // onAutoClose: (t) => {
+        //   wastewiseStore
+        //     .setItem(t.id.toString(), {
+        //       id: t.id,
+        //       title: t.title,
+        //       datetime: new Date(),
+        //       type: t.type,
+        //     })
+        //     .then(function (_: any) {
+        //       setNotifCount(notificationCount);
+        //     });
+        // },
+      });
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (isDepositingPlastic) {
+      toast.loading("Depositing the Plastic. Kindly wait", {
+        // description: "My description",
+        duration: 10000,
+      });
+    }
+  }, [isDepositingPlastic]);
 
   const handleDepositPlastic = async (e: any) => {
     e.preventDefault();
@@ -179,7 +226,12 @@ const Recycle = () => {
               <span className="label-text-alt">Enter User Id</span>
             </label>
           </div>
-          <Button name="Recycle" size="block" customStyle="w-full" />
+          <Button
+            name="Recycle"
+            size="block"
+            customStyle="w-full"
+            disabled={isDepositingPlastic || isError}
+          />
         </form>
       </div>
 
