@@ -26,7 +26,11 @@ contract MarketPlace {
     struct Transaction {
         uint date;
         Type typeOfTransaction;
-        uint amountOfTokens;
+        uint amountOfTokensTransfered;
+        string itemName;
+        uint itemPrice;
+        uint itemId;
+        uint qty;
     }
 
     enum Type {
@@ -131,7 +135,11 @@ contract MarketPlace {
         Transaction memory transaction;
         transaction.date = block.timestamp;
         transaction.typeOfTransaction = Type.Purchase;
-        transaction.amountOfTokens = totalPrice;
+        transaction.amountOfTokensTransfered = totalPrice;
+        transaction.itemId = newItemInfo.itemId;
+        transaction.itemName = newItemInfo.name;
+        transaction.itemPrice = newItemInfo.price;
+        transaction.qty = quantity;
 
         // Store the transaction
         transactions[msg.sender].push(transaction);
@@ -199,5 +207,9 @@ contract MarketPlace {
             }
         }
         return allActiveItemInfo;
+    }
+
+    function getEventsByUser(address userAddr) public view returns (Transaction[] memory){
+        return transactions[userAddr];
     }
 }

@@ -439,6 +439,14 @@ contract WasteWise {
         UserMap[_addr].role = Role.VERIFIERS;
         verifiers.push(UserMap[_addr]);
 
+        // Create a new transaction
+        Transaction memory transaction;
+        transaction.date = block.timestamp;
+        transaction.typeOfTransaction = Type.User;
+
+        // Store the transaction for the user
+        transactionsMap[msg.sender].push(transaction);
+
         Statistics memory _stats;
         // Increase the transactions
         _stats.totalTransactions = statistics.totalTransactions + 1;

@@ -5,9 +5,11 @@ import {
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
+import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import WASTEWISE_ABI from "../../../constants/wasteWiseABI.json";
 import { WasteWise_ADDRESS } from "../../../constants/wasteWiseAddress";
+import { toast } from "sonner";
 
 type Props = {};
 
@@ -17,6 +19,7 @@ const CreateAdmin = (props: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [role, setRole] = useState<string>();
+  const navigate = useNavigate();
 
   const { config: addAdmin } = usePrepareContractWrite({
     address: WasteWise_ADDRESS,
@@ -27,7 +30,11 @@ const CreateAdmin = (props: Props) => {
       console.log(data);
     },
   });
-  const { data: approveAdmin, write } = useContractWrite(addAdmin);
+  const {
+    data: approveAdmin,
+    write,
+    isLoading: loadingA,
+  } = useContractWrite(addAdmin);
 
   const { config: addVerifier } = usePrepareContractWrite({
     address: WasteWise_ADDRESS,
@@ -38,27 +45,31 @@ const CreateAdmin = (props: Props) => {
       console.log(data);
     },
   });
-  const { data: approveVerifier, write: write2 } =
-    useContractWrite(addVerifier);
+  const {
+    data: approveVerifier,
+    write: write2,
+    isLoading: loadingV,
+  } = useContractWrite(addVerifier);
 
-  // useWaitForTransaction({
-  //   hash: approveVerifier?.hash,
-  //   onSettled(data, error) {
-  //     if (data?.blockHash) {
-  //       console.log("he don enter");
-  //       write?.();
-  //     }
-  //   },
-  // });
-  // useWaitForTransaction({
-  //   hash: approveAdmin?.hash,
-  //   onSettled(data, error) {
-  //     if (data?.blockHash) {
-  //       write2?.();
-  //       setLoading(false);
-  //     }
-  //   },
-  // });
+  const { isLoading: isAddingVerifier, isSuccess: isVerifierSuccess } =
+    useWaitForTransaction({
+      hash: approveVerifier?.hash,
+      onSettled(data, error) {
+        if (data?.blockHash) {
+          console.log("he don enter");
+          navigate("/dashboard");
+        }
+      },
+    });
+  const { isLoading: isAddingAdmin, isSuccess: isAdminSuccess } =
+    useWaitForTransaction({
+      hash: approveAdmin?.hash,
+      onSettled(data, error) {
+        if (data?.blockHash) {
+          navigate("/dashboard");
+        }
+      },
+    });
   const handleAddAdmin = async () => {
     write?.();
     setLoading(true);
@@ -80,6 +91,42 @@ const CreateAdmin = (props: Props) => {
       handleAddVerifier();
     }
   };
+
+  useEffect(() => {
+    if (isVerifierSuccess) {
+      toast.success("Successfully Created Verifier", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [isVerifierSuccess]);
+
+  useEffect(() => {
+    if (isAdminSuccess) {
+      toast.success("Successfully Created Admin", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [isAdminSuccess]);
+
+  useEffect(() => {
+    if (loadingA) {
+      toast.loading("Creating Admin...", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [loadingA]);
+
+  useEffect(() => {
+    if (loadingV) {
+      toast.loading("Creating Verifier", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [loadingV]);
   // useEffect(() => {
   //   write?.();
   //   if (loading) {
@@ -120,7 +167,6 @@ const CreateAdmin = (props: Props) => {
   //   write?.();
   // }, [address]);
 
-  const navigate = useNavigate();
   useEffect(() => {}, [role]);
 
   return (
@@ -142,10 +188,7 @@ const CreateAdmin = (props: Props) => {
               // onChange={(e) => console.log(e.target)}
               onChange={(e) => setRole(e.target.value)}
             >
-              <option
-                disabled
-                value=""
-              >
+              <option disabled value="">
                 Submit to Add Admin / Verifier
               </option>
 
@@ -173,12 +216,17 @@ const CreateAdmin = (props: Props) => {
                 Add Verifier
               </option>
             </select>
-            <button
+            <Button name="submit" size="block" customStyle="w-full">
+              {(loadingA || loadingV || isAddingVerifier || isAddingAdmin) && (
+                <span className="loading"></span>
+              )}
+            </Button>
+            {/* <button
               className="btn btn-primary block m-auto w-full"
               type="submit"
             >
               submit
-            </button>
+            </button> */}
           </form>
         </div>
       </div>
