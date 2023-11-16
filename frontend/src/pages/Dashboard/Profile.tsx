@@ -5,6 +5,12 @@ import { formatDate } from "../../utils";
 const Profile = () => {
   const { currentUser } = useWasteWiseContext();
 
+  function handleEmail(e: any) {
+    setEmail(e.target.value);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsEmailValid(emailRegex.test(e.target.value)); // true
+  }
+
   return (
     <section className="relative w-10/12 py-4 lg:flex lg:flex-col lg:w-11/12">
       <div className="avatar w-full lg:hidden">

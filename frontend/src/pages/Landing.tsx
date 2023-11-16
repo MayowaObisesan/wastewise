@@ -14,6 +14,7 @@ import recycle1 from "../assets/recycle_1.jpeg";
 import {
   community,
   plasticOnEarth,
+  plasticInOcean,
   plasticOnLand,
   tr1hd,
   wasteOnLand,
@@ -75,6 +76,20 @@ const Landing = (props: Props) => {
         </div>
 
         <SDG
+          title="Impact on the Ocean"
+          content="Improper Recycling of Plastics can have a significant impact on
+          the environment. When plastics are not recycled properly, they
+          can end up in landfills, oceans, and other natural habitats,
+          causing harm to wildlife and ecosystems."
+        >
+          <img
+            src={plasticInOcean}
+            alt="Plastic in the ocean"
+            className="relative h-full rounded-xl lg:rounded-3xl object-cover object-center"
+          />
+        </SDG>
+
+        <SDG
           title="Impact on wildlife"
           content="Improper Recycling of Plastics can have a significant impact on
           the environment. When plastics are not recycled properly, they
@@ -84,7 +99,7 @@ const Landing = (props: Props) => {
           <img
             src={plasticOnEarth}
             alt="Plastic on earth"
-            className="relative h-full rounded-xl lg:rounded-3xl"
+            className="relative h-full rounded-xl lg:rounded-3xl object-cover object-center"
           />
         </SDG>
 
@@ -99,7 +114,7 @@ const Landing = (props: Props) => {
           <img
             src={plasticOnLand}
             alt="Plastic on land"
-            className="relative h-full rounded-xl lg:rounded-3xl"
+            className="relative h-full rounded-xl lg:rounded-3xl object-cover object-center"
           />
         </SDG>
 
@@ -114,7 +129,7 @@ const Landing = (props: Props) => {
           <img
             src={wasteOnLand}
             alt="Plastic on land"
-            className="relative h-full rounded-xl lg:rounded-3xl"
+            className="relative h-full rounded-xl lg:rounded-3xl object-cover object-center"
           />
         </SDG>
       </section>
@@ -207,6 +222,163 @@ const Landing = (props: Props) => {
         {/* <!-- End Testimonials --> */}
       </section>
 
+      <section className="hero min-h-screen bg-base-100">
+        {/* <!-- Testimonials --> */}
+        <div className="relative max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+          {/* <!-- Blockquote --> */}
+          <blockquote className="text-center lg:mx-auto lg:w-3/5">
+            <div className="mx-auto w-20 h-auto sm:w-28 text-gray-800 text-xl font-semibold dark:text-gray-200">
+              Our Roadmap
+            </div>
+
+            <div className="mt-6 lg:mt-10">
+              <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+                <li>
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-start md:text-end mb-10">
+                    <time className="font-mono italic">November 2023</time>
+                    <div className="text-lg font-black">Wastewise is born</div>
+                    We launched wastewise with a mission to help fight against
+                    plastic pollution on the earth. With our target on the youth
+                    who we believe will be crucial to the next plastic-free
+                    generation.
+                  </div>
+                  <hr className="bg-primary" />
+                </li>
+                <li>
+                  <hr className="bg-primary" />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-end mb-10">
+                    <time className="font-mono italic">1998</time>
+                    <div className="text-lg font-black">iMac</div>
+                    iMac is a family of all-in-one Mac desktop computers
+                    designed and built by Apple Inc. It has been the primary
+                    part of Apple's consumer desktop offerings since its debut
+                    in August 1998, and has evolved through seven distinct forms
+                  </div>
+                  <hr className="bg-primary" />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-start md:text-end mb-10">
+                    <time className="font-mono italic">2001</time>
+                    <div className="text-lg font-black">iPod</div>
+                    The iPod is a discontinued series of portable media players
+                    and multi-purpose mobile devices designed and marketed by
+                    Apple Inc. The first version was released on October 23,
+                    2001, about 8+1⁄2 months after the Macintosh version of
+                    iTunes was released. Apple sold an estimated 450 million
+                    iPod products as of 2022. Apple discontinued the iPod
+                    product line on May 10, 2022. At over 20 years, the iPod
+                    brand is the oldest to be discontinued by Apple
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-end mb-10">
+                    <time className="font-mono italic">2007</time>
+                    <div className="text-lg font-black">iPhone</div>
+                    iPhone is a line of smartphones produced by Apple Inc. that
+                    use Apple's own iOS mobile operating system. The
+                    first-generation iPhone was announced by then-Apple CEO
+                    Steve Jobs on January 9, 2007. Since then, Apple has
+                    annually released new iPhone models and iOS updates. As of
+                    November 1, 2018, more than 2.2 billion iPhones had been
+                    sold. As of 2022, the iPhone accounts for 15.6% of global
+                    smartphone market share
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-start md:text-end mb-10">
+                    <time className="font-mono italic">2015</time>
+                    <div className="text-lg font-black">Apple Watch</div>
+                    The Apple Watch is a line of smartwatches produced by Apple
+                    Inc. It incorporates fitness tracking, health-oriented
+                    capabilities, and wireless telecommunication, and integrates
+                    with iOS and other Apple products and services
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <footer className="mt-6"></footer>
+          </blockquote>
+          {/* <!-- End Blockquote --> */}
+        </div>
+        {/* <!-- End Testimonials --> */}
+      </section>
+
       {/* <section>
         Our mission is to partner with campuses to create awareness of the SD
         Goals and foster the understanding and compliance with the SD Goals 3,
@@ -237,7 +409,7 @@ const Landing = (props: Props) => {
 
       <section>
         {/* <!-- FAQ --> */}
-        <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+        <div className="bg-base-300 px-4 py-10 sm:px-6 lg:px-8 lg:py-24 mx-auto">
           {/* <!-- Title --> */}
           <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
             <h2 className="text-2xl font-bold md:text-3xl md:leading-tight text-gray-800 dark:text-gray-200">
