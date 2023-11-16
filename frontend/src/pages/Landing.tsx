@@ -281,12 +281,11 @@ const Landing = (props: Props) => {
                   <div className="timeline-end md:text-start mb-10">
                     <time className="font-mono italic">December 2023</time>
                     <div className="text-lg font-black">Launch Wastewise</div>
-                    iMac is a family of all-in-one Mac desktop computers
-                    designed and built by Apple Inc. It has been the primary
-                    part of Apple's consumer desktop offerings since its debut
-                    in August 1998, and has evolved through seven distinct forms
+                    We aim to go live with wastewise on mainnet after a month of
+                    rigorous testing, analysis and professional vetting and a
+                    round of alpha and beta testers.
                   </div>
-                  <hr className="bg-primary" />
+                  <hr />
                 </li>
                 <li>
                   <hr />
@@ -305,16 +304,15 @@ const Landing = (props: Props) => {
                     </svg>
                   </div>
                   <div className="timeline-start md:text-end mb-10">
-                    <time className="font-mono italic">2001</time>
-                    <div className="text-lg font-black">iPod</div>
-                    The iPod is a discontinued series of portable media players
-                    and multi-purpose mobile devices designed and marketed by
-                    Apple Inc. The first version was released on October 23,
-                    2001, about 8+1⁄2 months after the Macintosh version of
-                    iTunes was released. Apple sold an estimated 450 million
-                    iPod products as of 2022. Apple discontinued the iPod
-                    product line on May 10, 2022. At over 20 years, the iPod
-                    brand is the oldest to be discontinued by Apple
+                    <time className="font-mono italic">February 2024</time>
+                    <div className="text-lg font-black">Wastewise Blog</div>
+                    Information is Power. Wastewise plans to have a blog that
+                    creates awareness about the environment. There will be a
+                    weekly blog release about how plastic pollution have caused
+                    havoc to the environment. We believe that this will: (1.)
+                    give awareness to everyone that will read the blog and (2.)
+                    Help people have more access to the Platform and the
+                    community we intend to build at large.
                   </div>
                   <hr />
                 </li>
@@ -335,16 +333,14 @@ const Landing = (props: Props) => {
                     </svg>
                   </div>
                   <div className="timeline-end mb-10 md:text-start">
-                    <time className="font-mono italic">2007</time>
-                    <div className="text-lg font-black">iPhone</div>
-                    iPhone is a line of smartphones produced by Apple Inc. that
-                    use Apple's own iOS mobile operating system. The
-                    first-generation iPhone was announced by then-Apple CEO
-                    Steve Jobs on January 9, 2007. Since then, Apple has
-                    annually released new iPhone models and iOS updates. As of
-                    November 1, 2018, more than 2.2 billion iPhones had been
-                    sold. As of 2022, the iPhone accounts for 15.6% of global
-                    smartphone market share
+                    <time className="font-mono italic">March - April 2024</time>
+                    <div className="text-lg font-black">
+                      Onboard Ambassadors and Launch Discord Server
+                    </div>
+                    From the first quarter of 2024, wastewise aims to onboard
+                    ambassadors. This ambassadors will help with the discord
+                    community and also help raise more awareness about the
+                    environment. Wastewise is all about the environment.
                   </div>
                   <hr />
                 </li>
@@ -364,13 +360,42 @@ const Landing = (props: Props) => {
                       />
                     </svg>
                   </div>
-                  <div className="timeline-start md:text-end mb-10">
-                    <time className="font-mono italic">2015</time>
-                    <div className="text-lg font-black">Apple Watch</div>
-                    The Apple Watch is a line of smartwatches produced by Apple
-                    Inc. It incorporates fitness tracking, health-oriented
-                    capabilities, and wireless telecommunication, and integrates
-                    with iOS and other Apple products and services
+                  <div className="timeline-start mb-10">
+                    <time className="font-mono italic">May 2024</time>
+                    <div className="text-lg font-black">Feedback hub</div>
+                    Feedback is key for the growth of any individual, group or
+                    community. Wastewise aims to build a feedback for the
+                    platform that will allow us to get feedback anytime and
+                    anywhere in the world, 24 times a day, 7 days a week,
+                    leveraging the power of blockchain technology.
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-end md:text-start mb-10">
+                    <time className="font-mono italic">June 2024</time>
+                    <div className="text-lg font-black">
+                      Partner with other War against Plastics Community
+                    </div>
+                    We intend to partner with other communities that wage war
+                    against plastic pollution, both offline and online. We will
+                    also join the war against plastic pollution on the
+                    environment as a community.
                   </div>
                 </li>
               </ul>
@@ -430,7 +455,7 @@ const Landing = (props: Props) => {
             <div className="grid sm:grid-cols-2 gap-6 md:gap-12">
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  Can I cancel at anytime?
+                  What is Wastewise?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
                   Yes, you can cancel anytime no questions are asked while you
@@ -442,7 +467,7 @@ const Landing = (props: Props) => {
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  My team has credits. How do we use them?
+                  How can I become an Wastewise ambassador?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
                   Once your team signs up for a subscription plan. This is where
@@ -453,7 +478,7 @@ const Landing = (props: Props) => {
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  How does Preline's pricing work?
+                  Is Wastewise a company?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
                   Our subscriptions are tiered. Understanding the task at hand
@@ -464,7 +489,7 @@ const Landing = (props: Props) => {
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  How secure is Preline?
+                  What is the benefit of using Wastewise?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
                   Protecting the data you trust to Preline is our first
@@ -476,18 +501,17 @@ const Landing = (props: Props) => {
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  Do you offer discounts?
+                  Is Wastewise a web3 platform?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  We've built in discounts at each tier for teams. The time has
-                  come to bring those ideas and plans to life.
+                  Yes, Wastewise is a web3 platform.
                 </p>
               </div>
               {/* <!-- End Col --> */}
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  What is your refund policy?
+                  What are Wastewise long-term goals?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
                   We offer refunds. We aim high at being focused on building
