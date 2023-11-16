@@ -136,6 +136,7 @@ const Wallet = () => {
     functionName: "getUserTransactions",
     account: address,
   });
+  console.log(data);
 
   const recycledData = useContractRead({
     address: WASTEWISE_ADDRESS,
@@ -167,6 +168,19 @@ const Wallet = () => {
       return <div className="badge badge-warning py-3">Admin</div>;
     }
     return <div className="badge badge-warning py-3">Caretaker</div>;
+  };
+
+  const formatTransactionsStatus = (status: number, tokenQty: number) => {
+    if (status === 0) {
+      // Recycled transaction
+      return <div className="">You recycled {tokenQty} plastics</div>;
+    } else if (status == 1) {
+      return (
+        <div className="">You spent {tokenQty} tokens in the marketplace</div>
+      );
+    } else {
+      return <div className="">You updated your profile</div>;
+    }
   };
 
   return (
@@ -283,19 +297,23 @@ const Wallet = () => {
 
               <div className="stat">
                 <div className="stat-title">Plastic Recycled</div>
-                <div className="stat-value font-medium text-neutral/90 text-2xl">
-                  {recycledData?.data && !!recycledData?.data.length
-                    ? Number(recycledData?.data?.length)
-                    : 0}
+                <div className="stat-value font-medium text-neutral/90 text-xl">
+                  {recycledData?.data && !!(recycledData?.data as any).length
+                    ? Number((recycledData?.data as any)?.length)
+                    : "-"}
                 </div>
                 <div className="stat-desc">↗︎ 400 (22%)</div>
               </div>
 
               <div className="stat">
-                <div className="stat-title">Last Recycled Plastic</div>
-                <div className="stat-value font-medium text-neutral/90 text-2xl">
-                  {recycledData?.data && !!recycledData?.data.length
-                    ? formatDate(recycledData?.data.length?.timeRecycled)
+                <div className="stat-title">Last Recycled Date</div>
+                <div className="stat-value font-medium text-neutral/90 text-xl">
+                  {recycledData?.data && !!(recycledData?.data as any).length
+                    ? new Date(
+                        formatDate(
+                          Number((recycledData.data as any)[0]?.timeRecycled)
+                        )
+                      ).toDateString()
                     : "-"}
                 </div>
                 <div className="stat-desc">↗︎ Nov. 7, 2023</div>
@@ -303,7 +321,7 @@ const Wallet = () => {
 
               <div className="stat">
                 <div className="stat-title">Token Spent</div>
-                <div className="stat-value font-medium text-neutral/90 text-2xl">
+                <div className="stat-value font-medium text-neutral/90 text-xl">
                   -
                 </div>
                 <div className="stat-desc">↘︎ 90 (14%)</div>
@@ -411,7 +429,7 @@ const Wallet = () => {
               </div>
               <div className="stat-title">Total Transactions</div>
               <div className="stat-value">
-                {(data && Number(data?.length)) || "-"}
+                {((data as any) && Number((data as any)?.length)) || "-"}
               </div>
               <div className="stat-desc">↘︎ 90 (14%)</div>
             </div>
@@ -428,11 +446,9 @@ const Wallet = () => {
         </section>
       </section>
 
-      <section className="p-2 lg:p-8">
+      <section className="p-2 lg:p-8 bg-base-100 rounded-xl">
         <div className="font-bold text-2xl">Transactions</div>
-        {(data as any[])?.map((eachTx, index) => (
-          <div>{eachTx}</div>
-        ))}
+        <div></div>
         <div className="overflow-x-auto my-4">
           <table className="table table-xs lg:table-md">
             {/* head */}
@@ -447,55 +463,29 @@ const Wallet = () => {
             <tbody>
               {(data as any[])?.map((eachTx, index) => (
                 <tr className="h-16">
-                  <th>{eachTx.date}</th>
-                  <td>{eachTx.typeOfTransaction}</td>
-                  <td>{eachTx.numberOfTokens}</td>
+                  <th>
+                    {new Date(formatDate(Number(eachTx?.date))).toDateString()}
+                  </th>
+                  <td>
+                    {formatTransactionsStatus(
+                      eachTx?.typeOfTransaction,
+                      Number(eachTx?.numberOfTokens)
+                    )}
+                  </td>
+                  <td>{Number(eachTx?.numberOfTokens)}</td>
                   <td>
                     {eachTx.typeOfTransaction === 0 ? (
-                      <span className="badge badge-success badge-sm">
+                      <span className="badge badge-success badge-md">
                         Credit
                       </span>
                     ) : (
-                      <span className="badge badge-success badge-sm">
+                      <span className="badge badge-success badge-md">
                         Debit
                       </span>
                     )}
                   </td>
                 </tr>
               ))}
-              {/* row 1 */}
-              <tr className="h-16">
-                <th>7-Nov-2023</th>
-                <td>You recycled 40 plastics</td>
-                <td>40</td>
-                <td>
-                  <span className="badge badge-success badge-sm">Credit</span>
-                </td>
-              </tr>
-              <tr className="h-16">
-                <th>18-Jun-2023</th>
-                <td>You recycled 12 plastics</td>
-                <td>12</td>
-                <td>
-                  <span className="badge badge-success badge-sm">Credit</span>
-                </td>
-              </tr>
-              <tr className="h-16">
-                <th>14-Mar-2023</th>
-                <td>You spent 4 tokens on Web3bridge event pass</td>
-                <td>4</td>
-                <td>
-                  <span className="badge badge-error badge-sm">Debit</span>
-                </td>
-              </tr>
-              <tr className="h-16">
-                <th>9-Feb-2023</th>
-                <td>You recycled 11 plastics</td>
-                <td>11</td>
-                <td>
-                  <span className="badge badge-success badge-sm">Credit</span>
-                </td>
-              </tr>
             </tbody>
           </table>
         </div>
