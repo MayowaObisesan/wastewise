@@ -3,7 +3,7 @@ import { useWasteWiseContext } from "../../context";
 import { formatDate, shortenAddress } from "../../utils";
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
 import ReactApexChart from "react-apexcharts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
 
 const ChartOptions: ApexOptions = {
@@ -129,6 +129,7 @@ interface ChartWalletState {
 
 const Wallet = () => {
   const { address } = useAccount();
+  const [chartData, setChartData] = useState([]);
   const { currentUser, statistics } = useWasteWiseContext();
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
@@ -144,6 +145,13 @@ const Wallet = () => {
     functionName: "getUserRecycles",
     account: address,
   });
+
+  // useEffect(() => {
+  //   recycledData?.data.map((transaction) => {
+  //   setChartData([...chartData, transaction.numberOfTokens]);
+  //   // sum += transaction.numberOfTokens;
+  //   }
+  // }, []);
 
   const [state, setState] = useState<ChartWalletState>({
     options: ChartOptions,
@@ -163,11 +171,23 @@ const Wallet = () => {
 
   const roleEIA = (role: number) => {
     if (role === 2) {
-      return <div className="badge badge-primary py-3">Verifier</div>;
+      return (
+        <div className="badge badge-primary text-xs py-2 lg:text-base lg:py-3">
+          Verifier
+        </div>
+      );
     } else if (role === 1) {
-      return <div className="badge badge-warning py-3">Admin</div>;
+      return (
+        <div className="badge badge-warning text-xs py-2 lg:text-base lg:py-3">
+          Admin
+        </div>
+      );
     }
-    return <div className="badge badge-warning py-3">Caretaker</div>;
+    return (
+      <div className="badge badge-warning text-xs py-2 lg:text-base lg:py-3">
+        Caretaker
+      </div>
+    );
   };
 
   const formatTransactionsStatus = (status: number, tokenQty: number) => {
@@ -184,11 +204,11 @@ const Wallet = () => {
   };
 
   return (
-    <section className="relative flex w-full p-4 space-y-12 lg:py-8 lg:flex lg:flex-col">
-      <section className="w-full bg-base-100 flex flex-col space-y-4 lg:flex-row p-4 rounded-xl lg:space-x-3 lg:space-y-0 overflow-x-auto">
-        <section className="relative w-6/12 h-100 px-8 py-6 rounded-2xl bg-gradient-to-br from-yellow-500/10 to-emerald-500/40 lg:px-3 lg:py-0">
-          <section className="h-70 flex flex-col">
-            <div className="w-full flex flex-row py-6 px-8">
+    <section className="relative flex flex-col w-full p-4 space-y-12 lg:py-8">
+      <section className="w-full bg-base-100 flex flex-col space-y-4 lg:flex-row lg:p-4 rounded-xl lg:space-x-3 lg:space-y-0 overflow-x-auto">
+        <section className="relative w-full lg:w-6/12 h-90 lg:h-100 px-2 rounded-2xl overflow-x-auto bg-gradient-to-br from-yellow-500/10 to-emerald-500/40 lg:px-3 lg:py-0">
+          <section className="h-60 lg:h-70 flex flex-col">
+            <div className="w-full flex flex-row px-2 py-6 lg:py-6 lg:px-8">
               <div className="flex-1 flex flex-row items-center">
                 {/* {currentUser && (
                   <div className="font-medium text-2xl lg:text-2xl">
@@ -197,22 +217,22 @@ const Wallet = () => {
                 )} */}
                 {roleEIA(currentUser?.role)}
               </div>
-              <div className="flex flex-row justify-center items-center space-x-4">
-                <div className="flex flex-col text-sm">
+              <div className="flex flex-row justify-center items-center space-x-2 lg:space-x-4">
+                <div className="flex flex-col text-xs lg:text-sm">
                   <span className="text-xs">Registered: </span>
                   {new Date(
                     formatDate(Number(currentUser?.timeJoined))
                   ).toDateString()}
                 </div>
                 <div className="divider divider-horizontal divider-neutral"></div>
-                <span className="text-2xl">🇳🇬</span>
+                <span className="text-lg lg:text-2xl">🇳🇬</span>
               </div>
             </div>
-            <div className="flex flex-row p-8 space-x-24">
-              <div className="flex-1 space-y-2">
+            <div className="flex flex-row px-4 pt-10 lg:p-8 lg:space-x-24">
+              <div className="flex-1 space-y-2 lg:py-0">
                 <div className="flex-1 flex flex-row items-center">
                   {currentUser && (
-                    <div className="font-bold text-xl lg:text-2xl">
+                    <div className="font-bold text-lg lg:text-2xl">
                       <span>{currentUser?.name}</span>
                     </div>
                   )}
@@ -220,7 +240,7 @@ const Wallet = () => {
                 <section>
                   {/* <div>Address</div> */}
                   {currentUser && (
-                    <div className="font-medium text-4xl">
+                    <div className="font-medium text-2xl lg:text-4xl">
                       {shortenAddress(currentUser?.userAddr)}
                     </div>
                   )}
@@ -280,11 +300,11 @@ const Wallet = () => {
               </div>
             </div> */}
           </section>
-          <div className="bottom-card h-30">
+          <div className="bottom-card flex flex-row items-center my-auto h-30 lg:h-30">
             <div className="stats w-full bg-base-100/40 text-center">
               <div className="stat">
-                <div className="stat-title">Token</div>
-                <div className="stat-value font-bold text-neutral/90 text-4xl">
+                <div className="stat-title text-xs">Token</div>
+                <div className="stat-value font-bold text-neutral/90 text-2xl lg:text-4xl">
                   {currentUser ? Number(currentUser?.tokenQty) : 0}
                 </div>
                 <div className="stat-desc">
@@ -296,8 +316,10 @@ const Wallet = () => {
               </div>
 
               <div className="stat">
-                <div className="stat-title">Plastic Recycled</div>
-                <div className="stat-value font-medium text-neutral/90 text-xl">
+                <div className="stat-title text-xs lg:text-base">
+                  Plastic Recycled
+                </div>
+                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl">
                   {recycledData?.data && !!(recycledData?.data as any).length
                     ? Number((recycledData?.data as any)?.length)
                     : "-"}
@@ -306,8 +328,10 @@ const Wallet = () => {
               </div>
 
               <div className="stat">
-                <div className="stat-title">Last Recycled Date</div>
-                <div className="stat-value font-medium text-neutral/90 text-xl">
+                <div className="stat-title text-xs lg:text-base">
+                  Last Recycled Date
+                </div>
+                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl">
                   {recycledData?.data && !!(recycledData?.data as any).length
                     ? new Date(
                         formatDate(
@@ -320,8 +344,10 @@ const Wallet = () => {
               </div>
 
               <div className="stat">
-                <div className="stat-title">Token Spent</div>
-                <div className="stat-value font-medium text-neutral/90 text-xl">
+                <div className="stat-title text-xs lg:text-base">
+                  Token Spent
+                </div>
+                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl">
                   -
                 </div>
                 <div className="stat-desc">↘︎ 90 (14%)</div>
@@ -363,7 +389,7 @@ const Wallet = () => {
             </div>
           </div> */}
         </section>
-        <section className="bg-base-100 flex-1 rounded-2xl shadow-2 p-2 lg:w-6/12 lg:flex-none">
+        <section className="bg-base-100 flex-1 rounded-2xl shadow-2 p-2 lg:w-6/12 lg:flex-none lg:bg-base-100">
           <div className="stats text-success-content shadow mx-auto w-full">
             <div className="stat text-base-content">
               <div className="stat-figure text-base-content">
@@ -435,7 +461,7 @@ const Wallet = () => {
             </div>
           </div>
 
-          <div id="chart">
+          <div id="chart" className="bg-base-200 mt-2 rounded-2xl">
             <ReactApexChart
               options={state.options}
               series={state.series}
