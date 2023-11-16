@@ -3,7 +3,7 @@ import { useWasteWiseContext } from "../../context";
 import { formatDate, shortenAddress } from "../../utils";
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
 import ReactApexChart from "react-apexcharts";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
 
 const ChartOptions: ApexOptions = {
@@ -129,6 +129,7 @@ interface ChartWalletState {
 
 const Wallet = () => {
   const { address } = useAccount();
+  const [chartData, setChartData] = useState([]);
   const { currentUser, statistics } = useWasteWiseContext();
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
@@ -144,6 +145,13 @@ const Wallet = () => {
     functionName: "getUserRecycles",
     account: address,
   });
+
+  // useEffect(() => {
+  //   recycledData?.data.map((transaction) => {
+  //   setChartData([...chartData, transaction.numberOfTokens]);
+  //   // sum += transaction.numberOfTokens;
+  //   }
+  // }, []);
 
   const [state, setState] = useState<ChartWalletState>({
     options: ChartOptions,
@@ -381,7 +389,7 @@ const Wallet = () => {
             </div>
           </div> */}
         </section>
-        <section className="bg-base-100 flex-1 rounded-2xl shadow-2 p-2 lg:w-6/12 lg:flex-none">
+        <section className="bg-base-100 flex-1 rounded-2xl shadow-2 p-2 lg:w-6/12 lg:flex-none lg:bg-base-100">
           <div className="stats text-success-content shadow mx-auto w-full">
             <div className="stat text-base-content">
               <div className="stat-figure text-base-content">
@@ -453,7 +461,7 @@ const Wallet = () => {
             </div>
           </div>
 
-          <div id="chart">
+          <div id="chart" className="bg-base-200 mt-2 rounded-2xl">
             <ReactApexChart
               options={state.options}
               series={state.series}
