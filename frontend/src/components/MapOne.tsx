@@ -1,3 +1,4 @@
+// @ts-ignore
 import jsVectorMap from "jsvectormap";
 import "jsvectormap/dist/css/jsvectormap.css";
 import { useEffect } from "react";
@@ -32,7 +33,7 @@ const MapOne = () => {
 
       labels: {
         regions: {
-          render(code) {
+          render(code: string) {
             return code.split("-")[1];
           },
         },

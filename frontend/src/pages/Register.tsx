@@ -22,7 +22,7 @@ import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
 
 const Register = () => {
   const { address, isConnected } = useAccount();
-  const [number, setNumber] = useState();
+  const [number, setNumber] = useState(0);
   const [country, setCountry] = useState("");
   const [gender, setGender] = useState(1);
   const [name, setName] = useState("");
@@ -163,7 +163,7 @@ const Register = () => {
                   value={country}
                   // defaultOptionLabel="---"
                   onChange={(val) => selectCountry(val)}
-                  className="select select-bordered join-item bg-base-200 focus:outline-0 focus:bg-base-300"
+                  classes="select select-bordered join-item bg-base-200 focus:outline-0 focus:bg-base-300"
                 />
                 <div className="form-control w-full">
                   <div>

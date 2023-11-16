@@ -1,5 +1,6 @@
 import localforage from "localforage";
 import {
+  ReactNode,
   createContext,
   useCallback,
   useContext,
@@ -36,9 +37,17 @@ type userDataType = {
   userAddr: string;
 };
 
-const WastewiseContext = createContext<contextType>();
+const WastewiseContext = createContext<contextType>({
+  wastewiseStore: null,
+  isRegistered: false,
+  currentUser: null,
+  notifCount: 0,
+  setNotifCount: 0,
+  notifications: null,
+  setNotifications: null,
+});
 
-const WastewiseProvider = ({ children }) => {
+const WastewiseProvider = ({ children }: { children: ReactNode }) => {
   let wastewiseStore = localforage.createInstance({
     name: "wastewiseStore",
   });
@@ -47,7 +56,7 @@ const WastewiseProvider = ({ children }) => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<userDataType | {}>({});
   const [notifCount, setNotifCount] = useState(0);
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<any>([]);
 
   //   useEffect(() => {
   // }, [wastewiseStore.length()]);
@@ -92,8 +101,8 @@ const WastewiseProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    setIsRegistered(Number(data?.userAddr) !== 0);
-    setCurrentUser(data);
+    setIsRegistered(Number((data as any)?.userAddr) !== 0);
+    setCurrentUser(data as any);
     return () => {};
   }, [data]);
 

@@ -48,7 +48,7 @@ const Recycle = () => {
     depositPlasticWrite?.();
   };
 
-  const sdgModal = useRef(null);
+  const sdgModal = useRef<HTMLDialogElement>(null);
   return (
     <section className="relative w-10/12">
       <div className="flex flex-col mx-auto bg-amber-200/40 rounded-lg px-2 py-5 w-12/12 lg:flex-row lg:px-8 lg:py-10 dark:bg-base-200">
