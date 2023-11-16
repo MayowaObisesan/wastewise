@@ -14,7 +14,6 @@ const Sidebar = (props: Props) => {
   const location = useLocation();
   const { address } = useAccount();
   const { currentUser } = useWasteWiseContext();
-  console.log(currentUser);
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,

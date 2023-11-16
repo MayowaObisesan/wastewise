@@ -12,6 +12,7 @@ import {
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
 import { useWasteWiseContext } from "../../context";
 import useNotificationCount from "../../hooks/useNotificationCount";
+import { useNavigate } from "react-router-dom";
 
 const Recycle = () => {
   const { address } = useAccount();
@@ -19,6 +20,7 @@ const Recycle = () => {
   const [userId, setUserId] = useState<number>();
   const notificationCount = useNotificationCount();
   const { currentUser, wastewiseStore, setNotifCount } = useWasteWiseContext();
+  const navigate = useNavigate();
 
   const { config: depositPlasticConfig } = usePrepareContractWrite({
     address: WASTEWISE_ADDRESS,
@@ -30,55 +32,21 @@ const Recycle = () => {
   const {
     data: depositPlasticData,
     isError: isDepositPlasticError,
+    error,
     write: depositPlasticWrite,
+    isLoading,
   } = useContractWrite(depositPlasticConfig);
 
-  const {
-    error,
-    isError,
-    isLoading: isDepositingPlastic,
-    isSuccess: isPlasticDeposited,
-  } = useWaitForTransaction({
-    hash: depositPlasticData?.hash,
-  });
-
-  useEffect(() => {
-    if (isPlasticDeposited) {
-      toast.success("Plastic recycle registered", {
-        onAutoClose: (t) => {
-          wastewiseStore
-            .setItem(t.id.toString(), {
-              id: t.id,
-              title: t.title,
-              datetime: new Date(),
-              type: t.type,
-            })
-            .then(function (_: any) {
-              setNotifCount(notificationCount);
-            });
-        },
-      });
-    }
-  }, [isPlasticDeposited]);
-
-  useEffect(() => {
-    if (isError) {
-      toast.error(<div>{error?.message}</div>, {
-        // onAutoClose: (t) => {
-        //   wastewiseStore
-        //     .setItem(t.id.toString(), {
-        //       id: t.id,
-        //       title: t.title,
-        //       datetime: new Date(),
-        //       type: t.type,
-        //     })
-        //     .then(function (_: any) {
-        //       setNotifCount(notificationCount);
-        //     });
-        // },
-      });
-    }
-  }, [isError]);
+  const { isLoading: isDepositingPlastic, isSuccess: isPlasticDeposited } =
+    useWaitForTransaction({
+      hash: depositPlasticData?.hash,
+      onSettled(data, error) {
+        if (data?.blockHash) {
+          setNumPlastic(0);
+          setUserId(0);
+        }
+      },
+    });
 
   useEffect(() => {
     if (isDepositingPlastic) {
@@ -91,9 +59,27 @@ const Recycle = () => {
 
   const handleDepositPlastic = async (e: any) => {
     e.preventDefault();
-    console.log(true);
+    // console.log(true);
     depositPlasticWrite?.();
   };
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Approving Recycled item(s)", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isPlasticDeposited) {
+      toast.success("Successfully Approved Recycled item(s)", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [isPlasticDeposited]);
 
   const sdgModal = useRef<HTMLDialogElement>(null);
   return (
@@ -226,12 +212,11 @@ const Recycle = () => {
               <span className="label-text-alt">Enter User Id</span>
             </label>
           </div>
-          <Button
-            name="Recycle"
-            size="block"
-            customStyle="w-full"
-            disabled={isDepositingPlastic || isError}
-          />
+          <Button name="Recycle" size="block" customStyle="w-full">
+            {(isLoading || isDepositingPlastic) && (
+              <span className="loading"></span>
+            )}
+          </Button>
         </form>
       </div>
 
