@@ -28,16 +28,16 @@ const Landing = (props: Props) => {
 
   return (
     <section>
-      <section className="sticky top-0 z-10 px-8 py-4 bg-transparent backdrop-blur-3xl">
+      <section className="sticky top-0 z-10 px-2 py-2 lg:px-8 lg:py-4 bg-transparent backdrop-blur-3xl">
         <div className="navbar bg-base-200 w-full mx-auto rounded-2xl dark:bg-base-300">
           <div className="navbar-start flex-1">
             <Logo />
           </div>
-          <div className={"navbar-end gap-8"}>
+          <div className={"navbar-end gap-2"}>
             <div className="flex-none">
               <ul className="menu menu-horizontal px-1">
                 <li>
-                  <label className="flex cursor-pointer gap-2">
+                  <label className="hidden lg:flex cursor-pointer gap-2">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
