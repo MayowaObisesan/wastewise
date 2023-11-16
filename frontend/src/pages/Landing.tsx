@@ -49,11 +49,7 @@ const Landing = (props: Props) => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     >
-                      <circle
-                        cx="12"
-                        cy="12"
-                        r="5"
-                      />
+                      <circle cx="12" cy="12" r="5" />
                       <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
                     </svg>
                     <input
@@ -186,7 +182,7 @@ const Landing = (props: Props) => {
       <div className="w-full p-4 text-center mx-auto my-24 lg:w-8/12 lg:my-32">
         <blockquote className="relative">
           <svg
-            className="absolute top-0 start-0 transform -translate-x-8 -translate-y-4 h-24 w-24 text-gray-200 dark:text-gray-700"
+            className="absolute top-0 start-0 transform -translate-x-8 -translate-y-4 h-24 w-24 text-base-200 dark:text-gray-700"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -231,7 +227,7 @@ const Landing = (props: Props) => {
             <div className="mt-6 lg:mt-10">
               <p className="relative text-xl sm:text-2xl md:text-3xl md:leading-normal font-medium text-gray-800">
                 <svg
-                  className="absolute top-0 start-0 transform -translate-x-8 -translate-y-8 h-16 w-16 text-gray-200 sm:h-24 sm:w-24 dark:text-gray-700"
+                  className="absolute top-0 start-0 transform -translate-x-8 -translate-y-8 h-16 w-16 text-base-300 sm:h-24 sm:w-24 dark:text-gray-700"
                   width="16"
                   height="13"
                   viewBox="0 0 16 13"
