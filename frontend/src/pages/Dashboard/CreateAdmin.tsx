@@ -8,8 +8,8 @@ import {
 import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import WASTEWISE_ABI from "../../../constants/wasteWiseABI.json";
-import { WasteWise_ADDRESS } from "../../../constants/wasteWiseAddress";
 import { toast } from "sonner";
+import { WASTEWISE_ADDRESS } from "../../../constants";
 
 type Props = {};
 
@@ -22,7 +22,7 @@ const CreateAdmin = (props: Props) => {
   const navigate = useNavigate();
 
   const { config: addAdmin } = usePrepareContractWrite({
-    address: WasteWise_ADDRESS,
+    address: WASTEWISE_ADDRESS,
     abi: WASTEWISE_ABI,
     functionName: "addAdmins",
     args: [address],
@@ -37,7 +37,7 @@ const CreateAdmin = (props: Props) => {
   } = useContractWrite(addAdmin);
 
   const { config: addVerifier } = usePrepareContractWrite({
-    address: WasteWise_ADDRESS,
+    address: WASTEWISE_ADDRESS,
     abi: WASTEWISE_ABI,
     functionName: "addVerifiers",
     args: [address],
