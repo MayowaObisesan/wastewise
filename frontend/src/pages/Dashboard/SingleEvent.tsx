@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
+  useAccount,
   useContractRead,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
 import { useNavigate, useParams } from "react-router-dom";
-import { formatUnits } from "viem";
+import { formatEther, formatUnits, parseEther } from "viem";
 import { formatDate } from "../../utils";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import {
@@ -19,9 +20,30 @@ import {
 const SingleEvent = () => {
   let { id } = useParams();
   const [listing, setListing] = useState<any>();
+  const { address } = useAccount();
   const [loading, setLoading] = useState<boolean>(false);
   const [disablePay, setDisablePay] = useState<boolean>(false);
+  const [amount, setAmount] = useState<number>(1);
+  const [total, settotal] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
+  const [allowance, setAllowance] = useState<number>(0);
+  const [allowanceAmount, setAllowanceAmount] = useState<number>(0);
+  const allowanceAmountRef = useRef(0);
+
   const navigate = useNavigate();
+
+  const increase = () => {
+    setAmount(amount + 1);
+  };
+
+  const decrease = () => {
+    if (amount == 1) {
+      setAmount(1);
+    } else {
+      setAmount(amount - 1);
+    }
+  };
+
   const { isLoading } = useContractRead({
     address: MARKETPLACE_ADDRESS,
     abi: MarketPlaceABI,
@@ -33,9 +55,23 @@ const SingleEvent = () => {
     onSuccess(data: any) {
       setListing(data);
       setLoading(false);
+      setPrice(formatUnits(data.price, 18));
+      settotal(amount * formatUnits(data.price, 18));
     },
   });
 
+  const { data: allowanceData, isLoading: loading1 } = useContractRead({
+    address: RWASTEWISE_ADDRESS,
+    abi: RWASTEWISE_ABI,
+    functionName: "allowance",
+    args: [address, MARKETPLACE_ADDRESS],
+    onError(data: any) {
+      console.log(data);
+    },
+    onSuccess(data: any) {
+      setAllowance(data);
+    },
+  });
   const handleDisable = () => {
     let dateNow = Math.floor(Date.now() / 1000);
     if (listing?.deadline < dateNow) {
@@ -49,7 +85,7 @@ const SingleEvent = () => {
     address: MARKETPLACE_ADDRESS,
     abi: MarketPlaceABI,
     functionName: "buyListing",
-    args: [listing?.itemId, listing?.price],
+    args: [listing?.itemId, amount],
     onError(data: any) {
       console.log(data);
     },
@@ -60,7 +96,7 @@ const SingleEvent = () => {
     address: WASTEWISE_TOKEN_ADDRESS,
     abi: TokenABI,
     functionName: "approve",
-    args: [MARKETPLACE_ADDRESS, listing?.price],
+    args: ["0x869c0cD069aF5dE232D6cBd5c3458d014B6E1c4b", parseEther(`${1}`)],
     onError(data: any) {
       console.log(data);
     },
@@ -72,8 +108,9 @@ const SingleEvent = () => {
     hash: approveData?.hash,
     onSettled(data, error) {
       if (data?.blockHash) {
-        console.log("he don enter");
-        write?.();
+        console.log("he don approve");
+        setLoading(false);
+        // write?.();
       }
     },
   });
@@ -81,23 +118,35 @@ const SingleEvent = () => {
     hash: payData?.hash,
     onSettled(data, error) {
       if (data?.blockHash) {
+        console.log("he don pay");
         setLoading(false);
         navigate("/dashboard/marketplace");
       }
     },
   });
+
+  const handleApprove = (e) => {
+    e.preventDefault();
+    // const value = allowanceAmountRef.current.value;
+    // setAllowanceAmount(value);
+    setLoading(true);
+    write2?.();
+  };
   const handlePay = async () => {
     setLoading(true);
     console.log(true);
-    write2?.();
+    // write2?.();
+    write?.();
   };
-
   useEffect(() => {
     if (isLoading) {
       setLoading(true);
     }
   }, []);
-
+  useEffect(() => {
+    settotal(amount * price);
+  }, [amount]);
+  useEffect(() => {}, [allowanceAmount]);
   return (
     <div className="mb-8">
       <div className="flex justify-between items-start gap-x-8">
@@ -114,11 +163,11 @@ const SingleEvent = () => {
             <p>Ends: {formatDate(Number(listing?.deadline))}</p>
             <div className="card-actions justify-between items-center mt-5">
               <div className="grid grid-cols-3 gap-x-5 items-center">
-                <button className="">
+                <button className="" onClick={decrease}>
                   <FaMinus />
                 </button>
-                <h2 className="text-center text-lg font-semibold">3</h2>
-                <button className="">
+                <h2 className="text-center text-lg font-semibold">{amount}</h2>
+                <button className="" onClick={increase}>
                   <FaPlus />
                 </button>
               </div>
@@ -142,17 +191,23 @@ const SingleEvent = () => {
                 <tbody>
                   {/* row 1 */}
                   <tr>
-                    <td>101</td>
-                    <td>5 CHIX</td>
-                    <td>3</td>
-                    <td>15 CHIX</td>
+                    <td>{listing ? Number(listing.itemId) : "-"}</td>
+                    <td>
+                      {listing ? formatUnits(listing?.price, 18) : 0} CHIX
+                    </td>
+                    <td>{amount}</td>
+                    <td>{total} CHIX</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <button
               className="btn btn-primary"
-              onClick={handlePay}
+              onClick={
+                allowance < parseEther(`${total}`)
+                  ? () => document.getElementById("my_modal_2").showModal()
+                  : handlePay
+              }
               disabled={handleDisable()}
             >
               {loading ? (
@@ -251,6 +306,36 @@ const SingleEvent = () => {
           </section>
         </div>
       </div>
+      <dialog id="my_modal_2" className="modal">
+        <div className="modal-box">
+          <form method="dialog">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          <h3 className="font-bold text-lg">Set Approval</h3>
+          <p className="py-4">
+            Your approval should be more than{" "}
+            <span className="font-bold">{total} CHIX</span>.
+          </p>
+          <form onSubmit={handleApprove}>
+            {/* <input
+              type="number"
+              placeholder="Enter Allowance"
+              className="input input-bordered w-full mb-4"
+              ref={allowanceAmountRef}
+            /> */}
+            <button className="btn btn-primary w-full" type="submit">
+              {loading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                "Approve"
+              )}
+            </button>
+          </form>
+        </div>
+      </dialog>
     </div>
   );
 };

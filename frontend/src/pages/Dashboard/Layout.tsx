@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import DashboardNav from "../../components/DashboardNav";
 import Sidebar from "../../components/Sidebar";
 import { useLocation } from "react-router-dom";
+import { Toaster } from "sonner";
 
 type Props = {};
 
@@ -13,6 +14,7 @@ export const Layout = (props: Props) => {
       <div className="drawer flex flex-col lg:drawer-open lg:grid lg:overflow-x-auto">
         <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-start max-w-full overflow-x-auto">
+          <Toaster />
           <DashboardNav title={search} />
           {/* Page content here */}
           {/* <label

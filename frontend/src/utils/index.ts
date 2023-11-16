@@ -6,17 +6,17 @@ import axios from "axios";
 export const activeBgColor = "#026937";
 
 export const shortenAddress = (addr: string) => {
-    return `${addr?.substring(0, 6)}...${addr?.substring(addr.length - 4)}`;
-}
+  return `${addr?.substring(0, 6)}...${addr?.substring(addr.length - 4)}`;
+};
 
 type toastProp = {
-    message: string;
-    toastType: "success" | "error" | "default";
-}
+  message: string;
+  toastType: "success" | "error" | "default";
+};
 
 export const ToastElem = (props: toastProp) => {
-    const { wastewiseStore, setNotifCount } = useWasteWiseContext();
-    const notificationCount = useNotificationCount();
+  const { wastewiseStore, setNotifCount } = useWasteWiseContext();
+  const notificationCount = useNotificationCount();
 
     if (props.toastType === "success") {
         return (
