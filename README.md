@@ -2,9 +2,9 @@
 
 ## Overview
 
-**WasteWise** protocol is a green chain, sustainable environment-first (Waste to Wealth) blockchain-powered platform designed to incentivize recycling and responsible waste disposal, contributing significantly to the creation of cleaner, more sustainable urban environments. 
+**WasteWise** protocol is a green chain, sustainable environment-first (Waste to Wealth) blockchain-powered platform designed to incentivize recycling and responsible waste disposal, contributing significantly to the creation of cleaner, more sustainable urban environments.
 
-*WasteWise plays a pivotal role in advancing Sustainable Development Goal 11 - "Sustainable Cities and Communities.*
+_WasteWise plays a pivotal role in advancing Sustainable Development Goal 11 - "Sustainable Cities and Communities._
 
 The WasteWise Protocol is a comprehensive blockchain-based solution comprising three core contracts: `WasteWise`, `RwasteWise`, and `MarketPlace`. This integrated system is designed to promote environmental sustainability by rewarding users for recycling efforts through the issuance of receipt tokens (RWISE) and enabling the trade of items in a marketplace.
 

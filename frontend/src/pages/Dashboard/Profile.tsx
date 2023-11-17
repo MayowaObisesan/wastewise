@@ -1,10 +1,15 @@
 import Button from "../../components/Button";
 import { useWasteWiseContext } from "../../context";
-
-
+import { formatDate } from "../../utils";
 
 const Profile = () => {
   const { currentUser } = useWasteWiseContext();
+
+  // function handleEmail(e: any) {
+  //   setEmail(e.target.value);
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   setIsEmailValid(emailRegex.test(e.target.value)); // true
+  // }
 
   return (
     <section className="relative w-10/12 py-4 lg:flex lg:flex-col lg:w-11/12">
@@ -40,7 +45,8 @@ const Profile = () => {
             <div className="">
               <span className="text-sm font-semibold">Member since: </span>
               <span className="font-medium px-2">
-                {Number(currentUser?.timeJoined) || "November 2, 2023"}
+                {formatDate(Number(currentUser?.timeJoined)) ||
+                  "November 2, 2023"}
               </span>
             </div>
             <div>
@@ -50,7 +56,7 @@ const Profile = () => {
             <div>
               <span className="text-sm font-semibold">Phone:</span>
               <span className="font-medium px-2">
-                {Number(currentUser?.phone_no)}
+                {Number(currentUser?.phoneNo)}
               </span>
             </div>
           </div>

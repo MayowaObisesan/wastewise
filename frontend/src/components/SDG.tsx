@@ -1,9 +1,19 @@
-const SDG = (props) => {
+type Props = {
+  title?: string;
+  content: string;
+  children: any;
+  reverse?: boolean;
+};
+
+const SDG = (props: Props) => {
   const SContent = () => {
     return (
       <>
         <div className="bg-pink-400 w-7/12 h-[720px] px-24 py-32 rounded-3xl">
           <div className="text-2xl leading-[2] py-4 w-10/12">
+            <div className="font-bold text-4xl">
+              {props.title || "Impact on Land"}
+            </div>
             {props.content}
           </div>
         </div>
@@ -86,8 +96,13 @@ const SDG = (props) => {
     <section className="w-11/12 bg-base-200 p-4 rounded-2xl mx-auto my-10 lg:w-8/12 lg:bg-transparent lg:rounded-none lg:my-40">
       {props.reverse ? (
         <section className="relative flex flex-col-reverse justify-center lg:flex-row-reverse lg:items-center">
-          <div className="bg-base-200/80 lg:w-7/12 lg:h-[720px] lg:px-24 lg:py-28 lg:rounded-3xl">
+          <div className="bg-base-200/80 lg:w-7/12 lg:h-[720px] lg:px-24 lg:py-4 lg:rounded-3xl">
             <div className="text-lg leading-10 p-2 lg:text-2xl lg:leading-[2] lg:py-4 lg:px-2 lg:w-10/12 lg:ml-auto">
+              {props?.title && (
+                <div className="font-bold text-4xl leading-[4]">
+                  {props.title}
+                </div>
+              )}
               {props.content}
             </div>
           </div>
@@ -98,8 +113,11 @@ const SDG = (props) => {
         </section>
       ) : (
         <section className="relative flex flex-col-reverse justify-center lg:flex-row lg:items-center">
-          <div className="bg-base-200/80 lg:w-7/12 lg:h-[720px] lg:px-24 lg:py-28 lg:rounded-3xl">
+          <div className="bg-base-200/80 lg:w-7/12 lg:h-[720px] lg:px-24 lg:py-4 lg:rounded-3xl">
             <div className="text-lg leading-10 p-2 lg:text-2xl lg:leading-[2] lg:py-4 lg:w-10/12">
+              {props.title && (
+                <div className="font-bold text-4xl py-12">{props.title}</div>
+              )}
               {props.content}
             </div>
           </div>

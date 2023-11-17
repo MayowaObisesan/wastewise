@@ -1,5 +1,6 @@
 import localforage from "localforage";
 import {
+  ReactNode,
   createContext,
   useCallback,
   useContext,
@@ -14,6 +15,8 @@ type contextType = {
   wastewiseStore: any;
   isRegistered: boolean;
   currentUser: any;
+  statistics: any;
+  setStatistics: any;
   notifCount: number | any;
   setNotifCount: number | any;
   notifications: any;
@@ -36,9 +39,19 @@ type userDataType = {
   userAddr: string;
 };
 
-const WastewiseContext = createContext<contextType>();
+const WastewiseContext = createContext<contextType>({
+  wastewiseStore: null,
+  isRegistered: false,
+  currentUser: null,
+  statistics: null,
+  setStatistics: null,
+  notifCount: 0,
+  setNotifCount: 0,
+  notifications: null,
+  setNotifications: null,
+});
 
-const WastewiseProvider = ({ children }) => {
+const WastewiseProvider = ({ children }: { children: ReactNode }) => {
   let wastewiseStore = localforage.createInstance({
     name: "wastewiseStore",
   });
@@ -47,7 +60,8 @@ const WastewiseProvider = ({ children }) => {
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<userDataType | {}>({});
   const [notifCount, setNotifCount] = useState(0);
-  const [notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState<any>([]);
+  const [statistics, setStatistics] = useState<any>({});
 
   //   useEffect(() => {
   // }, [wastewiseStore.length()]);
@@ -91,11 +105,25 @@ const WastewiseProvider = ({ children }) => {
     account: address,
   });
 
+  const statisticsRead = useContractRead({
+    address: WASTEWISE_ADDRESS,
+    abi: WasteWiseABI,
+    functionName: "getStatistics",
+    account: address,
+    onSuccess(data) {
+      setStatistics(data as any);
+    },
+  });
+
   useEffect(() => {
-    setIsRegistered(Number(data?.userAddr) !== 0);
-    setCurrentUser(data);
+    setIsRegistered(Number((data as any)?.userAddr) !== 0);
+    setCurrentUser(data as any);
     return () => {};
   }, [data]);
+
+  useEffect(() => {
+    setStatistics(statisticsRead.data);
+  }, [statisticsRead.data]);
 
   return (
     <WastewiseContext.Provider
@@ -103,6 +131,8 @@ const WastewiseProvider = ({ children }) => {
         wastewiseStore,
         isRegistered,
         currentUser,
+        statistics,
+        setStatistics,
         notifCount,
         setNotifCount,
         notifications,

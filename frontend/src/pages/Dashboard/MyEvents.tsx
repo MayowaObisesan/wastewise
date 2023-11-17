@@ -3,103 +3,69 @@ import image2 from "../../assets/evangeline-shaw-nwLTVwb7DbU-unsplash.jpg";
 import image3 from "../../assets/chuttersnap-aEnH4hJ_Mrs-unsplash.jpg";
 import image4 from "../../assets/samantha-gades-fIHozNWfcvs-unsplash.jpg";
 import image5 from "../../assets/delaney-van-JYVKaxAlp4A-unsplash.jpg";
+import { formatDate } from "../../utils";
+import { useEffect, useState } from "react";
+import { useAccount, useContractRead } from "wagmi";
+import { MARKETPLACE_ADDRESS, MarketPlaceABI } from "../../../constants";
+import { formatEther } from "viem";
 
 type Props = {};
 
 const MyEvents = (props: Props) => {
+  const [events, setEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const { address } = useAccount();
+
+  const { isLoading } = useContractRead({
+    address: MARKETPLACE_ADDRESS,
+    abi: MarketPlaceABI,
+    functionName: "getEventsByUser",
+    args: [address],
+    onError(data: any) {
+      console.log(data);
+      setLoading(false);
+    },
+    onSuccess(data: any) {
+      setEvents(data);
+      setLoading(false);
+    },
+  });
+
+  useEffect(() => {
+    if (isLoading) {
+      setLoading(true);
+    }
+  }, []);
+
   return (
-    <div className="my-8">
-      <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image1} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Merchandise Drop</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                5.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image2} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Web3 Conference</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                10.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image3} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">INTMAX Buffer</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                2.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image4} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Base Street Party</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                1.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image5} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Solana Tradefair</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                3.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
-        <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-          <figure>
-            <img src={image1} alt="Shoes" />
-          </figure>
-          <div className="card-body">
-            <h2 className="card-title">Merchandise Drop</h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div className="card-actions justify-between items-center">
-              <button className="btn btn-neutral">Paid</button>
-              <h3 className="font-bold text-lg">
-                5.0 <span>CHIX</span>
-              </h3>
-            </div>
-          </div>
-        </div>
+    <div className="my-8 w-10/12">
+      <div className="font-bold text-2xl">Transactions</div>
+      <div className="overflow-x-auto">
+        <table className="table table-xs lg:table-md">
+          {/* head */}
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>ItemId</th>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Tokens Transferred</th>
+            </tr>
+          </thead>
+          <tbody>
+            {events.map((item, index) => (
+              <tr key={index}>
+                <th>{formatDate(Number(item?.date))}</th>
+                <td>{Number(item?.itemId)}</td>
+                <td>{item?.itemName}</td>
+                <td>{Number(formatEther(item?.itemPrice))}</td>
+                <td>{Number(item?.qty)}</td>
+                <td>{Number(formatEther(item?.amountOfTokensTransfered))}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

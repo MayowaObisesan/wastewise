@@ -5,10 +5,10 @@ import { useRef } from "react";
 import { useDisconnect } from "wagmi";
 import { logout } from "../assets";
 
-const DashboardNav = ({ title }) => {
+const DashboardNav = ({ title }: { title: string }) => {
   const { disconnect } = useDisconnect();
   const { notifCount, notifications } = useWasteWiseContext();
-  const mobileNotificationsModal = useRef(null);
+  const mobileNotificationsModal = useRef<HTMLDialogElement>(null);
 
   return (
     <div className="sticky top-0 z-[1] w-full navbar bg-transparent backdrop-blur-md text-base-content px-4 py-8 lg:sticky lg:px-8 lg:py-8 dark:backdrop-blur-lg">
@@ -100,7 +100,7 @@ const DashboardNav = ({ title }) => {
               type="button"
               className="btn btn-ghost btn-circle hover:bg-green-100 disabled:bg-transparent disabled:hover:bg-transparent disabled:cursor-not-allowed lg:hidden"
               disabled={notifCount < 1}
-              onClick={() => mobileNotificationsModal.current.showModal()}
+              onClick={() => mobileNotificationsModal.current?.showModal()}
             >
               <div className="indicator">
                 <svg
@@ -186,14 +186,11 @@ const DashboardNav = ({ title }) => {
                   </Link>
                 </li>
                 <li>
-                  <a className="h-12 leading-10 justify-between">Settings</a>
-                </li>
-                <li>
                   <button
                     title={"disconnect button"}
                     type={"button"}
                     className="h-12 leading-10 justify-between"
-                    onClick={disconnect}
+                    onClick={() => disconnect()}
                   >
                     Logout
                     <img

@@ -1,1 +1,1 @@
-export const MarketPlace_ADDRESS = "0x";
+export const MarketPlace_ADDRESS = "0x12CeC04052082bB761d22F6c5AaD6cAc720d4E40";

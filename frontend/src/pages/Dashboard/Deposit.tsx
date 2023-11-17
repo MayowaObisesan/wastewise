@@ -2,53 +2,86 @@ import { Toaster, toast } from "sonner";
 import Button from "../../components/Button";
 import { useRef, useState, useEffect } from "react";
 import localforage from "localforage";
-import { WasteWise_ADDRESS, WasteWiseABI } from "../../../constants/index";
-
 import {
   useAccount,
   useContractWrite,
   usePrepareContractWrite,
   useWaitForTransaction,
 } from "wagmi";
-import { WASTEWISE_ABI, WASTEWISE_ADDRESS } from "../../utils";
+
+import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
+import { useWasteWiseContext } from "../../context";
+import useNotificationCount from "../../hooks/useNotificationCount";
+import { useNavigate } from "react-router-dom";
 
 const Recycle = () => {
   const { address } = useAccount();
   const [numPlastic, setNumPlastic] = useState<number>();
+  const [userId, setUserId] = useState<number>();
+  const notificationCount = useNotificationCount();
+  const { currentUser, wastewiseStore, setNotifCount } = useWasteWiseContext();
+  const navigate = useNavigate();
 
   const { config: depositPlasticConfig } = usePrepareContractWrite({
     address: WASTEWISE_ADDRESS,
-    abi: WASTEWISE_ABI,
+    abi: WasteWiseABI,
     functionName: "depositPlastic",
-    args: [numPlastic],
+    args: [numPlastic, userId],
   });
 
   const {
     data: depositPlasticData,
     isError: isDepositPlasticError,
+    error,
     write: depositPlasticWrite,
+    isLoading,
   } = useContractWrite(depositPlasticConfig);
 
   const { isLoading: isDepositingPlastic, isSuccess: isPlasticDeposited } =
     useWaitForTransaction({
       hash: depositPlasticData?.hash,
+      onSettled(data, error) {
+        if (data?.blockHash) {
+          setNumPlastic(0);
+          setUserId(0);
+        }
+      },
     });
 
-  // useEffect(() => {
-  //   console.log("depositPlasticData:", depositPlasticData);
-  //   console.log("isDepositingPlastic:", isDepositingPlastic);
-  //   console.log("isPlasticDeposited", isPlasticDeposited);
-  //   console.log("isDepositPlasticError:", isDepositPlasticError);
-  //   console.log("======= Depositing Plastic =======");
-  // }, [depositPlasticData, isDepositingPlastic, isPlasticDeposited]);
+  useEffect(() => {
+    if (isDepositingPlastic) {
+      toast.loading("Depositing the Plastic. Kindly wait", {
+        // description: "My description",
+        duration: 10000,
+      });
+    }
+  }, [isDepositingPlastic]);
 
   const handleDepositPlastic = async (e: any) => {
     e.preventDefault();
-    console.log(true);
+    // console.log(true);
     depositPlasticWrite?.();
   };
 
-  const sdgModal = useRef(null);
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Approving Recycled item(s)", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    if (isPlasticDeposited) {
+      toast.success("Successfully Approved Recycled item(s)", {
+        description: "My description",
+        duration: 5000,
+      });
+    }
+  }, [isPlasticDeposited]);
+
+  const sdgModal = useRef<HTMLDialogElement>(null);
   return (
     <section className="relative w-10/12">
       <div className="flex flex-col mx-auto bg-amber-200/40 rounded-lg px-2 py-5 w-12/12 lg:flex-row lg:px-8 lg:py-10 dark:bg-base-200">
@@ -154,7 +187,7 @@ const Recycle = () => {
               <span className="label-text">No of Plastics</span>
             </label>
             <input
-              value={numPlastic}
+              defaultValue={numPlastic}
               onChange={(e: any) => setNumPlastic(e.target.value)}
               type="number"
               id="number"
@@ -164,8 +197,26 @@ const Recycle = () => {
             <label className="label">
               <span className="label-text-alt">You will get 15 tokens</span>
             </label>
+            <label className="label">
+              <span className="label-text">User Id</span>
+            </label>
+            <input
+              defaultValue={userId}
+              onChange={(e: any) => setUserId(e.target.value)}
+              type="number"
+              id="number"
+              placeholder="Number of plastics"
+              className="input input-lg input-bordered w-full placeholder:text-base"
+            />
+            <label className="label">
+              <span className="label-text-alt">Enter User Id</span>
+            </label>
           </div>
-          <Button name="Recycle" size="block" customStyle="w-full" />
+          <Button name="Recycle" size="block" customStyle="w-full">
+            {(isLoading || isDepositingPlastic) && (
+              <span className="loading"></span>
+            )}
+          </Button>
         </form>
       </div>
 

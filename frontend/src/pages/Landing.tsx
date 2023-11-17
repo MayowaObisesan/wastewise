@@ -14,108 +14,38 @@ import recycle1 from "../assets/recycle_1.jpeg";
 import {
   community,
   plasticOnEarth,
+  plasticInOcean,
   plasticOnLand,
   tr1hd,
   wasteOnLand,
 } from "../assets";
 import { Link } from "react-router-dom";
-import CarouselComponent from "../components/Carousel";
-import FeatureNav from "../components/FeatureNav";
 import SDG from "../components/SDG";
 
 type Props = {};
 
 const Landing = (props: Props) => {
-  const { isConnected } = useAccount();
-
   return (
     <section>
-      <section className="sticky top-0 z-10 px-8 py-4 bg-transparent backdrop-blur-3xl">
-        <div className="navbar bg-base-200 w-full mx-auto rounded-2xl dark:bg-base-300">
-          <div className="navbar-start flex-1">
-            <Logo />
-          </div>
-          <div className={"navbar-end gap-8"}>
-            <div className="flex-none">
-              <ul className="menu menu-horizontal px-1">
-                <li>
-                  <label className="flex cursor-pointer gap-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <circle cx="12" cy="12" r="5" />
-                      <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-                    </svg>
-                    <input
-                      type="checkbox"
-                      value="dark"
-                      className="toggle theme-controller"
-                    />
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                  </label>
-                </li>
-                <li>
-                  <Link to="/dashboard">Dashboard</Link>
-                </li>
-                {/* <li>
-                  <details>
-                    <summary>Parent</summary>
-                    <ul className="p-2 bg-base-100">
-                      <li>
-                        <a>Link</a>
-                      </li>
-                      <li>
-                        <a>Link 2</a>
-                      </li>
-                    </ul>
-                  </details>
-                </li> */}
-              </ul>
-            </div>
-            <WasteWise />
-            {isConnected && <SignUpButton />}
-          </div>
-        </div>
-      </section>
+      <Navbar />
       {/* <!-- Gradients --> */}
       {/* <div aria-hidden="true" className="flex absolute top-24 start-0 -z-[1]">
         <div className="bg-green-100 opacity-30 blur-3xl w-[1036px] h-[600px] dark:bg-green-900 dark:opacity-20"></div>
         <div className="bg-base-200 opacity-90 blur-3xl w-[577px] h-[300px] transform translate-y-32 dark:bg-base-800/60"></div>
       </div> */}
-      <div className="hero relative">
-        <div className="hero-content text-left w-full min-w-full flex flex-col lg:flex-row lg:space-x-8 before:-hue-rotate-90 before:absolute before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element-dark.svg')] dark:before:opacity-30">
-          <div className="w-full px-12 py-40">
+      <div className="hero before:top-0 before:-hue-rotate-90 before:absolute lg:before:scale-100 lg:before:top-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-cover before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/examples/polygon-bg-element-dark.svg')] dark:before:opacity-30">
+        <div className="hero-content text-left w-full min-w-full flex flex-col lg:flex-row lg:space-x-8">
+          <div className="w-full px-2 pt-12 lg:px-12 lg:py-40">
             <div className="min-w-6/12">
-              <h1 className="relative w-8/12 text-4xl font-bold pr-8 lg:text-7xl">
-                {" "}
-                Why waste when you can{" "}
-                <span className="bg-gradient-to-r from-[#2C8258] to-[#FFDE52] inline-block text-transparent text-9xl bg-clip-text py-4">
+              <h1 className="relative w-full text-center text-4xl font-bold lg:pr-4 lg:w-8/12 lg:text-6xl lg:text-left">
+                <div className="w-11/12 mx-auto">Why waste when you can</div>
+                <span className="bg-gradient-to-r from-[#2C8258] to-[#FFDE52] inline-block text-transparent text-[5rem] leading-[1.4] lg:text-9xl bg-clip-text lg:py-4">
                   Recycle
                 </span>
               </h1>
-              <div className="w-8/12 py-6 text-2xl lg:py-12">
-                <p>We can save the planet one action at a time.</p>
-                <p className="text-2xl">
+              <div className="w-full py-6 text-2xl text-center lg:w-8/12 lg:text-2xl lg:text-left lg:py-12">
+                <p>We can save the planet one plastic at a time.</p>
+                <p className="text-2xl lg:text-2xl">
                   Let's work together to promote recycling, and create a greener
                   future.
                 </p>
@@ -126,20 +56,45 @@ const Landing = (props: Props) => {
           <div className="relative overflow-x-hidden self-stretch flex flex-col items-end justify-center w-full before:-hue-rotate-90 before:absolute before:top-0 before:right-0 before:start-1/2 before:bg-[url('https://preline.co/assets/svg/component/squared-bg-element.svg')] before:bg-no-repeat before:bg-top before:bg-right before:w-full before:h-full before:-z-[1] before:transform before:-translate-x-1/2 dark:before:bg-[url('https://preline.co/assets/svg/component/squared-bg-element-dark.svg')]">
             <img
               src={tr1hd}
-              alt="Image of people recycling"
-              className="w-11/12"
+              alt="Image of recycling"
+              className="w-full lg:w-11/12"
             />
           </div>
         </div>
       </div>
-      <section className="">
+      <section className="mt-20 lg:m-0">
         <div className="text-center">Be wise, Dispose your waste properly</div>
-        <div className="text-center text-4xl font-bold py-5">
-          Do your part to save the planet
+        <div className="text-center text-4xl font-bold px-2 py-5">
+          Do your part to save the planet from plastics pollution
+          <br />
         </div>
-        <div className="text-center">In line with SDG 3, 5, 11, 14 and 15</div>
+        <div className="text-center text-2xl pt-6">
+          Plastic pollution has the following impact on the environment
+        </div>
+        {/* <div className="text-center">
+          Work with the
+          <br />
+          UN Sustainable Development Goals
+          <br />
+          SDG(3, 6, 11, 14 and 15)
+        </div> */}
 
         <SDG
+          title="Impact on the Ocean"
+          content="Improper Recycling of Plastics can have a significant impact on
+          the environment. When plastics are not recycled properly, they
+          can end up in landfills, oceans, and other natural habitats,
+          causing harm to wildlife and ecosystems."
+        >
+          <img
+            src={plasticInOcean}
+            alt="Plastic in the ocean"
+            className="relative h-full rounded-xl lg:rounded-3xl object-cover object-center"
+          />
+        </SDG>
+
+        <SDG
+          title="Impact on wildlife"
           content="Improper Recycling of Plastics can have a significant impact on
           the environment. When plastics are not recycled properly, they
           can end up in landfills, oceans, and other natural habitats,
@@ -148,11 +103,12 @@ const Landing = (props: Props) => {
           <img
             src={plasticOnEarth}
             alt="Plastic on earth"
-            className="relative h-full rounded-xl lg:rounded-3xl"
+            className="relative h-full rounded-xl lg:rounded-3xl object-cover object-center"
           />
         </SDG>
 
         <SDG
+          title="Impact on Land"
           content="Plastics that are not recycled can also release harmful chemicals
           into the environment, which can lead to air and water pollution. In addition, improper recycling of plastics can contribute to
           climate change. When plastics are burned, they release greenhouse
@@ -162,11 +118,12 @@ const Landing = (props: Props) => {
           <img
             src={plasticOnLand}
             alt="Plastic on land"
-            className="relative h-full rounded-xl lg:rounded-3xl"
+            className="relative h-full rounded-xl lg:rounded-3xl object-cover object-center"
           />
         </SDG>
 
         <SDG
+          title="Impact on the Environment"
           content="It is important to recycle plastics properly to reduce the negative
           impact on the environment. This can be done by following the recycling
           guidelines provided by your local waste management authority. You can
@@ -176,7 +133,7 @@ const Landing = (props: Props) => {
           <img
             src={wasteOnLand}
             alt="Plastic on land"
-            className="relative h-full rounded-xl lg:rounded-3xl"
+            className="relative h-full rounded-xl lg:rounded-3xl object-cover object-center"
           />
         </SDG>
       </section>
@@ -184,7 +141,7 @@ const Landing = (props: Props) => {
       <div className="w-full p-4 text-center mx-auto my-24 lg:w-8/12 lg:my-32">
         <blockquote className="relative">
           <svg
-            className="absolute top-0 start-0 transform -translate-x-8 -translate-y-4 h-24 w-24 text-gray-200 dark:text-gray-700"
+            className="absolute top-0 start-0 transform -translate-x-8 -translate-y-4 h-24 w-24 text-base-200 dark:text-gray-700"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -229,7 +186,7 @@ const Landing = (props: Props) => {
             <div className="mt-6 lg:mt-10">
               <p className="relative text-xl sm:text-2xl md:text-3xl md:leading-normal font-medium text-gray-800">
                 <svg
-                  className="absolute top-0 start-0 transform -translate-x-8 -translate-y-8 h-16 w-16 text-gray-200 sm:h-24 sm:w-24 dark:text-gray-700"
+                  className="absolute top-0 start-0 transform -translate-x-8 -translate-y-8 h-16 w-16 text-base-300 sm:h-24 sm:w-24 dark:text-gray-700"
                   width="16"
                   height="13"
                   viewBox="0 0 16 13"
@@ -269,6 +226,188 @@ const Landing = (props: Props) => {
         {/* <!-- End Testimonials --> */}
       </section>
 
+      <section className="hero min-h-screen bg-base-100">
+        {/* <!-- Testimonials --> */}
+        <div className="relative max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+          {/* <!-- Blockquote --> */}
+          <blockquote className="text-center lg:mx-auto lg:w-3/5">
+            <div className="mx-auto w-20 h-auto sm:w-28 text-gray-800 text-xl font-semibold dark:text-gray-200">
+              Our Roadmap
+            </div>
+
+            <div className="mt-6 lg:mt-10">
+              <ul className="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical">
+                <li>
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-start md:text-end mb-10">
+                    <time className="font-mono italic">November 2023</time>
+                    <div className="text-lg font-black">Wastewise is born</div>
+                    We launched wastewise with a mission to help fight against
+                    plastic pollution on the earth. With our target on the youth
+                    who we believe will be crucial to the next plastic-free
+                    generation.
+                  </div>
+                  <hr className="bg-primary" />
+                </li>
+                <li>
+                  <hr className="bg-primary" />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-end md:text-start mb-10">
+                    <time className="font-mono italic">December 2023</time>
+                    <div className="text-lg font-black">Launch Wastewise</div>
+                    We aim to go live with wastewise on mainnet after a month of
+                    rigorous testing, analysis and professional vetting and a
+                    round of alpha and beta testers.
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-start md:text-end mb-10">
+                    <time className="font-mono italic">February 2024</time>
+                    <div className="text-lg font-black">Wastewise Blog</div>
+                    Information is Power. Wastewise plans to have a blog that
+                    creates awareness about the environment. There will be a
+                    weekly blog release about how plastic pollution have caused
+                    havoc to the environment. We believe that this will: (1.)
+                    give awareness to everyone that will read the blog and (2.)
+                    Help people have more access to the Platform and the
+                    community we intend to build at large.
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-end mb-10 md:text-start">
+                    <time className="font-mono italic">March - April 2024</time>
+                    <div className="text-lg font-black">
+                      Onboard Ambassadors and Launch Discord Server
+                    </div>
+                    From the first quarter of 2024, wastewise aims to onboard
+                    ambassadors. This ambassadors will help with the discord
+                    community and also help raise more awareness about the
+                    environment. Wastewise is all about the environment.
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-start mb-10 md:text-end">
+                    <time className="font-mono italic">May 2024</time>
+                    <div className="text-lg font-black">Feedback hub</div>
+                    Feedback is key for the growth of any individual, group or
+                    community. Wastewise aims to build a feedback for the
+                    platform that will allow us to get feedback anytime and
+                    anywhere in the world, 24 times a day, 7 days a week,
+                    leveraging the power of blockchain technology.
+                  </div>
+                  <hr />
+                </li>
+                <li>
+                  <hr />
+                  <div className="timeline-middle">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      className="h-5 w-5"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="timeline-end md:text-start mb-10">
+                    <time className="font-mono italic">June 2024</time>
+                    <div className="text-lg font-black">
+                      Partner with other War against Plastics Community
+                    </div>
+                    We intend to partner with other communities that wage war
+                    against plastic pollution, both offline and online. We will
+                    also join the war against plastic pollution on the
+                    environment as a community.
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <footer className="mt-6"></footer>
+          </blockquote>
+          {/* <!-- End Blockquote --> */}
+        </div>
+        {/* <!-- End Testimonials --> */}
+      </section>
+
       {/* <section>
         Our mission is to partner with campuses to create awareness of the SD
         Goals and foster the understanding and compliance with the SD Goals 3,
@@ -299,7 +438,7 @@ const Landing = (props: Props) => {
 
       <section>
         {/* <!-- FAQ --> */}
-        <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+        <div className="bg-base-300 px-4 py-10 sm:px-6 lg:px-8 lg:py-24 mx-auto">
           {/* <!-- Title --> */}
           <div className="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
             <h2 className="text-2xl font-bold md:text-3xl md:leading-tight text-gray-800 dark:text-gray-200">
@@ -316,7 +455,7 @@ const Landing = (props: Props) => {
             <div className="grid sm:grid-cols-2 gap-6 md:gap-12">
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  Can I cancel at anytime?
+                  What is Wastewise?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
                   Yes, you can cancel anytime no questions are asked while you
@@ -328,7 +467,7 @@ const Landing = (props: Props) => {
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  My team has credits. How do we use them?
+                  How can I become an Wastewise ambassador?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
                   Once your team signs up for a subscription plan. This is where
@@ -339,7 +478,7 @@ const Landing = (props: Props) => {
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  How does Preline's pricing work?
+                  Is Wastewise a company?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
                   Our subscriptions are tiered. Understanding the task at hand
@@ -350,7 +489,7 @@ const Landing = (props: Props) => {
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  How secure is Preline?
+                  What is the benefit of using Wastewise?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
                   Protecting the data you trust to Preline is our first
@@ -362,18 +501,17 @@ const Landing = (props: Props) => {
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  Do you offer discounts?
+                  Is Wastewise a web3 platform?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  We've built in discounts at each tier for teams. The time has
-                  come to bring those ideas and plans to life.
+                  Yes, Wastewise is a web3 platform.
                 </p>
               </div>
               {/* <!-- End Col --> */}
 
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                  What is your refund policy?
+                  What are Wastewise long-term goals?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
                   We offer refunds. We aim high at being focused on building
@@ -400,6 +538,7 @@ const Landing = (props: Props) => {
               >
                 <Logo />
               </a>
+              <div>Rewarding Responsibility</div>
             </div>
             {/* <!-- End Col --> */}
 
