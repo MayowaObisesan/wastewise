@@ -24,7 +24,7 @@ import Navbar from "../components/Navbar";
 const Register = () => {
   const navigate = useNavigate();
   const { address, isConnected } = useAccount();
-  const [number, setNumber] = useState<number>();
+  const [number, setNumber] = useState<number>(0);
   const [country, setCountry] = useState("");
   const [gender, setGender] = useState(1);
   const [name, setName] = useState("");
@@ -53,6 +53,7 @@ const Register = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success("Registration successful", {
+        duration: 10000,
         onAutoClose: (t) => {
           wastewiseStore
             .setItem(t.id.toString(), {
@@ -211,8 +212,8 @@ const Register = () => {
                       type="text"
                       className="input input-bordered join-item w-full focus:outline-0 focus:bg-base-100"
                       placeholder="234 913 158 1488"
-                      defaultValue={number}
-                      onChange={(e) => setNumber(parseInt(e.target.value))}
+                      // defaultValue={number}
+                      onChange={(e) => setNumber(parseInt(e.target?.value))}
                     />
                   </div>
                 </div>
