@@ -170,7 +170,7 @@ const Wallet = () => {
       // Handle the event returned here.
       console.log(log);
       console.log("Wallet page transactions fetched");
-      if (log[0]?.args?._userAddr === currentUser?.userAddr) {
+      if ((log[0] as any)?.args?._userAddr === currentUser?.userAddr) {
         setTransactions(log as any);
       }
     },
