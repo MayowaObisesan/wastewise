@@ -1,5 +1,5 @@
 import { configureChains, createConfig } from "wagmi";
-import { goerli, mainnet, sepolia } from "wagmi/chains";
+import { baseGoerli, goerli, mainnet, sepolia } from "wagmi/chains";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
@@ -12,6 +12,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     mainnet,
     sepolia,
+    baseGoerli,
     ...(import.meta.env?.MODE === "development" ? [goerli] : []),
   ],
   [
@@ -19,6 +20,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     publicProvider(),
   ]
 );
+console.log(baseGoerli);
 
 export const config = createConfig({
   autoConnect: true,
