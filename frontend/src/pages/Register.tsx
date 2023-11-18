@@ -7,6 +7,7 @@ import {
   useWaitForTransaction,
   useContractRead,
   useAccount,
+  useContractEvent,
 } from "wagmi";
 
 import { WasteWise } from "../components/WasteWise";
@@ -30,7 +31,8 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const notificationCount = useNotificationCount();
-  const { currentUser, wastewiseStore, setNotifCount } = useWasteWiseContext();
+  const { currentUser, setCurrentUser, wastewiseStore, setNotifCount } =
+    useWasteWiseContext();
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
 
   const { config } = usePrepareContractWrite({
@@ -48,6 +50,17 @@ const Register = () => {
     error,
   } = useWaitForTransaction({
     hash: data?.hash,
+  });
+
+  useContractEvent({
+    address: WASTEWISE_ADDRESS,
+    abi: WasteWiseABI,
+    eventName: "UserAccountCreated",
+    listener(log) {
+      // Handle the event returned here.
+      setCurrentUser(data);
+      console.log(log);
+    },
   });
 
   useEffect(() => {
