@@ -254,6 +254,62 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "userAddr",
+        "type": "address"
+      }
+    ],
+    "name": "getEventsByUser",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "date",
+            "type": "uint256"
+          },
+          {
+            "internalType": "enum MarketPlace.Type",
+            "name": "typeOfTransaction",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amountOfTokensTransfered",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "itemName",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "itemPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "itemId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "qty",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct MarketPlace.Transaction[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "_listingId",
         "type": "uint256"
