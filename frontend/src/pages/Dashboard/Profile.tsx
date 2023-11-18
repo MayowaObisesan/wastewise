@@ -1,15 +1,109 @@
+import React, { useEffect, useState } from "react";
+import { useContractWrite } from "wagmi";
 import Button from "../../components/Button";
 import { useWasteWiseContext } from "../../context";
 import { formatDate } from "../../utils";
+import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../../constants";
+import { toast } from "sonner";
+import useNotificationCount from "../../hooks/useNotificationCount";
+import { useNavigate } from "react-router-dom";
+import { CountryDropdown } from "react-country-region-selector";
 
 const Profile = () => {
-  const { currentUser } = useWasteWiseContext();
+  const navigate = useNavigate();
+  const { currentUser, setNotifCount, wastewiseStore } = useWasteWiseContext();
+  const notificationCount = useNotificationCount();
 
-  // function handleEmail(e: any) {
-  //   setEmail(e.target.value);
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  //   setIsEmailValid(emailRegex.test(e.target.value)); // true
-  // }
+  const [country, setCountry] = useState<string>(currentUser?.country);
+  const [gender, setGender] = useState<number>(currentUser?.gender);
+  const [phoneNo, setPhoneNo] = useState<number>(Number(currentUser?.phoneNo));
+  const [email, setEmail] = useState<string>(currentUser?.email);
+  const [isEmailValid, setIsEmailValid] = useState<boolean>(true);
+
+  const { data, error, write, isError, isLoading, isSuccess } =
+    useContractWrite({
+      address: WASTEWISE_ADDRESS,
+      abi: WasteWiseABI,
+      args: [{ ...currentUser, country, gender, phoneNo, email }],
+      functionName: "editUser",
+    });
+
+  useEffect(() => {
+    if (isSuccess) {
+      console.log(data);
+      // setCurrentUser(data);
+      toast.success("Registration successful", {
+        duration: 10000,
+        onAutoClose: (t) => {
+          wastewiseStore
+            .setItem(t.id.toString(), {
+              id: t.id,
+              title: t.title,
+              datetime: new Date(),
+              type: t.type,
+            })
+            .then(function (_: any) {
+              setNotifCount(notificationCount);
+            });
+        },
+      });
+      // const redirectTo = "";
+      // if (currentUser.role === 1) {}
+      setTimeout(() => {
+        navigate("/dashboard/wallet");
+      }, 1200);
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(<div>{error?.message}</div>, {
+        onAutoClose: (t) => {
+          wastewiseStore
+            .setItem(t.id.toString(), {
+              id: t.id,
+              title: t.title,
+              datetime: new Date(),
+              type: t.type,
+            })
+            .then(function (_: any) {
+              setNotifCount(notificationCount);
+            });
+        },
+      });
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    if (isLoading) {
+      toast.loading("Updating your Profile. Kindly hold", {
+        // description: "My description",
+        duration: 12000,
+      });
+    }
+  }, [isLoading]);
+
+  const handleGenderChange = (event: any) => {
+    if (event.target.value === "female") {
+      setGender(0);
+    } else if (event.target.value === "male") {
+      setGender(1);
+    }
+  };
+  function selectCountry(val: any) {
+    setCountry(val);
+  }
+
+  function handleEmail(e: any) {
+    setEmail(e.target.value);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setIsEmailValid(emailRegex.test(e.target.value)); // true
+  }
+
+  function handleSubmit(e: any) {
+    e.preventDefault();
+    write?.();
+  }
 
   return (
     <section className="relative w-10/12 py-4 lg:flex lg:flex-col lg:w-11/12">
@@ -128,114 +222,119 @@ const Profile = () => {
       </section>
 
       {/* Form container */}
-      <section className="form-container py-4 space-y-6 lg:bg-base-100 lg:flex lg:flex-row lg:py-12 lg:space-y-0 lg:space-x-24">
-        <section className="lg:flex-1 lg:px-4 lg:space-y-10">
-          <div className="form-control w-full my-4">
-            <label className="label">
-              <span className="label-text">Nickname</span>
-              {/* <span className="label-text-alt">Top Right label</span> */}
-            </label>
-            <input
-              type="text"
-              placeholder="What can we call you"
-              className="input input-bordered w-full"
-              defaultValue={currentUser?.name}
-            />
-            <label className="label">
-              <span className="label-text-alt text-error">
-                {/* Nickname can only be strings and numbers */}
-              </span>
-              {/* <span className="label-text-alt">Bottom Right label</span> */}
-            </label>
-          </div>
+      <form
+        className="w-full flex flex-col items-center"
+        onSubmit={handleSubmit}
+      >
+        <section className="form-container py-4 space-y-6 lg:bg-base-100 lg:flex lg:flex-row lg:py-12 lg:space-y-0 lg:space-x-24">
+          <section className="lg:flex-1 lg:px-4 lg:space-y-10">
+            <div className="form-control w-full my-4">
+              <label className="label">
+                <span className="label-text">Nickname</span>
+                {/* <span className="label-text-alt">Top Right label</span> */}
+              </label>
+              <input
+                type="text"
+                placeholder="What can we call you"
+                className="input input-bordered w-full"
+                defaultValue={currentUser?.name}
+              />
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {/* Nickname can only be strings and numbers */}
+                </span>
+                {/* <span className="label-text-alt">Bottom Right label</span> */}
+              </label>
+            </div>
 
-          {/* Email form input */}
-          <div className="form-control w-full my-4">
-            <label className="label">
-              <span className="label-text">Email</span>
-            </label>
-            <input
-              type="text"
-              placeholder="your@email.com"
-              className="input input-bordered w-full"
-              defaultValue={currentUser?.email}
-            />
-            <label className="label">
-              <span className="label-text-alt text-error">
-                Invalid Email Address
-              </span>
-            </label>
-          </div>
-        </section>
+            {/* Email form input */}
+            <div className="form-control w-full my-4">
+              <label className="label">
+                <span className="label-text">Email</span>
+              </label>
+              <input
+                type="text"
+                placeholder="your@email.com"
+                className="input input-bordered w-full"
+                defaultValue={currentUser?.email}
+                onChange={handleEmail}
+              />
+              {email?.length > 0 && !isEmailValid && (
+                <label className="label">
+                  <span className="label-text-alt text-error">
+                    Invalid Email Address
+                  </span>
+                </label>
+              )}
+            </div>
+          </section>
 
-        <section className="lg:flex-1 lg:px-4 lg:space-y-10">
-          {/* Phone Number form input */}
-          <div className="form-control w-full my-4">
-            <label className="label">
-              <span className="label-text">Phone number</span>
-            </label>
-            <div className="join">
-              <select
-                className="select select-bordered join-item bg-base-200 focus:outline-0 focus:bg-base-300"
-                title="Phone Country select"
-              >
-                <option disabled selected>
-                  GLB
-                </option>
-                <option value="">NGN</option>
-                <option>USA</option>
-                <option>EUR</option>
-                <option>PTG</option>
-                <option>CHN</option>
-              </select>
-              <div className="form-control w-full">
-                <div>
-                  <input
-                    type="text"
-                    className="input input-bordered join-item w-full focus:outline-0 focus:bg-base-100"
-                    placeholder="+234 913 158 1488"
-                    defaultValue={currentUser?.phone_no}
-                  />
+          <section className="lg:flex-1 lg:px-4 lg:space-y-10">
+            {/* Phone Number form input */}
+            <div className="form-control w-full my-4">
+              <label className="label">
+                <span className="label-text">Phone number</span>
+              </label>
+              <div className="join">
+                <CountryDropdown
+                  value={country}
+                  // defaultOptionLabel="---"
+                  onChange={(val) => selectCountry(val)}
+                  classes="select select-bordered join-item bg-base-200 focus:outline-0 focus:bg-base-300 w-4/12"
+                />
+                <div className="form-control w-full">
+                  <div>
+                    <input
+                      type="text"
+                      className="input input-bordered join-item w-full focus:outline-0 focus:bg-base-100"
+                      placeholder="+234 913 158 1488"
+                      defaultValue={phoneNo}
+                      onChange={(e) => setPhoneNo(parseInt(e.target?.value))}
+                    />
+                  </div>
                 </div>
               </div>
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {/* Invalid Phone number */}
+                </span>
+              </label>
             </div>
-            <label className="label">
-              <span className="label-text-alt text-error">
-                {/* Invalid Phone number */}
-              </span>
-            </label>
-          </div>
 
-          {/* Gender Form input */}
-          <div className="form-control w-full lg:ma-w-xs">
-            <label className="label">
-              <span className="label-text">Select Gender</span>
-              {/* <span className="label-text-alt">Alt label</span> */}
-            </label>
-            <select className="select select-bordered" title="Gender">
-              <option disabled selected>
-                Gender
-              </option>
-              <option value={1} selected={currentUser?.gender === 1}>
-                Male
-              </option>
-              <option value={0} selected={currentUser?.gender === 0}>
-                Female
-              </option>
-            </select>
-            <label className="label">
-              <span className="label-text-alt text-error">
-                {/* Invalid Email Address */}
-              </span>
-            </label>
-          </div>
+            {/* Gender Form input */}
+            <div className="form-control w-full lg:ma-w-xs">
+              <label className="label">
+                <span className="label-text">Select Gender</span>
+                {/* <span className="label-text-alt">Alt label</span> */}
+              </label>
+              <select
+                className="select select-bordered"
+                title="Gender"
+                defaultValue={gender}
+                onChange={handleGenderChange}
+              >
+                <option disabled>Gender</option>
+                <option value={1}>Male</option>
+                <option value={0}>Female</option>
+              </select>
+              <label className="label">
+                <span className="label-text-alt text-error">
+                  {/* Invalid Email Address */}
+                </span>
+              </label>
+            </div>
+          </section>
         </section>
-      </section>
 
-      {/* Submit button */}
-      <div className="form-control px-4 py-8 mx-auto">
-        <Button name="Update" size="btn btn-block lg:btn-wide" />
-      </div>
+        {/* Submit button */}
+        <div className="form-control w-full px-4 py-8 mx-auto lg:w-auto">
+          <Button
+            name="Update"
+            size="md btn-block lg:btn-wide"
+            customStyle="mx-auto"
+          />
+        </div>
+      </form>
     </section>
   );
 };

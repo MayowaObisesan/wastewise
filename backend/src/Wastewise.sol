@@ -136,9 +136,10 @@ contract WasteWise {
     );
 
     event UserEdited(
+        address indexed userAddr,
         string indexed name,
-        string indexed country,
         string indexed email,
+        string country,
         uint256 phoneNo,
         Gender gender
     );
@@ -334,9 +335,10 @@ contract WasteWise {
         statistics.totalTransactions = _stats.totalTransactions;
 
         emit UserEdited(
+            user.userAddr,
             user.name,
-            user.country,
             user.email,
+            user.country,
             user.phoneNo,
             user.gender
         );
