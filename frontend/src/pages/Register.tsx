@@ -42,13 +42,10 @@ const Register = () => {
     functionName: "createUserAcct",
   });
 
-  const { data, write, isLoading } = useContractWrite(config);
-  const {
-    isError,
-    isSuccess,
-    isLoading: settling,
-    error,
-  } = useWaitForTransaction({
+  const { data, write, isError, isLoading, isSuccess } =
+    useContractWrite(config);
+  const { isLoading: settling, error } = useWaitForTransaction({
+    confirmations: 1,
     hash: data?.hash,
   });
 
