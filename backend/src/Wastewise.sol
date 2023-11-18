@@ -194,7 +194,7 @@ contract WasteWise {
         Gender _gender,
         uint _phone,
         string memory _email
-    ) public returns (User memory) {
+    ) public {
         userId++;
 
         if (UserMap[msg.sender].userAddr == msg.sender) {
@@ -233,8 +233,6 @@ contract WasteWise {
             block.timestamp
         );
         emit StatisticsUpdated(statistics);
-
-        return user;
     }
 
     /**
