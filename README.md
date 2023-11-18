@@ -86,11 +86,11 @@ The smart contracts are released under the UNLICENSED and MIT licenses, allowing
 0xCD721817d72508D6506a0c64a1695A802c838674
 
 - Wastewise:
-0xa61f043662002f9f6d2891f3120d9faa4672618b
+0xd31c46e577dec42b691b6bc2de7f2d5c202102bc
 
-https://goerli.basescan.org/address/0xa61f043662002f9f6d2891f3120d9faa4672618b
+https://goerli.basescan.org/address/0xd31c46e577dec42b691b6bc2de7f2d5c202102bc
 
 - MarketPlace:
-0x4a2bb47948cd384f088c14489d880f60dda6d53e
+0x9d2a9adfbe03bf043dc806e4b79b34e3132b6c08
 
- https://goerli.basescan.org/address/0x4a2bb47948cd384f088c14489d880f60dda6d53e
+https://goerli.basescan.org/address/0x9d2a9adfbe03bf043dc806e4b79b34e3132b6c08
