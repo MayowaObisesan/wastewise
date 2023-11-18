@@ -16,7 +16,7 @@ import useNotificationCount from "../../hooks/useNotificationCount";
 const Wallet = () => {
   const { address } = useAccount();
   const [chartData, setChartData] = useState([]);
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<any>([]);
   const {
     currentUser,
     setCurrentUser,
@@ -249,7 +249,7 @@ const Wallet = () => {
       {
         name: "Plastic Recycled",
         // data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
-        data: (data as any)?.map((t) => Number(t.numberOfTokens)),
+        data: (data as any)?.map((t: any) => Number(t.numberOfTokens)),
       },
 
       // {
@@ -267,7 +267,9 @@ const Wallet = () => {
         {
           name: "Plastic Recycled",
           // data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
-          data: (transactions as any)?.map((t) => Number(t.numberOfTokens)),
+          data: (transactions as any)?.map((t: any) =>
+            Number(t.numberOfTokens)
+          ),
         },
       ],
     });
