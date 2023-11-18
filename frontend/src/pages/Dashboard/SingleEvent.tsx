@@ -95,13 +95,17 @@ const SingleEvent = () => {
       setLoading(false);
     },
   });
-  const { data: payData, write } = useContractWrite(buyListingConfig);
+  const {
+    data: payData,
+    write,
+    isError: isErrorP,
+  } = useContractWrite(buyListingConfig);
 
   const { config: approveListing } = usePrepareContractWrite({
     address: WASTEWISE_TOKEN_ADDRESS,
     abi: WASTEWISE_TOKEN_ABI,
     functionName: "approve",
-    args: [MARKETPLACE_ADDRESS, parseEther(`${1}`)],
+    args: [MARKETPLACE_ADDRESS, parseEther(`${total}`)],
     onError(data: any) {
       console.log(data);
       toast.error("Approval failed");
@@ -109,7 +113,11 @@ const SingleEvent = () => {
     },
   });
 
-  const { data: approveData, write: write2 } = useContractWrite(approveListing);
+  const {
+    data: approveData,
+    write: write2,
+    isError: isErrorA,
+  } = useContractWrite(approveListing);
 
   useWaitForTransaction({
     hash: approveData?.hash,
@@ -118,6 +126,10 @@ const SingleEvent = () => {
         toast.success("Approval successful");
         console.log("he don approve");
         setLoadingA(false);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+        // navigate()
         // write?.();
       }
     },
@@ -129,7 +141,7 @@ const SingleEvent = () => {
         console.log("he don pay");
         toast.success("Item successfully purchased");
         setLoading(false);
-        navigate("/dashboard/marketplace");
+        navigate("/dashboard/myEvents");
       }
     },
   });
@@ -152,6 +164,21 @@ const SingleEvent = () => {
       setLoading(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (isErrorA) {
+      toast.error("Approval failed");
+      setLoadingA(false);
+    }
+  }, [isErrorA]);
+
+  useEffect(() => {
+    if (isErrorP) {
+      toast.error("Failed to purchase item!");
+      setLoading(false);
+    }
+  }, [isErrorP]);
+
   useEffect(() => {
     settotal(amount * price);
   }, [amount]);
@@ -211,7 +238,7 @@ const SingleEvent = () => {
               </table>
             </div>
             <button
-              className="btn btn-primary"
+              className="btn bg-[#026937] hover:bg-[#026937]"
               onClick={
                 allowance < parseEther(`${total}`)
                   ? () =>
@@ -330,7 +357,8 @@ const SingleEvent = () => {
           </form>
           <h3 className="font-bold text-lg">Set Approval</h3>
           <p className="py-4">
-            Your approval should be more than{" "}
+            {/* Your approval should be more than{" "} */}
+            Clicking "Approve" will set an allowance of{" "}
             <span className="font-bold">{total} CHIX</span>.
           </p>
           <form onSubmit={handleApprove}>
@@ -340,7 +368,10 @@ const SingleEvent = () => {
               className="input input-bordered w-full mb-4"
               ref={allowanceAmountRef}
             /> */}
-            <button className="btn btn-primary w-full" type="submit">
+            <button
+              className="btn bg-[#026937] hover:bg-[#026937] w-full"
+              type="submit"
+            >
               {loadingA ? (
                 <span className="loading loading-spinner loading-sm"></span>
               ) : (
