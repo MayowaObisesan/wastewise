@@ -49,19 +49,9 @@ const Register = () => {
     hash: data?.hash,
   });
 
-  useContractEvent({
-    address: WASTEWISE_ADDRESS,
-    abi: WasteWiseABI,
-    eventName: "UserAccountCreated",
-    listener(log) {
-      // Handle the event returned here.
-      setCurrentUser(data);
-      console.log(log);
-    },
-  });
-
   useEffect(() => {
     if (isSuccess) {
+      setCurrentUser(data);
       toast.success("Registration successful", {
         duration: 10000,
         onAutoClose: (t) => {

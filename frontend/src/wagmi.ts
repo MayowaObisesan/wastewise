@@ -20,6 +20,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     publicProvider(),
   ]
 );
+console.log(baseGoerli);
 
 export const config = createConfig({
   autoConnect: true,
