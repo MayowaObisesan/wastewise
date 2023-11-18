@@ -523,7 +523,7 @@ const Wallet = () => {
               </tr>
             </thead>
             <tbody>
-              {(data as any[])?.map((eachTx, index) => (
+              {(transactions as any[])?.map((eachTx, index) => (
                 <tr className="h-16">
                   <th>
                     {new Date(formatDate(Number(eachTx?.date))).toDateString()}
