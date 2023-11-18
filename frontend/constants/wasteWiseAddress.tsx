@@ -1,1 +1,0 @@
-export const WasteWise_ADDRESS = "0xd29B50714eAb7eA64A3cF2E31B8bEb777bE6764c";
