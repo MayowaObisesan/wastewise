@@ -136,7 +136,7 @@ const CreateEvent = (props: Props) => {
               </div>
             </div>
             <div className="card-actions">
-              <button className="btn w-full max-w-xs sm:max-w-md mx-auto md:max-w-2xl btn-primary">
+              <button className="btn w-full max-w-xs sm:max-w-md mx-auto md:max-w-2xl bg-[#026937] hover:bg-[#026937]">
                 {loading ? (
                   <span className="loading loading-spinner loading-sm"></span>
                 ) : (

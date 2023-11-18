@@ -1,6 +1,6 @@
 import { useAccount, useContractEvent, useContractRead } from "wagmi";
 import { useWasteWiseContext } from "../../context";
-import { formatDate, shortenAddress } from "../../utils";
+import { formatDate, formatDateShort, shortenAddress } from "../../utils";
 import {
   WASTEWISE_ADDRESS,
   WASTEWISE_TOKEN_ABI,
@@ -8,135 +8,23 @@ import {
   WasteWiseABI,
 } from "../../../constants";
 import ReactApexChart from "react-apexcharts";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
-
-const ChartOptions: ApexOptions = {
-  legend: {
-    show: false,
-    position: "top",
-    horizontalAlign: "left",
-  },
-  colors: ["#3C50E0", "#80CAEE"],
-  chart: {
-    fontFamily: "Satoshi, sans-serif",
-    height: 335,
-    type: "area",
-    dropShadow: {
-      enabled: true,
-      color: "#623CEA14",
-      top: 10,
-      blur: 4,
-      left: 0,
-      opacity: 0.1,
-    },
-
-    toolbar: {
-      show: false,
-    },
-  },
-  responsive: [
-    {
-      breakpoint: 1024,
-      options: {
-        chart: {
-          height: 300,
-        },
-      },
-    },
-    {
-      breakpoint: 1366,
-      options: {
-        chart: {
-          height: 350,
-        },
-      },
-    },
-  ],
-  stroke: {
-    width: [2, 2],
-    curve: "straight",
-  },
-  // labels: {
-  //   show: false,
-  //   position: "top",
-  // },
-  grid: {
-    xaxis: {
-      lines: {
-        show: true,
-      },
-    },
-    yaxis: {
-      lines: {
-        show: true,
-      },
-    },
-  },
-  dataLabels: {
-    enabled: false,
-  },
-  markers: {
-    size: 4,
-    colors: "#fff",
-    strokeColors: ["#3056D3", "#80CAEE"],
-    strokeWidth: 3,
-    strokeOpacity: 0.9,
-    strokeDashArray: 0,
-    fillOpacity: 1,
-    discrete: [],
-    hover: {
-      size: undefined,
-      sizeOffset: 5,
-    },
-  },
-  xaxis: {
-    type: "category",
-    categories: [
-      "Dec",
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-    ],
-    axisBorder: {
-      show: false,
-    },
-    axisTicks: {
-      show: false,
-    },
-  },
-  yaxis: {
-    title: {
-      style: {
-        fontSize: "0px",
-      },
-    },
-    min: 0,
-    max: 100,
-  },
-};
-
-interface ChartWalletState {
-  options: ApexOptions;
-  series: {
-    name: string;
-    data: number[];
-  }[];
-}
+import { toast } from "sonner";
+import useNotificationCount from "../../hooks/useNotificationCount";
 
 const Wallet = () => {
   const { address } = useAccount();
   const [chartData, setChartData] = useState([]);
-  const [transactions, setTransactions] = useState([]);
-  const { currentUser, setCurrentUser, statistics } = useWasteWiseContext();
+  const [transactions, setTransactions] = useState<any>([]);
+  const {
+    currentUser,
+    setCurrentUser,
+    statistics,
+    wastewiseStore,
+    setNotifCount,
+  } = useWasteWiseContext();
+  const notificationCount = useNotificationCount();
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
@@ -162,6 +50,7 @@ const Wallet = () => {
   });
   console.log(tokenData?.data);
 
+  // Plastic Deposit event
   useContractEvent({
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
@@ -171,10 +60,57 @@ const Wallet = () => {
       console.log(log);
       console.log("Wallet page transactions fetched");
       if ((log[0] as any)?.args?._userAddr === currentUser?.userAddr) {
-        setTransactions(log as any);
+        toast("You have a new transaction", {
+          duration: 10000,
+          onAutoClose: (t) => {
+            wastewiseStore
+              .setItem(t.id.toString(), {
+                id: t.id,
+                title: t.title,
+                datetime: new Date(),
+                type: t.type,
+              })
+              .then(function (_: any) {
+                setNotifCount(notificationCount);
+              });
+          },
+        });
+        setTransactions([...transactions, log]);
       }
     },
   });
+
+  // Profile Update event
+  useContractEvent({
+    address: WASTEWISE_ADDRESS,
+    abi: WasteWiseABI,
+    eventName: "UserEdited",
+    listener(log) {
+      // Handle the event returned here.
+      console.log(log);
+      console.log("Wallet page profile update fetched");
+      if ((log[0] as any)?.args?.name === currentUser?.name) {
+        toast("You profile has been update", {
+          duration: 10000,
+          onAutoClose: (t) => {
+            wastewiseStore
+              .setItem(t.id.toString(), {
+                id: t.id,
+                title: t.title,
+                datetime: new Date(),
+                type: t.type,
+              })
+              .then(function (_: any) {
+                setNotifCount(notificationCount);
+              });
+          },
+        });
+      }
+    },
+  });
+
+  console.log(data);
+  console.log(transactions);
 
   // useEffect(() => {
   //   recycledData?.data.map((transaction) => {
@@ -183,12 +119,137 @@ const Wallet = () => {
   //   }
   // }, []);
 
-  const [state, setState] = useState<ChartWalletState>({
+  const ChartOptions: ApexOptions = {
+    legend: {
+      show: false,
+      position: "top",
+      horizontalAlign: "left",
+    },
+    colors: ["#3C50E0", "#80CAEE"],
+    chart: {
+      fontFamily: "Satoshi, sans-serif",
+      height: 335,
+      type: "area",
+      dropShadow: {
+        enabled: true,
+        color: "#623CEA14",
+        top: 10,
+        blur: 4,
+        left: 0,
+        opacity: 0.1,
+      },
+
+      toolbar: {
+        show: false,
+      },
+    },
+    responsive: [
+      {
+        breakpoint: 1024,
+        options: {
+          chart: {
+            height: 300,
+          },
+        },
+      },
+      {
+        breakpoint: 1366,
+        options: {
+          chart: {
+            height: 350,
+          },
+        },
+      },
+    ],
+    stroke: {
+      width: [2, 2],
+      curve: "straight",
+    },
+    // labels: {
+    //   show: false,
+    //   position: "top",
+    // },
+    grid: {
+      xaxis: {
+        lines: {
+          show: true,
+        },
+      },
+      yaxis: {
+        lines: {
+          show: true,
+        },
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    markers: {
+      size: 4,
+      colors: "#fff",
+      strokeColors: ["#3056D3", "#80CAEE"],
+      strokeWidth: 3,
+      strokeOpacity: 0.9,
+      strokeDashArray: 0,
+      fillOpacity: 1,
+      discrete: [],
+      hover: {
+        size: undefined,
+        sizeOffset: 5,
+      },
+    },
+    xaxis: {
+      type: "category",
+      // categories: [
+      //   "Dec",
+      //   "Jan",
+      //   "Feb",
+      //   "Mar",
+      //   "Apr",
+      //   "May",
+      //   "Jun",
+      //   "Jul",
+      //   "Aug",
+      //   "Sep",
+      //   "Oct",
+      //   "Nov",
+      // ],
+      categories: (transactions as any)?.map((t: any) =>
+        formatDateShort(Number((t as any)?.date))
+      ),
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: true,
+      },
+    },
+    yaxis: {
+      title: {
+        style: {
+          fontSize: "0px",
+        },
+      },
+      min: 0,
+      max: 100,
+    },
+  };
+
+  interface ChartWalletState {
+    options: ApexOptions;
+    series: {
+      name: string;
+      data: number[];
+    }[];
+  }
+
+  const [chartState, setChartState] = useState<ChartWalletState>({
     options: ChartOptions,
     series: [
       {
-        name: "Product One",
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+        name: "Plastic Recycled",
+        // data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+        data: (data as any)?.map((t: any) => Number(t.numberOfTokens)),
       },
 
       // {
@@ -198,6 +259,21 @@ const Wallet = () => {
     ],
   });
   console.log(recycledData?.data);
+
+  useEffect(() => {
+    setChartState({
+      options: ChartOptions,
+      series: [
+        {
+          name: "Plastic Recycled",
+          // data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+          data: (transactions as any)?.map((t: any) =>
+            Number(t.numberOfTokens)
+          ),
+        },
+      ],
+    });
+  }, [transactions]);
 
   const roleEIA = (role: number) => {
     if (role === 2) {
@@ -235,6 +311,17 @@ const Wallet = () => {
       );
     } else {
       return <div className="">You updated your profile</div>;
+    }
+  };
+
+  const formatTransactionsType = (type: number) => {
+    if (type === 0) {
+      // Recycled transaction
+      return <span className="badge badge-success badge-md">Credit</span>;
+    } else if (type == 1) {
+      return <span className="badge badge-error badge-md">Debit</span>;
+    } else {
+      return <span className="badge badge-neutral badge-md">Profile</span>;
     }
   };
 
@@ -338,7 +425,7 @@ const Wallet = () => {
           <div className="bottom-card flex flex-row items-center my-auto h-30 lg:h-30">
             <div className="stats w-full bg-base-100/40 text-center">
               <div className="stat">
-                <div className="stat-title text-xs">Token</div>
+                <div className="stat-title text-xs lg:text-sm">Token</div>
                 <div className="stat-value font-bold text-neutral/90 text-2xl lg:text-4xl dark:text-base-content">
                   {/* {tokenData?.data ? Number(tokenData?.data) : 0} */}
                   {currentUser?.tokenQty ? Number(currentUser?.tokenQty) : 0}
@@ -352,22 +439,16 @@ const Wallet = () => {
               </div>
 
               <div className="stat">
-                <div className="stat-title text-xs lg:text-base">
+                <div className="stat-title text-xs lg:text-sm">
                   Plastic Recycled
                 </div>
-                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl dark:text-base-content">
+                <div className="stat-value font-medium text-neutral/90 text-sm lg:text-2xl dark:text-base-content">
                   {recycledData?.data && !!(recycledData?.data as any).length
                     ? Number((recycledData?.data as any)?.length)
                     : "-"}
                 </div>
-                <div className="stat-desc">↗︎ 400 (22%)</div>
-              </div>
-
-              <div className="stat">
-                <div className="stat-title text-xs lg:text-base">
-                  Last Recycled Date
-                </div>
-                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl dark:text-base-content">
+                <div className="stat-desc">
+                  Latest:{" "}
                   {recycledData?.data && !!(recycledData?.data as any).length
                     ? new Date(
                         formatDate(
@@ -376,14 +457,21 @@ const Wallet = () => {
                       ).toDateString()
                     : "-"}
                 </div>
+              </div>
+
+              <div className="stat">
+                <div className="stat-title text-xs lg:text-sm">
+                  Highest Daily Recycled
+                </div>
+                <div className="stat-value font-medium text-neutral/90 text-sm lg:text-2xl dark:text-base-content">
+                  {Number(currentUser?.tokenQty) || "-"}
+                </div>
                 <div className="stat-desc">↗︎ Nov. 7, 2023</div>
               </div>
 
               <div className="stat">
-                <div className="stat-title text-xs lg:text-base">
-                  Token Spent
-                </div>
-                <div className="stat-value font-medium text-neutral/90 text-xl lg:text-xl dark:text-base-content">
+                <div className="stat-title text-xs lg:text-sm">Token Spent</div>
+                <div className="stat-value font-medium text-neutral/90 text-sm lg:text-2xl dark:text-base-content">
                   -
                 </div>
                 <div className="stat-desc">↘︎ 90 (14%)</div>
@@ -499,8 +587,8 @@ const Wallet = () => {
 
           <div id="chart" className="bg-base-200 mt-2 rounded-2xl">
             <ReactApexChart
-              options={state.options}
-              series={state.series}
+              options={chartState.options}
+              series={chartState.series}
               type="line"
               height={250}
             />
@@ -523,7 +611,7 @@ const Wallet = () => {
               </tr>
             </thead>
             <tbody>
-              {(data as any[])?.map((eachTx, index) => (
+              {(transactions as any[])?.map((eachTx, index) => (
                 <tr className="h-16">
                   <th>
                     {new Date(formatDate(Number(eachTx?.date))).toDateString()}
@@ -531,21 +619,13 @@ const Wallet = () => {
                   <td>
                     {formatTransactionsStatus(
                       eachTx?.typeOfTransaction,
-                      Number(eachTx?.numberOfTokens)
+                      Number(eachTx?.numberOfTokens || eachTx?.tokenQty)
                     )}
                   </td>
-                  <td>{Number(eachTx?.numberOfTokens)}</td>
                   <td>
-                    {eachTx.typeOfTransaction === 0 ? (
-                      <span className="badge badge-success badge-md">
-                        Credit
-                      </span>
-                    ) : (
-                      <span className="badge badge-success badge-md">
-                        Debit
-                      </span>
-                    )}
+                    {Number(eachTx?.numberOfTokens || eachTx?.tokenQty) || "-"}
                   </td>
+                  <td>{formatTransactionsType(eachTx?.typeOfTransaction)}</td>
                 </tr>
               ))}
             </tbody>

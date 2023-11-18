@@ -209,7 +209,13 @@ contract MarketPlace {
         return allActiveItemInfo;
     }
 
-    function getEventsByUser(address userAddr) public view returns (Transaction[] memory){
+    function getEventsByUser(
+        address userAddr
+    ) public view returns (Transaction[] memory) {
         return transactions[userAddr];
+    }
+
+    function getUserTransactions() public view returns (Transaction[] memory) {
+        return transactions[msg.sender];
     }
 }

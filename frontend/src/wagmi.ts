@@ -1,5 +1,5 @@
 import { configureChains, createConfig } from "wagmi";
-import { baseGoerli, goerli, mainnet, sepolia } from "wagmi/chains";
+import { goerli, mainnet, sepolia, baseGoerli } from "wagmi/chains";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
