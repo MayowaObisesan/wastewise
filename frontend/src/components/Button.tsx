@@ -1,7 +1,7 @@
 import { activeBgColor } from "../utils";
 
 type Props = {
-  name: string;
+  name?: string;
   size?: string;
   color?: string;
   customStyle?: string;
