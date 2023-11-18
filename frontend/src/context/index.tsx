@@ -105,10 +105,12 @@ const WastewiseProvider = ({ children }: { children: ReactNode }) => {
     abi: WasteWiseABI,
     functionName: "getUser",
     account: address,
-    onSuccess(data) {
-      setIsRegistered(data ? Number((data as any)?.userAddr) !== 0 : false);
-    },
+    // onSuccess(data) {
+    //   setIsRegistered(data ? Number((data as any)?.userAddr) !== 0 : false);
+    // },
   });
+
+  console.log(data);
 
   const statisticsRead = useContractRead({
     address: WASTEWISE_ADDRESS,
