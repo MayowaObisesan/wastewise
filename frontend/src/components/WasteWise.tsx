@@ -112,7 +112,7 @@ export function WasteWise() {
         />
         <ul
           tabIndex={0}
-          className="dropdown-content z-[1] menu bg-base-200 rounded-b-box flex flex-col"
+          className="dropdown-content z-[1] menu flex flex-col mt-3"
         >
           {connectors.map((connector) => (
             <li key={connector.id}>
@@ -121,6 +121,7 @@ export function WasteWise() {
                 disabled={!connector.ready}
                 key={connector.id}
                 onClick={() => connect({ connector })}
+                className="text-xs font-bold tracking-wide text-white hover:text-white bg-blue-800 hover:bg-blue-600 rounded-lg lg:py-3.5"
               >
                 {connector.name}
 
