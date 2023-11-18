@@ -104,7 +104,9 @@ const WastewiseProvider = ({ children }: { children: ReactNode }) => {
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
     functionName: "getUser",
+    // args: [address],
     account: address,
+    enabled: true,
     // onSuccess(data) {
     //   setIsRegistered(data ? Number((data as any)?.userAddr) !== 0 : false);
     // },

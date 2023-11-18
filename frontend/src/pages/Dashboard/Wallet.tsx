@@ -1,4 +1,4 @@
-import { useAccount, useContractRead } from "wagmi";
+import { useAccount, useContractEvent, useContractRead } from "wagmi";
 import { useWasteWiseContext } from "../../context";
 import { formatDate, shortenAddress } from "../../utils";
 import {
@@ -135,14 +135,18 @@ interface ChartWalletState {
 const Wallet = () => {
   const { address } = useAccount();
   const [chartData, setChartData] = useState([]);
-  const { currentUser, statistics } = useWasteWiseContext();
+  const [transactions, setTransactions] = useState([]);
+  const { currentUser, setCurrentUser, statistics } = useWasteWiseContext();
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
     functionName: "getUserTransactions",
     account: address,
+    onSuccess(res) {
+      setTransactions(res as any);
+    },
   });
-  console.log(data);
+  // console.log(data);
 
   const recycledData = useContractRead({
     address: WASTEWISE_ADDRESS,
@@ -157,6 +161,20 @@ const Wallet = () => {
     functionName: "balanceOf",
   });
   console.log(tokenData?.data);
+
+  useContractEvent({
+    address: WASTEWISE_ADDRESS,
+    abi: WasteWiseABI,
+    eventName: "PlasticDeposited",
+    listener(log) {
+      // Handle the event returned here.
+      console.log(log);
+      console.log("Wallet page transactions fetched");
+      if (log[0]?.args?._userAddr === currentUser?.userAddr) {
+        setTransactions(log as any);
+      }
+    },
+  });
 
   // useEffect(() => {
   //   recycledData?.data.map((transaction) => {
