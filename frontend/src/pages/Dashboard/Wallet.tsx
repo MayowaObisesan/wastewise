@@ -214,7 +214,7 @@ const Wallet = () => {
       //   "Oct",
       //   "Nov",
       // ],
-      categories: (transactions as any)?.map((t) =>
+      categories: (transactions as any)?.map((t: any) =>
         formatDateShort(Number((t as any)?.date))
       ),
       axisBorder: {
