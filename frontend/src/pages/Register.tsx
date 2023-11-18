@@ -51,7 +51,8 @@ const Register = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setCurrentUser(data);
+      console.log(data);
+      // setCurrentUser(data);
       toast.success("Registration successful", {
         duration: 10000,
         onAutoClose: (t) => {

@@ -54,6 +54,14 @@ const WastewiseContext = createContext<contextType>({
 });
 
 const WastewiseProvider = ({ children }: { children: ReactNode }) => {
+  localforage.config({
+    driver: [
+      localforage.INDEXEDDB,
+      localforage.WEBSQL,
+      localforage.LOCALSTORAGE,
+    ],
+    name: "Wastewise-App",
+  });
   let wastewiseStore = localforage.createInstance({
     name: "wastewiseStore",
   });
@@ -128,7 +136,7 @@ const WastewiseProvider = ({ children }: { children: ReactNode }) => {
     setIsRegistered(data ? Number((data as any)?.userAddr) !== 0 : false);
     setCurrentUser(data as any);
     return () => {};
-  }, [data]);
+  }, [data, isRegistered]);
 
   useEffect(() => {
     setStatistics(statisticsRead.data);
