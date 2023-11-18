@@ -10,10 +10,13 @@ import { ToastElem, shortenAddress } from "../utils";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { BaseError } from "viem";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../assets";
+import React from "react";
 
 export function WasteWise() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { address, connector, isConnected } = useAccount();
   //   const { data: ensAvatar } = useEnsAvatar({ address });
   //   const { data: ensName } = useEnsName({ address });
@@ -29,6 +32,15 @@ export function WasteWise() {
     console.log(error);
     return () => setShowConnectError(false);
   }, [error]);
+
+  const handleDisconnect = () => {
+    disconnect();
+    if (location.pathname !== "/") {
+      setTimeout(() => {
+        navigate("/");
+      }, 400);
+    }
+  };
 
   if (isConnected) {
     return (
@@ -71,7 +83,7 @@ export function WasteWise() {
               title={"disconnect button"}
               type={"button"}
               className="h-12 leading-10 justify-between"
-              onClick={() => disconnect()}
+              onClick={handleDisconnect}
             >
               Logout
               <img
@@ -112,7 +124,7 @@ export function WasteWise() {
         />
         <ul
           tabIndex={0}
-          className="dropdown-content z-[1] menu bg-base-200 rounded-b-box flex flex-col"
+          className="dropdown-content z-[1] menu flex flex-col mt-3"
         >
           {connectors.map((connector) => (
             <li key={connector.id}>
@@ -121,6 +133,7 @@ export function WasteWise() {
                 disabled={!connector.ready}
                 key={connector.id}
                 onClick={() => connect({ connector })}
+                className="text-xs font-bold tracking-wide text-white hover:text-white bg-blue-800 hover:bg-blue-600 rounded-lg lg:py-3.5"
               >
                 {connector.name}
 

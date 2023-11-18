@@ -257,29 +257,31 @@ contract WastewiseTest is Helpers {
     }
 
     function testDepositPlasticTransactionLength() public {
-        WasteWise.User memory user2 = wasteWise.createUserAcct(
+        wasteWise.createUserAcct(
             vObject.name,
             vObject.country,
             vObject.gender,
             vObject.phoneNo,
             vObject.email
         );
+        WasteWise.User memory user2 = wasteWise.getUser();
         wasteWise.addVerifiers(user2.userAddr);
         vm.startPrank(user2.userAddr);
         wasteWise.depositPlastic(4, 1);
         WasteWise.Transaction[] memory transaction = wasteWise
             .getUserTransactions();
-        assertEq(transaction.length, 1);
+        assertEq(transaction.length, 2);
     }
 
     function testDepositPlasticStatistics() public {
-        WasteWise.User memory user2 = wasteWise.createUserAcct(
+        wasteWise.createUserAcct(
             vObject.name,
             vObject.country,
             vObject.gender,
             vObject.phoneNo,
             vObject.email
         );
+        WasteWise.User memory user2 = wasteWise.getUser();
         wasteWise.addVerifiers(user2.userAddr);
         vm.startPrank(user2.userAddr);
         wasteWise.depositPlastic(4, 1);
@@ -291,29 +293,31 @@ contract WastewiseTest is Helpers {
     }
 
     function testDepositPlasticTransactionQtyCount() public {
-        WasteWise.User memory user2 = wasteWise.createUserAcct(
+        wasteWise.createUserAcct(
             vObject.name,
             vObject.country,
             vObject.gender,
             vObject.phoneNo,
             vObject.email
         );
+        WasteWise.User memory user2 = wasteWise.getUser();
         wasteWise.addVerifiers(user2.userAddr);
         switchSigner(user2.userAddr);
         wasteWise.depositPlastic(4, 1);
         WasteWise.Transaction[] memory transaction = wasteWise
             .getUserTransactions();
-        assertEq(transaction[0].numberOfTokens, 4);
+        assertEq(transaction[1].numberOfTokens, 4);
     }
 
     function testFailDepositPlasticTransactionQtyCount() public {
-        WasteWise.User memory user2 = wasteWise.createUserAcct(
+        wasteWise.createUserAcct(
             uObject.name,
             uObject.country,
             uObject.gender,
             uObject.phoneNo,
             uObject.email
         );
+        WasteWise.User memory user2 = wasteWise.getUser();
         wasteWise.addVerifiers(user2.userAddr);
         switchSigner(user2.userAddr);
         wasteWise.depositPlastic(4, 1);
@@ -323,13 +327,14 @@ contract WastewiseTest is Helpers {
     }
 
     function testDepositPlasticRecycledQtyCount() public {
-        WasteWise.User memory user2 = wasteWise.createUserAcct(
+        wasteWise.createUserAcct(
             uObject.name,
             uObject.country,
             uObject.gender,
             uObject.phoneNo,
             uObject.email
         );
+        WasteWise.User memory user2 = wasteWise.getUser();
         wasteWise.addVerifiers(user2.userAddr);
         switchSigner(user2.userAddr);
         wasteWise.depositPlastic(4, 1);
@@ -338,13 +343,14 @@ contract WastewiseTest is Helpers {
     }
 
     function testDepositPlasticUserTotalQtyCount() public {
-        WasteWise.User memory user2 = wasteWise.createUserAcct(
+        wasteWise.createUserAcct(
             uObject.name,
             uObject.country,
             uObject.gender,
             uObject.phoneNo,
             uObject.email
         );
+        WasteWise.User memory user2 = wasteWise.getUser();
         wasteWise.addVerifiers(user2.userAddr);
         switchSigner(user2.userAddr);
         wasteWise.depositPlastic(4, 1);
@@ -356,13 +362,14 @@ contract WastewiseTest is Helpers {
     }
 
     function testDepositPlasticMintBalance() public {
-        WasteWise.User memory user2 = wasteWise.createUserAcct(
+        wasteWise.createUserAcct(
             uObject.name,
             uObject.country,
             uObject.gender,
             uObject.phoneNo,
             uObject.email
         );
+        WasteWise.User memory user2 = wasteWise.getUser();
         wasteWise.addVerifiers(user2.userAddr);
         switchSigner(user2.userAddr);
         wasteWise.depositPlastic(4, 1);

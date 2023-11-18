@@ -7,6 +7,7 @@ import {
   useWaitForTransaction,
   useContractRead,
   useAccount,
+  useContractEvent,
 } from "wagmi";
 
 import { WasteWise } from "../components/WasteWise";
@@ -24,13 +25,14 @@ import Navbar from "../components/Navbar";
 const Register = () => {
   const navigate = useNavigate();
   const { address, isConnected } = useAccount();
-  const [number, setNumber] = useState<number>();
+  const [number, setNumber] = useState<number>(0);
   const [country, setCountry] = useState("");
   const [gender, setGender] = useState(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const notificationCount = useNotificationCount();
-  const { currentUser, wastewiseStore, setNotifCount } = useWasteWiseContext();
+  const { currentUser, setCurrentUser, wastewiseStore, setNotifCount } =
+    useWasteWiseContext();
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
 
   const { config } = usePrepareContractWrite({
@@ -40,19 +42,18 @@ const Register = () => {
     functionName: "createUserAcct",
   });
 
-  const { data, write, isLoading } = useContractWrite(config);
-  const {
-    isError,
-    isSuccess,
-    isLoading: settling,
-    error,
-  } = useWaitForTransaction({
+  const { data, write, isError, isLoading, isSuccess } =
+    useContractWrite(config);
+  const { isLoading: settling, error } = useWaitForTransaction({
+    confirmations: 1,
     hash: data?.hash,
   });
 
   useEffect(() => {
     if (isSuccess) {
+      setCurrentUser(data);
       toast.success("Registration successful", {
+        duration: 10000,
         onAutoClose: (t) => {
           wastewiseStore
             .setItem(t.id.toString(), {
@@ -211,8 +212,8 @@ const Register = () => {
                       type="text"
                       className="input input-bordered join-item w-full focus:outline-0 focus:bg-base-100"
                       placeholder="234 913 158 1488"
-                      defaultValue={number}
-                      onChange={(e) => setNumber(parseInt(e.target.value))}
+                      // defaultValue={number}
+                      onChange={(e) => setNumber(parseInt(e.target?.value))}
                     />
                   </div>
                 </div>

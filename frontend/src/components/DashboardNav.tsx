@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useWasteWiseContext } from "../context";
 import NotificationCard from "./NotificationCard";
 import { useRef } from "react";
@@ -6,9 +6,19 @@ import { useDisconnect } from "wagmi";
 import { logout } from "../assets";
 
 const DashboardNav = ({ title }: { title: string }) => {
+  const navigate = useNavigate();
   const { disconnect } = useDisconnect();
   const { notifCount, notifications } = useWasteWiseContext();
   const mobileNotificationsModal = useRef<HTMLDialogElement>(null);
+
+  const handleDisconnect = () => {
+    disconnect();
+    if (location.pathname !== "/") {
+      setTimeout(() => {
+        navigate("/");
+      }, 400);
+    }
+  };
 
   return (
     <div className="sticky top-0 z-[1] w-full navbar bg-transparent backdrop-blur-md text-base-content px-4 py-8 lg:sticky lg:px-8 lg:py-8 dark:backdrop-blur-lg">
@@ -190,7 +200,7 @@ const DashboardNav = ({ title }: { title: string }) => {
                     title={"disconnect button"}
                     type={"button"}
                     className="h-12 leading-10 justify-between"
-                    onClick={() => disconnect()}
+                    onClick={handleDisconnect}
                   >
                     Logout
                     <img

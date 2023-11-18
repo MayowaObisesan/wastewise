@@ -15,6 +15,7 @@ type contextType = {
   wastewiseStore: any;
   isRegistered: boolean;
   currentUser: any;
+  setCurrentUser: any;
   statistics: any;
   setStatistics: any;
   notifCount: number | any;
@@ -43,6 +44,7 @@ const WastewiseContext = createContext<contextType>({
   wastewiseStore: null,
   isRegistered: false,
   currentUser: null,
+  setCurrentUser: null,
   statistics: null,
   setStatistics: null,
   notifCount: 0,
@@ -102,8 +104,15 @@ const WastewiseProvider = ({ children }: { children: ReactNode }) => {
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
     functionName: "getUser",
+    // args: [address],
     account: address,
+    enabled: true,
+    // onSuccess(data) {
+    //   setIsRegistered(data ? Number((data as any)?.userAddr) !== 0 : false);
+    // },
   });
+
+  console.log(data);
 
   const statisticsRead = useContractRead({
     address: WASTEWISE_ADDRESS,
@@ -116,7 +125,7 @@ const WastewiseProvider = ({ children }: { children: ReactNode }) => {
   });
 
   useEffect(() => {
-    setIsRegistered(Number((data as any)?.userAddr) !== 0);
+    setIsRegistered(data ? Number((data as any)?.userAddr) !== 0 : false);
     setCurrentUser(data as any);
     return () => {};
   }, [data]);
@@ -131,6 +140,7 @@ const WastewiseProvider = ({ children }: { children: ReactNode }) => {
         wastewiseStore,
         isRegistered,
         currentUser,
+        setCurrentUser,
         statistics,
         setStatistics,
         notifCount,
