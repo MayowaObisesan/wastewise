@@ -10,6 +10,7 @@ import {
 import ReactApexChart from "react-apexcharts";
 import { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
+import { formatEther, formatUnits } from "viem";
 
 const ChartOptions: ApexOptions = {
   legend: {
@@ -136,6 +137,7 @@ const Wallet = () => {
   const { address } = useAccount();
   const [chartData, setChartData] = useState([]);
   const [transactions, setTransactions] = useState([]);
+  const [tokenBalance, setTokenBalance] = useState(0);
   const { currentUser, setCurrentUser, statistics } = useWasteWiseContext();
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
@@ -155,12 +157,19 @@ const Wallet = () => {
     account: address,
   });
 
-  const tokenData = useContractRead({
+  const { data: tokenData, isSuccess: gotTokenBalance } = useContractRead({
     address: WASTEWISE_TOKEN_ADDRESS,
     abi: WASTEWISE_TOKEN_ABI,
     functionName: "balanceOf",
+    args: [address],
   });
-  console.log(tokenData?.data);
+  console.log(tokenData);
+
+  useEffect(() => {
+    if (gotTokenBalance) {
+      setTokenBalance(Number(tokenData));
+    }
+  }, [gotTokenBalance]);
 
   useContractEvent({
     address: WASTEWISE_ADDRESS,
@@ -341,7 +350,7 @@ const Wallet = () => {
                 <div className="stat-title text-xs">Token</div>
                 <div className="stat-value font-bold text-neutral/90 text-2xl lg:text-4xl dark:text-base-content">
                   {/* {tokenData?.data ? Number(tokenData?.data) : 0} */}
-                  {currentUser?.tokenQty ? Number(currentUser?.tokenQty) : 0}
+                  {gotTokenBalance ? formatUnits(tokenBalance, 18) : 0}
                 </div>
                 <div className="stat-desc">
                   {new Date(

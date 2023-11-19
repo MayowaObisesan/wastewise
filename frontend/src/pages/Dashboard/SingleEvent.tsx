@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   useAccount,
+  useContractEvent,
   useContractRead,
   useContractWrite,
   usePrepareContractWrite,
@@ -32,6 +33,7 @@ const SingleEvent = () => {
   const [allowance, setAllowance] = useState<number>(0);
   const [allowanceAmount, setAllowanceAmount] = useState<number>(0);
   const allowanceAmountRef = useRef(0);
+  const [allowanceListener, setallowanceListener] = useState(null);
 
   const navigate = useNavigate();
 
@@ -75,6 +77,16 @@ const SingleEvent = () => {
       setAllowance(data);
     },
   });
+
+  useContractEvent({
+    address: WASTEWISE_TOKEN_ADDRESS,
+    abi: WASTEWISE_TOKEN_ABI,
+    eventName: "Approval",
+    listener(log: any) {
+      setallowanceListener(log);
+    },
+  });
+
   const handleDisable = () => {
     let dateNow = Math.floor(Date.now() / 1000);
     if (listing?.deadline < dateNow) {
@@ -126,9 +138,6 @@ const SingleEvent = () => {
         toast.success("Approval successful");
         console.log("he don approve");
         setLoadingA(false);
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
         // navigate()
         // write?.();
       }
@@ -148,8 +157,8 @@ const SingleEvent = () => {
 
   const handleApprove = (e: any) => {
     e.preventDefault();
-    // const value = allowanceAmountRef.current.value;
-    // setAllowanceAmount(value);
+    const value = allowanceAmountRef.current.value;
+    setAllowanceAmount(value);
     setLoadingA(true);
     write2?.();
   };
@@ -159,6 +168,7 @@ const SingleEvent = () => {
     // write2?.();
     write?.();
   };
+
   useEffect(() => {
     if (isLoading) {
       setLoading(true);
@@ -167,22 +177,20 @@ const SingleEvent = () => {
 
   useEffect(() => {
     if (isErrorA) {
-      toast.error("Approval failed");
       setLoadingA(false);
     }
   }, [isErrorA]);
-
   useEffect(() => {
     if (isErrorP) {
-      toast.error("Failed to purchase item!");
       setLoading(false);
     }
   }, [isErrorP]);
-
   useEffect(() => {
     settotal(amount * price);
   }, [amount]);
   useEffect(() => {}, [allowanceAmount]);
+  useEffect(() => {}, [allowanceListener]);
+  console.log(allowance);
   return (
     <div className="mb-8">
       <div className="flex justify-between items-start gap-x-8">
