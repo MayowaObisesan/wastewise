@@ -87,9 +87,12 @@ const DashboardNav = ({ title }: { title: string }) => {
             </label>
             <ul
               tabIndex={0}
-              className="menu dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box hidden mt-4 lg:w-96 lg:block"
+              className="menu dropdown-content z-[1] p-2 border border-base-300 shadow bg-base-100 rounded-box hidden mt-4 lg:w-96 lg:block"
             >
               <div className="space-y-2">
+                <div className="px-2 py-4 font-semibold text-lg">
+                  Your Notifications
+                </div>
                 {notifications.map((eachNotification: any) => (
                   <div className="flex flex-col space-y-6 gap-y-2">
                     <NotificationCard {...eachNotification} />
