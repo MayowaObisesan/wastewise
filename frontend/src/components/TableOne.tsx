@@ -1,3 +1,4 @@
+import React from "react";
 import { useAccount, useContractRead } from "wagmi";
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
 import BrandOne from "../assets/images/brand/brand-01.svg";
@@ -19,9 +20,9 @@ const TableOne = () => {
   });
 
   return (
-    <section className="w-full p-6">
-      <div className="w-full p-8 rounded-xl border border-stroke my-2">
-        <h4 className="mb-8 text-xl font-semibold text-black dark:text-white">
+    <section className="w-full py-6">
+      <div className="w-full p-8 rounded-xl border border-neutral my-2 dark:bg-base-300">
+        <h4 className="mb-8 text-xl font-semibold text-base-content">
           Leaderboard
         </h4>
         <div className=""></div>

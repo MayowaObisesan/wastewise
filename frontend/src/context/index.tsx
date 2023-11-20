@@ -91,6 +91,7 @@ const WastewiseProvider = ({ children }: { children: ReactNode }) => {
         if (notifCount >= notifications.length) {
           // Notification has been deleted, remove it not add it.
           // setNotifications(notifications.filter((item) => item.id !== 'John'))
+          console.log(value);
           setNotifications([...notifications, value]);
         }
         return value;
