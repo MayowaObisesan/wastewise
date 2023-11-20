@@ -126,7 +126,7 @@ const ChartOne: React.FC = () => {
     series: [
       {
         name: "Plastic Recycled",
-        // data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
         // data: (data as any)?.map((t: any) => Number(t.numberOfTokens)),
       },
 

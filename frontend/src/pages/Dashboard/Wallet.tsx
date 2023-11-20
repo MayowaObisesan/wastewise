@@ -119,13 +119,16 @@ const Wallet = () => {
   console.log(data);
   console.log(transactions);
 
-  const highestQtyRecycled = transactions?.reduce((maxQty, transaction) => {
-    // if (!Number.isNaN(maxQty)) {
-    //   continue;
-    // }
-    // return Math.max(maxQty, Number(transaction.numberOfTokens));
-    return Number(transaction.numberOfTokens) > maxQty ? transaction : maxQty;
-  }, 0);
+  const highestQtyRecycled = transactions?.reduce(
+    (maxQty: number, transaction: any) => {
+      // if (!Number.isNaN(maxQty)) {
+      //   continue;
+      // }
+      // return Math.max(maxQty, Number(transaction.numberOfTokens));
+      return Number(transaction.numberOfTokens) > maxQty ? transaction : maxQty;
+    },
+    0
+  );
 
   // useEffect(() => {
   //   recycledData?.data.map((transaction) => {
