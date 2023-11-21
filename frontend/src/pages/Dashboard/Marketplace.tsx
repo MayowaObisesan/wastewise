@@ -63,7 +63,7 @@ const Marketplace = (props: Props) => {
                     <div className="card-actions justify-between items-center mt-3">
                       <p className="text-lg text-[#026937]">Available</p>
                       <h3 className="font-bold text-lg">
-                        {formatUnits(item?.price, 18)} <span>CHIX</span>
+                        {formatUnits(item?.price, 18)} <span>RWISE</span>
                       </h3>
                     </div>
                   </div>

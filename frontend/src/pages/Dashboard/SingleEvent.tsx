@@ -187,6 +187,7 @@ const SingleEvent = () => {
   }, [isErrorP]);
   useEffect(() => {
     settotal(amount * price);
+    window.localStorage.setItem("itemAmount", `${amount}`);
   }, [amount]);
   useEffect(() => {}, [allowanceAmount]);
   useEffect(() => {}, [allowanceListener]);
@@ -217,7 +218,7 @@ const SingleEvent = () => {
               </div>
               <h3 className="font-bold text-lg">
                 {listing ? formatUnits(listing?.price, 18) : ""}{" "}
-                <span>CHIX</span>
+                <span>RWISE</span>
               </h3>
             </div>
             {/* <div className="divider"></div> */}
@@ -237,10 +238,10 @@ const SingleEvent = () => {
                   <tr>
                     <td>{listing ? Number(listing.itemId) : "-"}</td>
                     <td>
-                      {listing ? formatUnits(listing?.price, 18) : 0} CHIX
+                      {listing ? formatUnits(listing?.price, 18) : 0} RWISE
                     </td>
                     <td>{amount}</td>
-                    <td>{total} CHIX</td>
+                    <td>{total} RWISE</td>
                   </tr>
                 </tbody>
               </table>
@@ -367,7 +368,7 @@ const SingleEvent = () => {
           <p className="py-4">
             {/* Your approval should be more than{" "} */}
             Clicking "Approve" will set an allowance of{" "}
-            <span className="font-bold">{total} CHIX</span>.
+            <span className="font-bold">{total} RWISE</span>.
           </p>
           <form onSubmit={handleApprove}>
             {/* <input
