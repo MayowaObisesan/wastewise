@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useWasteWiseContext } from "../context";
 import NotificationCard from "./NotificationCard";
 import { useRef } from "react";
@@ -7,14 +7,15 @@ import { logout } from "../assets";
 
 const DashboardNav = ({ title }: { title: string }) => {
   const navigate = useNavigate();
-  const { disconnect } = useDisconnect();
+  const location = useLocation();
+  const { disconnect, isSuccess } = useDisconnect();
   const { notifCount, notifications } = useWasteWiseContext();
   const mobileNotificationsModal = useRef<HTMLDialogElement>(null);
 
   const handleDisconnect = () => {
     disconnect();
     if (location.pathname !== "/") {
-      setTimeout(() => {
+      setTimeout((e) => {
         navigate("/");
       }, 400);
     }
@@ -93,6 +94,7 @@ const DashboardNav = ({ title }: { title: string }) => {
                 <div className="px-2 py-4 font-semibold text-lg">
                   Your Notifications
                 </div>
+                {console.log(notifications)}
                 {notifications.map((eachNotification: any) => (
                   <div className="flex flex-col space-y-6 gap-y-2">
                     <NotificationCard {...eachNotification} />
