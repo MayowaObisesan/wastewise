@@ -95,7 +95,7 @@ const CreateAdmin = (props: Props) => {
   useEffect(() => {
     if (isVerifierSuccess) {
       toast.success("Successfully Created Verifier", {
-        description: "My description",
+        // description: "My description",
         duration: 5000,
       });
     }
@@ -104,7 +104,7 @@ const CreateAdmin = (props: Props) => {
   useEffect(() => {
     if (isAdminSuccess) {
       toast.success("Successfully Created Admin", {
-        description: "My description",
+        // description: "My description",
         duration: 5000,
       });
     }
@@ -113,7 +113,7 @@ const CreateAdmin = (props: Props) => {
   useEffect(() => {
     if (loadingA) {
       toast.loading("Creating Admin...", {
-        description: "My description",
+        // description: "My description",
         duration: 5000,
       });
     }
@@ -122,7 +122,7 @@ const CreateAdmin = (props: Props) => {
   useEffect(() => {
     if (loadingV) {
       toast.loading("Creating Verifier", {
-        description: "My description",
+        // description: "My description",
         duration: 5000,
       });
     }
@@ -175,16 +175,16 @@ const CreateAdmin = (props: Props) => {
         <h3 className="uppercase text-xl text-center font-bold">
           Add Admin/Verifier
         </h3>
-        <div className="card-body bg  mx-auto">
+        <div className="card-body bg mx-auto">
           <form onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder="Type here"
-              className="input input-bordered input-error w-full "
+              className="input input-bordered w-full "
               onChange={(e) => setAddress(e.target.value)}
             />
             <select
-              className="select select-primary w-full border my-8 border-red-950 "
+              className="select select-bordered w-full my-8"
               // onChange={(e) => console.log(e.target)}
               onChange={(e) => setRole(e.target.value)}
             >
@@ -192,10 +192,7 @@ const CreateAdmin = (props: Props) => {
                 Submit to Add Admin / Verifier
               </option>
 
-              <option
-                className="btn w-full max-w-xs sm:max-w-md mx-auto md:max-w-2xl btn-primary"
-                value="addAdmin"
-              >
+              <option className="py-4" value="addAdmin">
                 {/* {loading ? (
                   <span className="loading loading-spinner loading-sm"></span>
                 ) : (
@@ -204,10 +201,7 @@ const CreateAdmin = (props: Props) => {
                 Add Admin
               </option>
 
-              <option
-                className="btn w-full max-w-xs sm:max-w-md mx-auto md:max-w-2xl btn-primary"
-                value="addVerifier"
-              >
+              <option className="py-4" value="addVerifier">
                 {/* {loading ? (
                   <span className="loading loading-spinner loading-sm"></span>
                 ) : (

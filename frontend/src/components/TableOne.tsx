@@ -1,5 +1,10 @@
-import { useAccount, useContractRead } from "wagmi";
-import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
+import React, { useState } from "react";
+import { useAccount, useBalance, useContractRead } from "wagmi";
+import {
+  WASTEWISE_ADDRESS,
+  WASTEWISE_TOKEN_ADDRESS,
+  WasteWiseABI,
+} from "../../constants";
 import BrandOne from "../assets/images/brand/brand-01.svg";
 import BrandTwo from "../assets/images/brand/brand-02.svg";
 import BrandThree from "../assets/images/brand/brand-03.svg";
@@ -11,18 +16,60 @@ import { shortenAddress } from "../utils";
 const TableOne = () => {
   const { address } = useAccount();
   const { currentUser } = useWasteWiseContext();
+  const [leaderboard, setLeaderboard] = useState<boolean>(false);
+  const tokenArray = {};
+  const leaderboardArray: any[] = [];
+
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
     functionName: "getAllUsers",
     account: address,
+    onSuccess(data) {
+      // setLeaderboard(true);
+    },
+    select: (dt: any) => {
+      return dt.filter((t: any) => !t.isAdmin);
+    },
+    // select: (dt: any) => {
+    //   for (let i = 0; i < (dt as any)?.length; i++) {
+    //     leaderboardArray.concat({
+    //       ...dt[0],
+    //       tokenFormatted: tokenBalance(dt?.userAddr),
+    //       // tokenFormatted: tokenArray[dt?.userAddr],
+    //     });
+    //     console.log(leaderboardArray);
+    //     // setLeaderboard(leaderboardArray);
+    //   }
+    //   console.log(dt);
+    //   return leaderboardArray;
+    //   // {dt, tokenBalance(dt?.userAddr)}
+    // },
   });
 
+  const tokenBalance = (addr: any) => {
+    const { data: tokenData, isSuccess } = useBalance({
+      address: addr,
+      token: WASTEWISE_TOKEN_ADDRESS,
+      onSuccess(td) {
+        // tokenArray[addr] = tokenData;
+        setLeaderboard(true);
+      },
+    });
+
+    return tokenData?.formatted;
+  };
+
+  // console.log(leaderboard);
+
   return (
-    <section className="w-full p-6">
-      <div className="w-full p-8 rounded-xl border border-stroke my-2">
-        <h4 className="mb-8 text-xl font-semibold text-black dark:text-white">
-          Leaderboard
+    <section className="w-full py-6">
+      <div className="w-full p-8 rounded-xl border border-base-300 my-2 dark:bg-base-300">
+        <h4 className="mb-8 text-xl font-semibold text-base-content">
+          {location.pathname === "/dashboard/leaderboard" &&
+          currentUser?.role === 2
+            ? "All Recyclers"
+            : "Leaderboard"}
         </h4>
         <div className=""></div>
         <div className="overflow-x-auto">
@@ -74,7 +121,9 @@ const TableOne = () => {
                     </div>
                   </td>
                   <td>{shortenAddress(eachUser.userAddr)}</td>
-                  <td className="">{Number(eachUser.tokenQty)}</td>
+                  <td className="">
+                    {(!!leaderboard && tokenBalance(eachUser.userAddr)) || 0}
+                  </td>
                   <th>
                     <button className="btn btn-ghost btn-xs">details</button>
                   </th>

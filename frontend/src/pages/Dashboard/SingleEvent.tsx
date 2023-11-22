@@ -157,8 +157,8 @@ const SingleEvent = () => {
 
   const handleApprove = (e: any) => {
     e.preventDefault();
-    const value = allowanceAmountRef.current.value;
-    setAllowanceAmount(value);
+    // const value = allowanceAmountRef.current?.value;
+    // setAllowanceAmount(value);
     setLoadingA(true);
     write2?.();
   };

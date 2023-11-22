@@ -312,7 +312,7 @@ const Register = () => {
             /> */}
 
             {/* Submit button */}
-            <div className="form-control px-4 py-8 mx-auto">
+            <div className="form-control w-full px-4 py-8 mx-auto lg:w-auto">
               <Button
                 name={isLoading ? "Loading..." : "Sign up"}
                 size="md btn-block lg:btn-wide"

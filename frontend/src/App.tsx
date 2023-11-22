@@ -26,6 +26,7 @@ import CreateEvent from "./pages/Dashboard/CreateEvent";
 import MyEvents from "./pages/Dashboard/MyEvents";
 import SingleEvent from "./pages/Dashboard/SingleEvent";
 import CreateAdmin from "./pages/Dashboard/CreateAdmin";
+import Stats from "./components/dashboard/home/Stats";
 
 export function App() {
   return (
@@ -83,6 +84,7 @@ export function App() {
             errorElement={<ErrorPage />}
           >
             <Route path="" element={<Home />} />
+            <Route path="leaderboard" element={<Stats />} />
             <Route path="profile" element={<Profile />} />
             <Route path="wallet" element={<Wallet />} />
             <Route path="settings" element={<Settings />} />
