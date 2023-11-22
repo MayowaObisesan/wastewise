@@ -458,9 +458,10 @@ const Landing = (props: Props) => {
                   What is Wastewise?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  Yes, you can cancel anytime no questions are asked while you
-                  cancel but we would highly appreciate if you will give us some
-                  feedback.
+                  Wastewise is a platform for individuals called recyclers who
+                  will be rewarded for being responsible for a Plastic-free
+                  earth. Our slogan is "Rewarding Responsibility", we aim to
+                  make recycling waste a rewarding experience.
                 </p>
               </div>
               {/* <!-- End Col --> */}
@@ -470,8 +471,12 @@ const Landing = (props: Props) => {
                   How can I become an Wastewise ambassador?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  Once your team signs up for a subscription plan. This is where
-                  we sit down, grab a cup of coffee and dial in the details.
+                  Wastewise Ambassadorship program is in our roadmap with plans
+                  as to how we intend to build the wastewise community. We
+                  intend to have a durable structure that we can build upon for
+                  years to come as we grow as a community. Details about our
+                  ambassadorship program will be communicated on this website
+                  once we are about to launch the ambassadorship program.
                 </p>
               </div>
               {/* <!-- End Col --> */}
@@ -481,8 +486,10 @@ const Landing = (props: Props) => {
                   Is Wastewise a company?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  Our subscriptions are tiered. Understanding the task at hand
-                  and ironing out the wrinkles is key.
+                  Wastewise is a community of people, organization and groups
+                  with the goal of incentivizing recycling of plastic related
+                  products and waste in general. Wastewise and its community
+                  aims to foster a clean earth on community at a time.
                 </p>
               </div>
               {/* <!-- End Col --> */}
@@ -492,9 +499,10 @@ const Landing = (props: Props) => {
                   What is the benefit of using Wastewise?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  Protecting the data you trust to Preline is our first
-                  priority. This part is really crucial in keeping the project
-                  in line to completion.
+                  One of the main benefits of wastewise is that it is built on
+                  web3 blockchain technology. This choice of technology allows
+                  for transparency and immutability of the data that wastewise
+                  aims to recycle.
                 </p>
               </div>
               {/* <!-- End Col --> */}
@@ -504,7 +512,9 @@ const Landing = (props: Props) => {
                   Is Wastewise a web3 platform?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  Yes, Wastewise is a web3 platform.
+                  Yes, Wastewise is a web3 platform. Wastewise is built on Base
+                  Blockchain. A layer2 blockchain solution that allows wastewise
+                  to scale without sacrificing security
                 </p>
               </div>
               {/* <!-- End Col --> */}
@@ -514,8 +524,9 @@ const Landing = (props: Props) => {
                   What are Wastewise long-term goals?
                 </h3>
                 <p className="mt-2 text-gray-600 dark:text-gray-400">
-                  We offer refunds. We aim high at being focused on building
-                  relationships with our clients and community.
+                  To put an end to the pollution caused by plastics and
+                  plastic-related products in Nigeria, Africa and the rest of
+                  the world.
                 </p>
               </div>
               {/* <!-- End Col --> */}
