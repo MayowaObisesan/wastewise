@@ -25,7 +25,10 @@ const NotificationCard = (props: Props) => {
 
   if (props.type === "success") {
     return (
-      <div role="alert" className="alert bg-green-300 rounded-sm">
+      <div
+        role="alert"
+        className="alert alert-success rounded-sm flex flex-row lg:grid"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="stroke-current shrink-0 h-6 w-6"
@@ -57,7 +60,7 @@ const NotificationCard = (props: Props) => {
     );
   } else if (props.type === "error") {
     return (
-      <div role="alert" className="alert alert-error">
+      <div role="alert" className="alert alert-error flex flex-row lg:grid">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="stroke-current shrink-0 h-6 w-6"
