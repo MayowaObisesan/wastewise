@@ -114,7 +114,7 @@ const CreateEvent = (props: Props) => {
               </div>
               <div className="form-control mb-3 w-full max-w-xs sm:max-w-md md:max-w-xl mx-auto">
                 <label className="label">
-                  <span className="label-text">Event Price</span>
+                  <span className="label-text">Event Price ($RWISE)</span>
                 </label>
                 <input
                   type="number"
@@ -136,7 +136,7 @@ const CreateEvent = (props: Props) => {
               </div>
             </div>
             <div className="card-actions">
-              <button className="btn w-full max-w-xs sm:max-w-md mx-auto md:max-w-2xl bg-[#026937] hover:bg-[#026937]">
+              <button className="btn w-full max-w-xs sm:max-w-md mx-auto md:max-w-2xl text-white bg-[#026937] hover:bg-[#026937]">
                 {loading ? (
                   <span className="loading loading-spinner loading-sm"></span>
                 ) : (

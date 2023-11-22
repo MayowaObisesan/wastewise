@@ -91,7 +91,7 @@ export function App() {
             <Route path="recycle" element={<Recycle />} />
             <Route path="marketplace" element={<Marketplace />} />
             <Route path="createEvent" element={<CreateEvent />} />
-            <Route path="myEvents" element={<MyEvents />} />
+            <Route path="purchases" element={<MyEvents />} />
             <Route path="createAdmin" element={<CreateAdmin />} />
             <Route path="marketplace/event/:id" element={<SingleEvent />} />
           </Route>

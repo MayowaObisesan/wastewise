@@ -6,6 +6,7 @@ import Logo from "./Logo";
 import { useAccount, useContractRead } from "wagmi";
 import { useWasteWiseContext } from "../context";
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
+import { MdEventNote, MdAdminPanelSettings } from "react-icons/md";
 import {
   FaBuildingCircleArrowRight,
   FaCartArrowDown,
@@ -51,8 +52,8 @@ const Sidebar = (props: Props) => {
       setIsActive("marketplace");
     } else if (location.pathname === "/dashboard/createEvent") {
       setIsActive("createEvent");
-    } else if (location.pathname === "/dashboard/myEvents") {
-      setIsActive("myEvents");
+    } else if (location.pathname === "/dashboard/purchases") {
+      setIsActive("purchases");
     } else if (location.pathname === "/dashboard/createAdmin") {
       setIsActive("createAdmin");
     }
@@ -187,9 +188,9 @@ const Sidebar = (props: Props) => {
             {currentUser?.role !== 1 && currentUser?.role !== 2 && (
               <li>
                 <Link
-                  to="/dashboard/myEvents"
+                  to="/dashboard/purchases"
                   className="flex flex-row gap-2 items-center"
-                  style={isActive === "myEvents" ? activeLinkStyle : {}}
+                  style={isActive === "purchases" ? activeLinkStyle : {}}
                 >
                   {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -206,7 +207,7 @@ const Sidebar = (props: Props) => {
                     />
                   </svg> */}
                   <FaLayerGroup />
-                  <h2 className="text-lg">My Events</h2>
+                  <h2 className="text-lg">My Purchase</h2>
                 </Link>
               </li>
             )}
