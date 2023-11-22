@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useContractRead } from "wagmi";
+import { useContractEvent, useContractRead } from "wagmi";
 import { formatUnits } from "viem";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 import { formatDate } from "../../utils";
-import { MARKETPLACE_ADDRESS, MarketPlaceABI } from "../../../constants";
+import {
+  MARKETPLACE_ADDRESS,
+  MarketPlaceABI,
+  WASTEWISE_TOKEN_ADDRESS,
+} from "../../../constants";
 
 type Props = {};
 
@@ -18,73 +22,56 @@ const Marketplace = (props: Props) => {
     functionName: "getAllActiveItemInfo",
     onError(data: any) {
       console.log(data);
-      setLoading(false);
     },
     onSuccess(data: any) {
       setListings(data);
-      setLoading(false);
     },
   });
-
-  useEffect(() => {
-    if (isLoading) {
-      setLoading(true);
-    }
-  }, []);
-
+  useContractEvent({
+    address: MARKETPLACE_ADDRESS,
+    abi: MarketPlaceABI,
+    eventName: "NewOwner",
+    listener(log) {
+      console.log(log);
+    },
+  });
   return (
     <div className="my-8">
-      {listings.length == 0 && (
+      {!isLoading && listings.length == 0 && (
         <p className="text-lg font-semibold text-center">
           No Items Available To Purchase
         </p>
       )}
       <div className="grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
-        {loading
-          ? [1, 2, 3, 4].map((item, index) => {
-              return (
-                <div
-                  className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl animate-pulse"
-                  key={index}
-                >
-                  <div className="h-32 bg-gray-200 rounded-md dark:bg-gray-700"></div>
+        {isLoading ? (
+          <span className="loading loading-spinner loading-lg"></span>
+        ) : (
+          listings.map((item, index) => {
+            return (
+              <Link to={`event/${item?.itemId}`} key={index}>
+                <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
+                  <figure>
+                    <img src={item?.image} alt="Shoes" />
+                  </figure>
                   <div className="card-body">
-                    <h2 className="card-title h-4 bg-gray-200 rounded-md dark:bg-gray-700"></h2>
-                    <p className="h-4 bg-gray-200 rounded-md dark:bg-gray-700"></p>
-                    <p className="h-4 bg-gray-200 rounded-md dark:bg-gray-700"></p>
-                    <div className="flex justify-between items-center mt-3">
-                      <div className="h-4 bg-gray-200 rounded-md dark:bg-gray-700 w-10"></div>
-                      <h3 className="h-4 bg-gray-200 rounded-md dark:bg-gray-700 w-10"></h3>
+                    <h2 className="card-title">
+                      {item?.name}
+                      <div className="badge badge-secondary">NEW</div>
+                    </h2>
+                    <p>{item?.description}</p>
+                    <p>Ends: {formatDate(Number(item?.deadline))}</p>
+                    <div className="card-actions justify-between items-center mt-3">
+                      <p className="text-lg text-[#026937]">Available</p>
+                      <h3 className="font-bold text-lg">
+                        {formatUnits(item?.price, 18)} <span>RWISE</span>
+                      </h3>
                     </div>
                   </div>
                 </div>
-              );
-            })
-          : listings.map((item, index) => {
-              return (
-                <Link to={`event/${item?.itemId}`} key={index}>
-                  <div className="card w-80 sm:w-[28rem] md:w-80 bg-base-100 shadow-xl">
-                    <figure>
-                      <img src={item?.image} alt="Shoes" />
-                    </figure>
-                    <div className="card-body">
-                      <h2 className="card-title">
-                        {item?.name}
-                        <div className="badge badge-secondary">NEW</div>
-                      </h2>
-                      <p>{item?.description}</p>
-                      <p>Ends: {formatDate(Number(item?.deadline))}</p>
-                      <div className="card-actions justify-between items-center mt-3">
-                        <p className="text-lg text-[#026937]">Available</p>
-                        <h3 className="font-bold text-lg">
-                          {formatUnits(item?.price, 18)} <span>CHIX</span>
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+              </Link>
+            );
+          })
+        )}
       </div>
     </div>
   );

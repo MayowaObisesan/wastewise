@@ -46,7 +46,7 @@ const CardFour = () => {
           <span className="text-sm font-medium">Total Users</span>
         </div>
 
-        <span className="flex items-center gap-1 text-sm font-medium text-meta-5">
+        {/* <span className="flex items-center gap-1 text-sm font-medium text-meta-5">
           0.95%
           <svg
             className="fill-meta-5"
@@ -61,7 +61,7 @@ const CardFour = () => {
               fill=""
             />
           </svg>
-        </span>
+        </span> */}
       </div>
     </div>
   );

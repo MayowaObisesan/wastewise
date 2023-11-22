@@ -1,7 +1,9 @@
 import { useAccount } from "wagmi";
+import { useWasteWiseContext } from "../context";
 
 const CardThree = () => {
   const { address } = useAccount();
+  const { statistics } = useWasteWiseContext();
 
   return (
     <div className="rounded-xl border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -28,12 +30,12 @@ const CardThree = () => {
       <div className="mt-4 flex items-end justify-between">
         <div>
           <h4 className="text-title-md font-bold text-black dark:text-white">
-            2.450
+            {Number(statistics?.totalRecycled) || 0}
           </h4>
           <span className="text-sm font-medium">Total Recycled plastics</span>
         </div>
 
-        <span className="flex items-center gap-1 text-sm font-medium text-meta-3">
+        {/* <span className="flex items-center gap-1 text-sm font-medium text-meta-3">
           2.59%
           <svg
             className="fill-meta-3"
@@ -48,7 +50,7 @@ const CardThree = () => {
               fill=""
             />
           </svg>
-        </span>
+        </span> */}
       </div>
     </div>
   );

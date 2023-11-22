@@ -65,6 +65,25 @@ contract MarketPlace {
     error NotEnoughToken();
 
     /* EVENTS */
+    event ListingCreated(string indexed _name,
+        string _description,
+        string _image,
+        uint indexed _price,
+        uint indexed _deadline);
+
+    event ListingEdited(string indexed _name,
+        string _description,
+        string _image,
+        uint listingId,
+        uint indexed _price,
+        uint indexed _deadline);
+
+    event ListingBought(string indexed _name,
+        uint listingId,
+        uint indexed _price,
+        uint quantity);
+
+    
 
     RwasteWise rwasteWise;
     WasteWise wasteWise;
@@ -112,6 +131,7 @@ contract MarketPlace {
         newItemInfo.deadline = _deadline;
         newItemInfo.lister = msg.sender;
         newItemInfo.itemId = listingId;
+        emit ListingCreated(_name, _description, _image, _price, _deadline);
     }
 
     /// @dev Buy an item from the marketplace.
@@ -148,6 +168,8 @@ contract MarketPlace {
         // Increase the transactions
         _stats.totalTransactions = statistics.totalTransactions + 1;
         statistics.totalTransactions = _stats.totalTransactions;
+
+        emit ListingBought(newItemInfo.name, listingId, newItemInfo.price, quantity);
     }
 
     /**
@@ -160,14 +182,19 @@ contract MarketPlace {
     function updateListing(
         string calldata _name,
         string calldata _description,
+        string calldata _image,
         uint256 _listingId,
-        uint256 _newPrice
+        uint256 _newPrice,
+        uint256 _deadline
     ) public onlyAdmins {
-        if (_listingId != listingId) revert ListingDoesNotExist();
+        if (_listingId > listingId) revert ListingDoesNotExist();
         ItemInfo storage itemInfo = itemInfoToId[_listingId];
         itemInfo.name = _name;
         itemInfo.description = _description;
+        itemInfo.image = _image;
         itemInfo.price = _newPrice;
+        itemInfo.deadline = _deadline;
+        emit ListingEdited(_name, _description, _image, listingId, _newPrice, _deadline);
     }
 
     /**

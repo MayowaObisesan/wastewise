@@ -13,7 +13,7 @@ const Navbar = () => {
   const location = useLocation();
   const [isNavOpen, setIsNavOpen] = useState(false);
   const { address, isConnected } = useAccount();
-  const { isRegistered } = useWasteWiseContext();
+  const { currentUser, isRegistered } = useWasteWiseContext();
 
   return (
     <section className="sticky top-0 z-10 px-2 py-2 lg:px-8 lg:py-4 bg-transparent backdrop-blur-3xl">
@@ -60,9 +60,14 @@ const Navbar = () => {
                   </svg>
                 </label>
               </li> */}
+
               {isConnected && isRegistered && (
                 <li>
-                  <Link to="/dashboard/profile">Dashboard</Link>
+                  {currentUser?.role === 0 || currentUser?.role === 1 ? (
+                    <Link to="/dashboard/wallet">Dashboard</Link>
+                  ) : (
+                    <Link to="/dashboard">Dashboard</Link>
+                  )}
                 </li>
               )}
             </ul>

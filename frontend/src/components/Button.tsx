@@ -1,6 +1,7 @@
 import { activeBgColor } from "../utils";
 
 type Props = {
+  type?: "button" | "submit";
   name?: string;
   size?: string;
   color?: string;

@@ -12,10 +12,12 @@ import React, { useEffect, useState } from "react";
 import { ApexOptions } from "apexcharts";
 import { toast } from "sonner";
 import useNotificationCount from "../../hooks/useNotificationCount";
+import { formatEther, formatUnits } from "viem";
 
 const Wallet = () => {
   const { address } = useAccount();
   const [chartData, setChartData] = useState([]);
+  const [tokenBalance, setTokenBalance] = useState(0);
   const [transactions, setTransactions] = useState<any>([]);
   const {
     currentUser,
@@ -25,6 +27,7 @@ const Wallet = () => {
     setNotifCount,
   } = useWasteWiseContext();
   const notificationCount = useNotificationCount();
+
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
@@ -34,7 +37,6 @@ const Wallet = () => {
       setTransactions(res as any);
     },
   });
-  // console.log(data);
 
   const recycledData = useContractRead({
     address: WASTEWISE_ADDRESS,
@@ -43,13 +45,19 @@ const Wallet = () => {
     account: address,
   });
 
-  const tokenData = useContractRead({
+  const { data: tokenData, isSuccess: gotTokenBalance } = useContractRead({
     address: WASTEWISE_TOKEN_ADDRESS,
     abi: WASTEWISE_TOKEN_ABI,
     functionName: "balanceOf",
+    args: [address],
   });
-  console.log(tokenData?.data);
+  console.log(tokenData);
 
+  useEffect(() => {
+    if (gotTokenBalance) {
+      setTokenBalance(Number(tokenData));
+    }
+  }, [gotTokenBalance]);
   // Plastic Deposit event
   useContractEvent({
     address: WASTEWISE_ADDRESS,
@@ -57,10 +65,9 @@ const Wallet = () => {
     eventName: "PlasticDeposited",
     listener(log) {
       // Handle the event returned here.
-      console.log(log);
       console.log("Wallet page transactions fetched");
-      if ((log[0] as any)?.args?._userAddr === currentUser?.userAddr) {
-        toast("You have a new transaction", {
+      if ((log[0] as any)?.args?.depositor === currentUser?.userAddr) {
+        toast("Your deposited plastic has been confirmed", {
           duration: 10000,
           onAutoClose: (t) => {
             wastewiseStore
@@ -75,7 +82,17 @@ const Wallet = () => {
               });
           },
         });
-        setTransactions([...transactions, log]);
+        const { data } = useContractRead({
+          address: WASTEWISE_ADDRESS,
+          abi: WasteWiseABI,
+          functionName: "getUserTransactions",
+          account: address,
+          onSuccess(res) {
+            setTransactions(res as any);
+          },
+        });
+        // setTransactions(data);
+        // setTransactions(log);
       }
     },
   });
@@ -111,6 +128,17 @@ const Wallet = () => {
 
   console.log(data);
   console.log(transactions);
+
+  const highestQtyRecycled = transactions?.reduce(
+    (maxQty: number, transaction: any) => {
+      // if (!Number.isNaN(maxQty)) {
+      //   continue;
+      // }
+      // return Math.max(maxQty, Number(transaction.numberOfTokens));
+      return Number(transaction.numberOfTokens) > maxQty ? transaction : maxQty;
+    },
+    0
+  );
 
   // useEffect(() => {
   //   recycledData?.data.map((transaction) => {
@@ -428,13 +456,28 @@ const Wallet = () => {
                 <div className="stat-title text-xs lg:text-sm">Token</div>
                 <div className="stat-value font-bold text-neutral/90 text-2xl lg:text-4xl dark:text-base-content">
                   {/* {tokenData?.data ? Number(tokenData?.data) : 0} */}
-                  {currentUser?.tokenQty ? Number(currentUser?.tokenQty) : 0}
+                  {gotTokenBalance ? formatUnits(tokenBalance as any, 18) : 0}
                 </div>
                 <div className="stat-desc">
-                  {new Date(
-                    formatDate(Number(currentUser?.timeJoined))
-                  ).toDateString()}{" "}
-                  - Feb 1st
+                  {(recycledData?.data as any) &&
+                    !!(recycledData?.data as any).length &&
+                    new Date(
+                      formatDate(
+                        Number((recycledData.data as any)[0]?.timeRecycled)
+                      )
+                    ).toDateString()}{" "}
+                  -{" "}
+                  {(recycledData?.data as any) &&
+                    !!(recycledData?.data as any).length &&
+                    new Date(
+                      formatDate(
+                        Number(
+                          (recycledData.data as any)[
+                            (recycledData?.data as any)?.length - 1
+                          ]?.timeRecycled
+                        )
+                      )
+                    ).toDateString()}
                 </div>
               </div>
 
@@ -452,7 +495,11 @@ const Wallet = () => {
                   {recycledData?.data && !!(recycledData?.data as any).length
                     ? new Date(
                         formatDate(
-                          Number((recycledData.data as any)[0]?.timeRecycled)
+                          Number(
+                            (recycledData.data as any)[
+                              (recycledData?.data as any)?.length - 1
+                            ]?.timeRecycled
+                          )
                         )
                       ).toDateString()
                     : "-"}
@@ -464,9 +511,14 @@ const Wallet = () => {
                   Highest Daily Recycled
                 </div>
                 <div className="stat-value font-medium text-neutral/90 text-sm lg:text-2xl dark:text-base-content">
-                  {Number(currentUser?.tokenQty) || "-"}
+                  {Number(highestQtyRecycled?.numberOfTokens)}
                 </div>
-                <div className="stat-desc">↗︎ Nov. 7, 2023</div>
+                <div className="stat-desc">
+                  {new Date(
+                    formatDate(Number(highestQtyRecycled?.date))
+                  ).toDateString() || "-"}{" "}
+                  {formatDateShort(Number(highestQtyRecycled?.date)) || "-"}
+                </div>
               </div>
 
               <div className="stat">
@@ -614,7 +666,12 @@ const Wallet = () => {
               {(transactions as any[])?.map((eachTx, index) => (
                 <tr className="h-16">
                   <th>
-                    {new Date(formatDate(Number(eachTx?.date))).toDateString()}
+                    {new Date(
+                      formatDate(
+                        Number(eachTx?.date) || Number(eachTx?.timeRecycled)
+                      )
+                    ).toDateString()}{" "}
+                    {formatDateShort(Number(eachTx?.date)) || "-"}
                   </th>
                   <td>
                     {formatTransactionsStatus(
@@ -625,7 +682,9 @@ const Wallet = () => {
                   <td>
                     {Number(eachTx?.numberOfTokens || eachTx?.tokenQty) || "-"}
                   </td>
-                  <td>{formatTransactionsType(eachTx?.typeOfTransaction)}</td>
+                  <td>
+                    {formatTransactionsType(eachTx?.typeOfTransaction || 0)}
+                  </td>
                 </tr>
               ))}
             </tbody>
