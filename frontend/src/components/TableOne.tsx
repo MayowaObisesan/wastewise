@@ -16,26 +16,18 @@ import { shortenAddress } from "../utils";
 const TableOne = () => {
   const { address } = useAccount();
   const { currentUser } = useWasteWiseContext();
-  const [leaderboard, setLeaderboard] = useState<any[]>();
+  const [leaderboard, setLeaderboard] = useState<boolean>(false);
   const tokenArray = {};
   const leaderboardArray: any[] = [];
-  const tokenBalance = (addr: any) => {
-    const { data: tokenData, isSuccess } = useBalance({
-      address: addr,
-      token: WASTEWISE_TOKEN_ADDRESS,
-      onSuccess(td) {
-        // tokenArray[addr] = tokenData;
-      },
-    });
-
-    return tokenData?.formatted;
-  };
 
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
     functionName: "getAllUsers",
     account: address,
+    onSuccess(data) {
+      // setLeaderboard(true);
+    },
     // select: (dt: any) => {
     //   for (let i = 0; i < (dt as any)?.length; i++) {
     //     leaderboardArray.concat({
@@ -52,13 +44,29 @@ const TableOne = () => {
     // },
   });
 
+  const tokenBalance = (addr: any) => {
+    const { data: tokenData, isSuccess } = useBalance({
+      address: addr,
+      token: WASTEWISE_TOKEN_ADDRESS,
+      onSuccess(td) {
+        // tokenArray[addr] = tokenData;
+        setLeaderboard(true);
+      },
+    });
+
+    return tokenData?.formatted;
+  };
+
   // console.log(leaderboard);
 
   return (
     <section className="w-full py-6">
-      <div className="w-full p-8 rounded-xl border border-neutral my-2 dark:bg-base-300">
+      <div className="w-full p-8 rounded-xl border border-base-300 my-2 dark:bg-base-300">
         <h4 className="mb-8 text-xl font-semibold text-base-content">
-          Leaderboard
+          {location.pathname === "/dashboard/leaderboard" &&
+          currentUser?.role === 2
+            ? "All Recyclers"
+            : "Leaderboard"}
         </h4>
         <div className=""></div>
         <div className="overflow-x-auto">
@@ -110,7 +118,9 @@ const TableOne = () => {
                     </div>
                   </td>
                   <td>{shortenAddress(eachUser.userAddr)}</td>
-                  <td className="">{tokenBalance(eachUser.userAddr)}</td>
+                  <td className="">
+                    {(!!leaderboard && tokenBalance(eachUser.userAddr)) || 0}
+                  </td>
                   <th>
                     <button className="btn btn-ghost btn-xs">details</button>
                   </th>
