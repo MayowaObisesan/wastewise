@@ -30,7 +30,7 @@ const Marketplace = (props: Props) => {
   useContractEvent({
     address: MARKETPLACE_ADDRESS,
     abi: MarketPlaceABI,
-    eventName: "NewOwner",
+    eventName: "ListingCreated",
     listener(log) {
       console.log(log);
     },

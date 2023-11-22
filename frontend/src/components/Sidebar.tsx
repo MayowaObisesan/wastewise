@@ -6,6 +6,7 @@ import Logo from "./Logo";
 import { useAccount, useContractRead } from "wagmi";
 import { useWasteWiseContext } from "../context";
 import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
+import { MdEventNote, MdAdminPanelSettings } from "react-icons/md";
 import {
   FaBuildingCircleArrowRight,
   FaCartArrowDown,
@@ -187,7 +188,7 @@ const Sidebar = (props: Props) => {
             {currentUser?.role !== 1 && currentUser?.role !== 2 && (
               <li>
                 <Link
-                  to="/dashboard/myEvents"
+                  to="/dashboard/purchases"
                   className="flex flex-row gap-2 items-center"
                   style={isActive === "myEvents" ? activeLinkStyle : {}}
                 >
@@ -206,7 +207,7 @@ const Sidebar = (props: Props) => {
                     />
                   </svg> */}
                   <FaLayerGroup />
-                  <h2 className="text-lg">My Events</h2>
+                  <h2 className="text-lg">My Purchase</h2>
                 </Link>
               </li>
             )}
