@@ -52,8 +52,8 @@ const Sidebar = (props: Props) => {
       setIsActive("marketplace");
     } else if (location.pathname === "/dashboard/createEvent") {
       setIsActive("createEvent");
-    } else if (location.pathname === "/dashboard/myEvents") {
-      setIsActive("myEvents");
+    } else if (location.pathname === "/dashboard/purchases") {
+      setIsActive("purchases");
     } else if (location.pathname === "/dashboard/createAdmin") {
       setIsActive("createAdmin");
     }
@@ -190,7 +190,7 @@ const Sidebar = (props: Props) => {
                 <Link
                   to="/dashboard/purchases"
                   className="flex flex-row gap-2 items-center"
-                  style={isActive === "myEvents" ? activeLinkStyle : {}}
+                  style={isActive === "purchases" ? activeLinkStyle : {}}
                 >
                   {/* <svg
                     xmlns="http://www.w3.org/2000/svg"
