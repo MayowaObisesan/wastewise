@@ -95,7 +95,7 @@ const CreateAdmin = (props: Props) => {
   useEffect(() => {
     if (isVerifierSuccess) {
       toast.success("Successfully Created Verifier", {
-        description: "My description",
+        // description: "My description",
         duration: 5000,
       });
     }
@@ -104,7 +104,7 @@ const CreateAdmin = (props: Props) => {
   useEffect(() => {
     if (isAdminSuccess) {
       toast.success("Successfully Created Admin", {
-        description: "My description",
+        // description: "My description",
         duration: 5000,
       });
     }
@@ -113,7 +113,7 @@ const CreateAdmin = (props: Props) => {
   useEffect(() => {
     if (loadingA) {
       toast.loading("Creating Admin...", {
-        description: "My description",
+        // description: "My description",
         duration: 5000,
       });
     }
@@ -122,7 +122,7 @@ const CreateAdmin = (props: Props) => {
   useEffect(() => {
     if (loadingV) {
       toast.loading("Creating Verifier", {
-        description: "My description",
+        // description: "My description",
         duration: 5000,
       });
     }

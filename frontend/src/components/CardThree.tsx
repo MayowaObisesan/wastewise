@@ -35,7 +35,7 @@ const CardThree = () => {
           <span className="text-sm font-medium">Total Recycled plastics</span>
         </div>
 
-        <span className="flex items-center gap-1 text-sm font-medium text-meta-3">
+        {/* <span className="flex items-center gap-1 text-sm font-medium text-meta-3">
           2.59%
           <svg
             className="fill-meta-3"
@@ -50,7 +50,7 @@ const CardThree = () => {
               fill=""
             />
           </svg>
-        </span>
+        </span> */}
       </div>
     </div>
   );

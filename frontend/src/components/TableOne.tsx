@@ -1,6 +1,10 @@
-import React from "react";
-import { useAccount, useContractRead } from "wagmi";
-import { WASTEWISE_ADDRESS, WasteWiseABI } from "../../constants";
+import React, { useState } from "react";
+import { useAccount, useBalance, useContractRead } from "wagmi";
+import {
+  WASTEWISE_ADDRESS,
+  WASTEWISE_TOKEN_ADDRESS,
+  WasteWiseABI,
+} from "../../constants";
 import BrandOne from "../assets/images/brand/brand-01.svg";
 import BrandTwo from "../assets/images/brand/brand-02.svg";
 import BrandThree from "../assets/images/brand/brand-03.svg";
@@ -12,12 +16,43 @@ import { shortenAddress } from "../utils";
 const TableOne = () => {
   const { address } = useAccount();
   const { currentUser } = useWasteWiseContext();
+  const [leaderboard, setLeaderboard] = useState<any[]>();
+  const tokenArray = {};
+  const leaderboardArray: any[] = [];
+  const tokenBalance = (addr: any) => {
+    const { data: tokenData, isSuccess } = useBalance({
+      address: addr,
+      token: WASTEWISE_TOKEN_ADDRESS,
+      onSuccess(td) {
+        // tokenArray[addr] = tokenData;
+      },
+    });
+
+    return tokenData?.formatted;
+  };
+
   const { data } = useContractRead({
     address: WASTEWISE_ADDRESS,
     abi: WasteWiseABI,
     functionName: "getAllUsers",
     account: address,
+    // select: (dt: any) => {
+    //   for (let i = 0; i < (dt as any)?.length; i++) {
+    //     leaderboardArray.concat({
+    //       ...dt[0],
+    //       tokenFormatted: tokenBalance(dt?.userAddr),
+    //       // tokenFormatted: tokenArray[dt?.userAddr],
+    //     });
+    //     console.log(leaderboardArray);
+    //     // setLeaderboard(leaderboardArray);
+    //   }
+    //   console.log(dt);
+    //   return leaderboardArray;
+    //   // {dt, tokenBalance(dt?.userAddr)}
+    // },
   });
+
+  // console.log(leaderboard);
 
   return (
     <section className="w-full py-6">
@@ -75,7 +110,7 @@ const TableOne = () => {
                     </div>
                   </td>
                   <td>{shortenAddress(eachUser.userAddr)}</td>
-                  <td className="">{Number(eachUser.tokenQty)}</td>
+                  <td className="">{tokenBalance(eachUser.userAddr)}</td>
                   <th>
                     <button className="btn btn-ghost btn-xs">details</button>
                   </th>
