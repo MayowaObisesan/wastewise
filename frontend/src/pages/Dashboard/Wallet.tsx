@@ -20,7 +20,7 @@ const Wallet = () => {
   const [chartData, setChartData] = useState([]);
   const [tokenBalance, setTokenBalance] = useState(0);
   const [transactions, setTransactions] = useState<any>([]);
-  const [chartType, setChartType] = useState<string>("line");
+  const [chartType, setChartType] = useState<any>("line");
   const {
     currentUser,
     setCurrentUser,
