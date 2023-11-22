@@ -28,6 +28,9 @@ const TableOne = () => {
     onSuccess(data) {
       // setLeaderboard(true);
     },
+    select: (dt: any) => {
+      return dt.filter((t: any) => !t.isAdmin);
+    },
     // select: (dt: any) => {
     //   for (let i = 0; i < (dt as any)?.length; i++) {
     //     leaderboardArray.concat({
