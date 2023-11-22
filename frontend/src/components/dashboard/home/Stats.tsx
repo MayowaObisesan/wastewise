@@ -23,7 +23,7 @@ const Stats = (props: Props) => {
 
   return (
     <section className="relative flex flex-col w-full p-4 space-y-12 lg:py-8">
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 lg:w-[95%]">
+      <div className="grid grid-cols-1 mx-auto gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 lg:w-[95%]">
         <CardFour />
         <CardOne />
         <CardTwo />
