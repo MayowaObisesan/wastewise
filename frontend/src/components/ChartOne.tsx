@@ -126,13 +126,13 @@ const ChartOne: React.FC = () => {
     series: [
       {
         name: "Plastic Recycled",
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
         // data: (data as any)?.map((t: any) => Number(t.numberOfTokens)),
       },
 
       {
-        name: "Product Two",
-        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
+        name: "Marketplace Events",
+        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
       },
     ],
   });
@@ -147,7 +147,7 @@ const ChartOne: React.FC = () => {
             </span>
             <div className="w-full">
               <p className="font-semibold text-primary">Total Recycled</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              {/* <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p> */}
             </div>
           </div>
           <div className="flex min-w-47.5">
@@ -156,7 +156,7 @@ const ChartOne: React.FC = () => {
             </span>
             <div className="w-full">
               <p className="font-semibold text-secondary">Total Purchase</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              {/* <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p> */}
             </div>
           </div>
         </div>
