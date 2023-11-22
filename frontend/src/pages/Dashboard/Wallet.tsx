@@ -13,12 +13,14 @@ import { ApexOptions } from "apexcharts";
 import { toast } from "sonner";
 import useNotificationCount from "../../hooks/useNotificationCount";
 import { formatEther, formatUnits } from "viem";
+import { FaRecycle } from "react-icons/fa6";
 
 const Wallet = () => {
   const { address } = useAccount();
   const [chartData, setChartData] = useState([]);
   const [tokenBalance, setTokenBalance] = useState(0);
   const [transactions, setTransactions] = useState<any>([]);
+  const [chartType, setChartType] = useState<any>("line");
   const {
     currentUser,
     setCurrentUser,
@@ -295,9 +297,12 @@ const Wallet = () => {
         {
           name: "Plastic Recycled",
           // data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
-          data: (transactions as any)?.map((t: any) =>
-            Number(t.numberOfTokens)
-          ),
+          data: (
+            transactions.slice(
+              transactions.length - 10,
+              transactions.length
+            ) as any
+          )?.map((t: any) => Number(t.numberOfTokens)),
         },
       ],
     });
@@ -323,7 +328,7 @@ const Wallet = () => {
         data-tip="You are a Caretaker of nature"
       >
         <div className="badge badge-warning text-xs py-2 lg:text-base lg:py-3">
-          Caretaker
+          Recycler
         </div>
       </div>
     );
@@ -569,7 +574,7 @@ const Wallet = () => {
           <div className="stats text-success-content shadow mx-auto w-full">
             <div className="stat text-base-content">
               <div className="stat-figure text-base-content">
-                <svg
+                {/* <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -581,13 +586,14 @@ const Wallet = () => {
                     strokeWidth="2"
                     d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   ></path>
-                </svg>
+                </svg> */}
+                <FaRecycle fontSize={"30"} />
               </div>
               <div className="stat-title">Plastic Recycled</div>
               <div className="stat-value">
                 {Number(currentUser?.tokenQty) || "-"}
               </div>
-              <div className="stat-desc">Jan 1st - Feb 1st</div>
+              {/* <div className="stat-desc">Jan 1st - Feb 1st</div> */}
             </div>
 
             <div className="stat text-base-content">
@@ -608,9 +614,9 @@ const Wallet = () => {
               </div>
               <div className="stat-title">Highest Daily Recycled</div>
               <div className="stat-value">
-                {Number(currentUser?.tokenQty) || "-"}
+                {Number(highestQtyRecycled?.numberOfTokens) || "-"}
               </div>
-              <div className="stat-desc">↗︎ 400 (22%)</div>
+              {/* <div className="stat-desc">↗︎ 400 (22%)</div> */}
             </div>
 
             <div className="stat text-base-content">
@@ -633,15 +639,24 @@ const Wallet = () => {
               <div className="stat-value">
                 {((data as any) && Number((data as any)?.length)) || "-"}
               </div>
-              <div className="stat-desc">↘︎ 90 (14%)</div>
+              {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
             </div>
           </div>
 
-          <div id="chart" className="bg-base-200 mt-2 rounded-2xl">
+          <div id="chart" className="relative bg-base-200 mt-2 rounded-2xl">
+            <select
+              title="Chart type"
+              className="absolute top-2 right-3 z-1 select select-ghost select-sm w-xs max-w-xs"
+              onChange={(e) => setChartType(e.target.value)}
+            >
+              <option value="line">Line</option>
+              <option value="area">Area</option>
+              <option value="bar">Bar</option>
+            </select>
             <ReactApexChart
               options={chartState.options}
               series={chartState.series}
-              type="line"
+              type={chartType.toLowerCase()}
               height={250}
             />
           </div>

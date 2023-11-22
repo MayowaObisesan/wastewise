@@ -63,7 +63,7 @@ const Navbar = () => {
 
               {isConnected && isRegistered && (
                 <li>
-                  {currentUser?.role === 0 || currentUser?.role === 1 ? (
+                  {currentUser?.role === 0 || currentUser?.role === 2 ? (
                     <Link to="/dashboard/wallet">Dashboard</Link>
                   ) : (
                     <Link to="/dashboard">Dashboard</Link>

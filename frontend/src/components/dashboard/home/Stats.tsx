@@ -1,0 +1,47 @@
+import { useAccount } from "wagmi";
+import CardFour from "../../CardFour";
+import CardOne from "../../CardOne";
+import CardThree from "../../CardThree";
+import CardTwo from "../../CardTwo";
+import ChartOne from "../../ChartOne";
+import ChartThree from "../../ChartThree";
+import ChartTwo from "../../ChartTwo";
+import ChatCard from "../../ChatCard";
+import MapOne from "../../MapOne";
+import TableOne from "../../TableOne";
+
+type Props = {};
+
+const Stats = (props: Props) => {
+  const { address } = useAccount();
+  // const { data } = useContractRead({
+  //   address: WASTEWISE_ADDRESS,
+  //   abi: WasteWiseABI,
+  //   functionName: "getUserTransactions",
+  //   account: address,
+  // });
+
+  return (
+    <section className="relative flex flex-col w-full p-4 space-y-12 lg:py-8">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 w-[95%]">
+        <CardFour />
+        <CardOne />
+        <CardTwo />
+        <CardThree />
+      </div>
+
+      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5 w-full px-12 py-8">
+        {/* <ChartOne />
+        <ChartTwo /> */}
+        {/* <ChartThree /> */}
+        {/* <MapOne /> */}
+        <div className="col-span-12 xl:col-span-12">
+          <TableOne />
+        </div>
+        {/* <ChatCard /> */}
+      </div>
+    </section>
+  );
+};
+
+export default Stats;
