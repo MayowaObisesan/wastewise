@@ -66,7 +66,7 @@ const Recycle = () => {
   useEffect(() => {
     if (isLoading) {
       toast.loading("Approving Recycled item(s)", {
-        description: "My description",
+        // description: "My description",
         duration: 5000,
       });
     }
@@ -75,7 +75,7 @@ const Recycle = () => {
   useEffect(() => {
     if (isPlasticDeposited) {
       toast.success("Successfully Approved Recycled item(s)", {
-        description: "My description",
+        // description: "My description",
         duration: 5000,
       });
     }
