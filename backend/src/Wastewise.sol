@@ -196,7 +196,6 @@ contract WasteWise {
         uint _phone,
         string memory _email
     ) public {
-        userId++;
 
         if (UserMap[msg.sender].userAddr == msg.sender) {
             revert UserAccountAlreadyExist();
@@ -206,7 +205,6 @@ contract WasteWise {
         // TODO: Email should be unique.
         // TODO: Implement the test as well
 
-        user.id = userId;
         user.name = _name;
         user.userAddr = msg.sender;
         user.country = _country;
@@ -214,6 +212,11 @@ contract WasteWise {
         user.phoneNo = _phone;
         user.email = _email;
         user.timeJoined = block.timestamp;
+
+        userId++;
+
+        user.id = userId; // updated
+
         IdToAddress[userId] = msg.sender;
 
         allUsers.push(user);
@@ -388,15 +391,17 @@ contract WasteWise {
         }
 
         // Create a Request for that user to add as admin
-        ++adminReqId;
+        // Automatically approve the user address as the admin being added
+        
+        approveNewAdmin(_addr);
+        
         AdminRequest storage _adminReq = adminRequest[adminReqId];
         _adminReq.requestStatus = false;
 
         // Emit an event for when that user is enlisted as an admin
         emit AdminAdded(_addr, msg.sender);
 
-        // Automatically approve the user address as the admin being added
-        approveNewAdmin(_addr);
+        ++adminReqId;
     }
 
     function approveNewAdmin(address _addr) public onlyAdmins {
