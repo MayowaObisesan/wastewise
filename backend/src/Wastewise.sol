@@ -215,7 +215,7 @@ contract WasteWise {
 
         userId++;
 
-        user.id = userId; // updated
+        user.id = userId; // 
 
         IdToAddress[userId] = msg.sender;
 
@@ -390,18 +390,16 @@ contract WasteWise {
             revert ExpectNonAdmin();
         }
 
-        // Create a Request for that user to add as admin
-        // Automatically approve the user address as the admin being added
-        
-        approveNewAdmin(_addr);
-        
+          // Create a Request for that user to add as admin
+        ++adminReqId;
         AdminRequest storage _adminReq = adminRequest[adminReqId];
         _adminReq.requestStatus = false;
 
         // Emit an event for when that user is enlisted as an admin
         emit AdminAdded(_addr, msg.sender);
 
-        ++adminReqId;
+        // Automatically approve the user address as the admin being added
+        approveNewAdmin(_addr);
     }
 
     function approveNewAdmin(address _addr) public onlyAdmins {
