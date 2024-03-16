@@ -229,6 +229,12 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "address",
+        "name": "userAddr",
+        "type": "address"
+      },
+      {
+        "indexed": true,
         "internalType": "string",
         "name": "name",
         "type": "string"
@@ -236,13 +242,13 @@
       {
         "indexed": true,
         "internalType": "string",
-        "name": "country",
+        "name": "email",
         "type": "string"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "string",
-        "name": "email",
+        "name": "country",
         "type": "string"
       },
       {

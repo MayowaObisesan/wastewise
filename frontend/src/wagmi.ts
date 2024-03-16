@@ -1,5 +1,11 @@
 import { configureChains, createConfig } from "wagmi";
-import { goerli, mainnet, sepolia, baseGoerli } from "wagmi/chains";
+import {
+  goerli,
+  mainnet,
+  sepolia,
+  baseGoerli,
+  polygonMumbai,
+} from "wagmi/chains";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
 import { InjectedConnector } from "wagmi/connectors/injected";
 import { MetaMaskConnector } from "wagmi/connectors/metaMask";
@@ -13,25 +19,26 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     mainnet,
     sepolia,
     baseGoerli,
-    ...(import.meta.env?.MODE === "development" ? [goerli] : []),
+    polygonMumbai,
+    ...(import.meta.env?.MODE === "development" ? [polygonMumbai] : []),
   ],
   [
     alchemyProvider({ apiKey: "ix0-fxmVivwaIWYHtIpwVZB7wC8TpxEm" }),
     publicProvider(),
   ]
 );
-console.log(baseGoerli);
+console.log(sepolia);
 
 export const config = createConfig({
   autoConnect: true,
   connectors: [
-    // new MetaMaskConnector({ chains }),
-    new CoinbaseWalletConnector({
-      chains,
-      options: {
-        appName: "wagmi",
-      },
-    }),
+    new MetaMaskConnector({ chains }),
+    // new CoinbaseWalletConnector({
+    //   chains,
+    //   options: {
+    //     appName: "wagmi",
+    //   },
+    // }),
     // new InjectedConnector({
     //   chains,
     //   options: {
