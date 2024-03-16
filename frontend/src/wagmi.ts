@@ -27,7 +27,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     publicProvider(),
   ]
 );
-console.log(sepolia);
+console.log(polygonMumbai);
 
 export const config = createConfig({
   autoConnect: true,
