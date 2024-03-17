@@ -125,7 +125,7 @@ export function WasteWise() {
           </ul>
         </div>
 
-        {!isRegistered && (
+        {!isRegistered && location.pathname !== "/register" && (
           <dialog id="my_modal_4" className="modal" ref={sdgModal}>
             <div className="modal-box w-11/12 max-w-5xl">
               <form method="dialog" className="modal-backdrop">
