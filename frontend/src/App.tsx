@@ -9,7 +9,7 @@ import Navbar from "./components/Navbar";
 
 import Reward from "./components/Reward";
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "./pages/Dashboard/Layout";
 import Landing from "./pages/Landing";
 
@@ -27,8 +27,29 @@ import MyEvents from "./pages/Dashboard/MyEvents";
 import SingleEvent from "./pages/Dashboard/SingleEvent";
 import CreateAdmin from "./pages/Dashboard/CreateAdmin";
 import Stats from "./components/dashboard/home/Stats";
+import { useWasteWiseContext } from "./context";
+import NoPage from "./pages/NoPage";
+import UnauthenticatedPage from "./pages/Unauthenticated";
+
+export { PrivateRoute };
+
+function PrivateRoute({ children }: { children: any }) {
+  const { currentUser } = useWasteWiseContext();
+  // const { user: authUser } = useSelector(((x)) => x.auth);
+
+  if (!currentUser) {
+    // not logged in so redirect to login page with the return url
+    // return <Route path="" element={<NoPage />} />;
+    return <Navigate to="/unauthenticated" />;
+  }
+
+  // authorized so return child components
+  return children;
+}
 
 export function App() {
+  // const isAuthenticated = true;
+
   return (
     <section className="relative w-full h-screen overflow-x-hidden overflow-y-auto">
       <div className="block relative">
@@ -80,7 +101,11 @@ export function App() {
           ></Route>
           <Route
             path="/dashboard"
-            element={<Layout />}
+            element={
+              <PrivateRoute>
+                <Layout />
+              </PrivateRoute>
+            }
             errorElement={<ErrorPage />}
           >
             <Route path="" element={<Home />} />
@@ -99,7 +124,9 @@ export function App() {
           path="/Login"
           element={<Login />}
         ></Route> */}
+          <Route path="unauthenticated" element={<UnauthenticatedPage />} />
           <Route path="register" element={<Register />}></Route>
+          <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
     </section>
