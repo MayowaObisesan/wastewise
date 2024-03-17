@@ -70,14 +70,64 @@ const Register = () => {
       });
       // const redirectTo = "";
       // if (currentUser.role === 1) {}
-      setTimeout(() => {
-        navigate("/dashboard/wallet");
-      }, 1200);
+      // setTimeout(() => {
+      //   navigate("/dashboard/wallet");
+      // }, 1200);
     }
   }, [isSuccess]);
 
+  // User Creation event
+  useContractEvent({
+    address: WASTEWISE_ADDRESS,
+    abi: WasteWiseABI,
+    eventName: "UserAccountCreated",
+    listener(log) {
+      // Handle the event returned here.
+      console.log(log);
+      console.log("Wallet page user created fetched");
+      setCurrentUser((log[0] as any)?.args);
+      setTimeout(() => {
+        navigate("/dashboard/wallet");
+      }, 1200);
+      if ((log[0] as any)?.args?.name === currentUser?.name) {
+        toast("Your account has been created successfully", {
+          duration: 10000,
+          onAutoClose: (t) => {
+            wastewiseStore
+              .setItem(t.id.toString(), {
+                id: t.id,
+                title: t.title,
+                datetime: new Date(),
+                type: t.type,
+              })
+              .then(function (_: any) {
+                setNotifCount(notificationCount);
+              });
+          },
+        });
+        // const { data: getUserData } = useContractRead({
+        //   address: WASTEWISE_ADDRESS,
+        //   abi: WasteWiseABI,
+        //   functionName: "getUser",
+        //   // args: [address],
+        //   account: address,
+        //   enabled: true,
+        //   onSuccess(res) {
+        //     // setIsRegistered(data ? Number((data as any)?.userAddr) !== 0 : false);
+        //     setCurrentUser(res as any);
+        //     console.log("ON SUCCESS GET USER");
+        //     setTimeout(() => {
+        //       navigate("/dashboard/wallet");
+        //     }, 1200);
+        //   },
+        // });
+      }
+    },
+  });
+
   useEffect(() => {
     if (isError) {
+      console.log(error);
       toast.error(<div>{error?.message}</div>, {
         // onAutoClose: (t) => {
         //   wastewiseStore

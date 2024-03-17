@@ -388,7 +388,7 @@ const Wallet = () => {
                 <div className="flex-1 flex flex-row items-center">
                   {currentUser && (
                     <div className="font-bold text-lg lg:text-2xl">
-                      <span>{currentUser?.name}</span>
+                      <span>{currentUser?.name || currentUser?._name}</span>
                     </div>
                   )}
                 </div>
@@ -396,7 +396,9 @@ const Wallet = () => {
                   {/* <div>Address</div> */}
                   {currentUser && (
                     <div className="font-medium text-2xl lg:text-4xl">
-                      {shortenAddress(currentUser?.userAddr)}
+                      {shortenAddress(
+                        currentUser?.userAddr || currentUser?.user
+                      )}
                     </div>
                   )}
                 </section>
@@ -404,7 +406,7 @@ const Wallet = () => {
               <div className="text-center">
                 <div>User ID</div>
                 <div className="font-black text-6xl">
-                  {Number(currentUser?.id) || 0}
+                  {Number(currentUser?.id) || Number(currentUser?.userId) || 0}
                 </div>
               </div>
               {/* <div className="text-center">
@@ -516,13 +518,17 @@ const Wallet = () => {
                   Highest Daily Recycled
                 </div>
                 <div className="stat-value font-medium text-neutral/90 text-sm lg:text-2xl dark:text-base-content">
-                  {Number(highestQtyRecycled?.numberOfTokens)}
+                  {Number(highestQtyRecycled?.numberOfTokens) || 0}
                 </div>
                 <div className="stat-desc">
-                  {new Date(
-                    formatDate(Number(highestQtyRecycled?.date))
-                  ).toDateString() || "-"}{" "}
-                  {formatDateShort(Number(highestQtyRecycled?.date)) || "-"}
+                  {Number(highestQtyRecycled?.date)
+                    ? new Date(
+                        formatDate(Number(highestQtyRecycled?.date))
+                      ).toDateString()
+                    : "-"}{" "}
+                  {Number(highestQtyRecycled?.date)
+                    ? formatDateShort(Number(highestQtyRecycled?.date))
+                    : null}
                 </div>
               </div>
 
