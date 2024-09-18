@@ -253,7 +253,7 @@ const Landing = (props: Props) => {
                     </svg>
                   </div>
                   <div className="timeline-start md:text-end mb-10">
-                    <time className="font-mono italic">November 2023</time>
+                    <time className="font-mono italic">September 2024</time>
                     <div className="text-lg font-black">Wastewise is born</div>
                     We launched wastewise with a mission to help fight against
                     plastic pollution on the earth. With our target on the youth
@@ -279,9 +279,9 @@ const Landing = (props: Props) => {
                     </svg>
                   </div>
                   <div className="timeline-end md:text-start mb-10">
-                    <time className="font-mono italic">December 2023</time>
+                    <time className="font-mono italic">December 2024</time>
                     <div className="text-lg font-black">Launch Wastewise</div>
-                    We aim to go live with wastewise on mainnet after a month of
+                    We aim to go live with wastewise on mainnet after a period of
                     rigorous testing, analysis and professional vetting and a
                     round of alpha and beta testers.
                   </div>
@@ -304,7 +304,7 @@ const Landing = (props: Props) => {
                     </svg>
                   </div>
                   <div className="timeline-start md:text-end mb-10">
-                    <time className="font-mono italic">February 2024</time>
+                    <time className="font-mono italic">February 2025</time>
                     <div className="text-lg font-black">Wastewise Blog</div>
                     Information is Power. Wastewise plans to have a blog that
                     creates awareness about the environment. There will be a
@@ -333,7 +333,7 @@ const Landing = (props: Props) => {
                     </svg>
                   </div>
                   <div className="timeline-end mb-10 md:text-start">
-                    <time className="font-mono italic">March - April 2024</time>
+                    <time className="font-mono italic">March - April 2025</time>
                     <div className="text-lg font-black">
                       Onboard Ambassadors and Launch Discord Server
                     </div>
@@ -361,7 +361,7 @@ const Landing = (props: Props) => {
                     </svg>
                   </div>
                   <div className="timeline-start mb-10 md:text-end">
-                    <time className="font-mono italic">May 2024</time>
+                    <time className="font-mono italic">May 2025</time>
                     <div className="text-lg font-black">Feedback hub</div>
                     Feedback is key for the growth of any individual, group or
                     community. Wastewise aims to build a feedback for the
@@ -388,7 +388,7 @@ const Landing = (props: Props) => {
                     </svg>
                   </div>
                   <div className="timeline-end md:text-start mb-10">
-                    <time className="font-mono italic">June 2024</time>
+                    <time className="font-mono italic">June 2025</time>
                     <div className="text-lg font-black">
                       Partner with other War against Plastics Community
                     </div>
